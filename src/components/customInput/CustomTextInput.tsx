@@ -3,39 +3,34 @@ import {
   Image,
   TextInput,
   StyleSheet,
-  Alert,
   TouchableOpacity,
+  KeyboardTypeOptions,
 } from 'react-native';
-
 import React, {useState} from 'react';
-import {normalize} from '../../utils/Dimensions';
+
 import Color from '../../utils/Color';
+import {normalize} from '../../utils/Dimensions';
+import localImages from '../../utils/LocalImages';
 
 /**
  * @params Props
- * @returns
+ * @description defining required props
  */
 interface Props {
   value: string;
   leftIcon?: any;
   rigtIcon?: any;
-  callback?: Function;
   onChangeText: any;
   placeholder: string;
   rigtHiddenIcon?: any;
   secureTextEntry?: boolean;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 const CustomInput = (props: Props) => {
   const [eyeVisble, setEyeVisble] = useState(true);
-  const {
-    leftIcon,
-    rigtIcon,
-    placeholder,
-    onChangeText,
-    rigtHiddenIcon,
-    secureTextEntry,
-  } = props;
+  const {leftIcon, placeholder, onChangeText, keyboardType, secureTextEntry} =
+    props;
 
   /**
    * @description called on changing text
@@ -49,28 +44,31 @@ const CustomInput = (props: Props) => {
    * @description toggle eyeIcon
    * @param status
    */
-  const toggleEyeButton = (status: boolean) => {
-    setEyeVisble(!status);
+  const toggleEyeButton = () => {
+    setEyeVisble(!eyeVisble);
   };
+
   return (
     <View style={styles.parentContainer}>
       <Image source={leftIcon} style={styles.leftIconSty} />
       <TextInput
         value={props.value}
         autoCapitalize="none"
+        style={styles.container}
         placeholder={placeholder}
-        style={[styles.container]}
-        secureTextEntry={
-          (eyeVisble && placeholder == 'Password') ?? secureTextEntry
-        }
+        keyboardType={keyboardType}
+        secureTextEntry={eyeVisble}
         onChangeText={handleChangeText}
       />
-      <TouchableOpacity onPress={() => toggleEyeButton(eyeVisble)}>
-        <Image
-          source={eyeVisble ? rigtIcon : rigtHiddenIcon}
-          style={styles.eyeIconSty}
-        />
-      </TouchableOpacity>
+
+      {secureTextEntry && (
+        <TouchableOpacity onPress={() => toggleEyeButton()}>
+          <Image
+            source={eyeVisble ? localImages.eyeIcon : localImages.hiddenEyeIcon}
+            style={styles.eyeIconSty}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -95,6 +93,8 @@ const styles = StyleSheet.create({
   },
   eyeIconSty: {
     top: normalize(15),
+    width: normalize(22),
+    height: normalize(22),
   },
 });
 

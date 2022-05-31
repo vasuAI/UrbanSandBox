@@ -6,8 +6,8 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import Color from '../../../utils/Color';
 import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
@@ -18,38 +18,52 @@ import {
   validateEmail,
   validatePassword,
 } from '../../../utils/CommonFunction';
-import loginBtnAction from '../../../actions/LoginBtnAction';
-import Header from '../../../components/customHeader/CustomHeader';
-import {CustomActionButton, CustomTextInput} from '../../../components';
-export default function SignUp() {
-  const dispatch: Function = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import {UserAction} from '../../../actions';
+import {
+  CustomActionButton,
+  CustomTextInput,
+  CustomHeader,
+} from '../../../components';
 
-  const onPressLoginBtn = () => {
-    dispatch(loginBtnAction(email, password));
-  };
-  const onPressAppleIDBtn = () => {};
-  const onPressFbBtn = () => {};
-  const onPressGoogleBtn = () => {};
-  const onPressSignUp = () => {};
-  const onPressForgetPass = () => {};
+export default function SignUp() {
+  const {email, password} = useSelector((store: any) => store.authReducer);
+
+  const dispatch: Function = useDispatch();
   const statusEmail = validateEmail(email);
   const statusPassword = validatePassword(password);
+
+  /**
+   * @description called on login button press
+   */
   const onLongPress = React.useCallback(() => {
     {
       statusEmail == true && statusPassword == true
-        ? showAlert('Login Sucessfully')
+        ? showAlert(String.loginSucess)
         : showAlert('Enter Valid Creditials');
     }
   }, [statusEmail, statusPassword]);
 
+  /**
+   * @description called onChange email
+   */
+  const onChangeEmail = useCallback((email: any) => {
+    dispatch(UserAction.emailAction(email));
+  }, []);
+
+  /**
+   * @description called onChange password
+   */
+  const onChangePassword = useCallback((password: string) => {
+    dispatch(UserAction.passwordAction(password));
+  }, []);
+
   const onApplePress = React.useCallback(() => {}, []);
+
   return (
     <ImageBackground
       source={localImage.background}
       style={styles.rootContainer}>
-      <Header />
+      <CustomHeader />
       <ScrollView>
         <View style={styles.headingCon}>
           <Text style={styles.welcomeBackText}>{String.welcomeBack}</Text>
@@ -57,8 +71,9 @@ export default function SignUp() {
         </View>
         <CustomTextInput
           value={email}
-          onChangeText={setEmail}
+          onChangeText={onChangeEmail}
           placeholder={String.email}
+          keyboardType={'email-address'}
           leftIcon={localImage.mailIcon}
         />
         {email.length > 0 ? (
@@ -68,17 +83,13 @@ export default function SignUp() {
           value={password}
           secureTextEntry={true}
           placeholder={String.pass}
-          onChangeText={setPassword}
-          rigtIcon={localImage.eyeIcon}
-          rigtHiddenIcon={localImage.fbIcon}
+          onChangeText={onChangePassword}
           leftIcon={localImage.passwordIcon}
         />
         {password.length > 0 ? (
           <Text style={styles.errTextSty}>{statusPassword}</Text>
         ) : null}
-        <Text onPress={onPressForgetPass} style={styles.forgetPassText}>
-          {String.forgetPass}
-        </Text>
+        <Text style={styles.forgetPassText}>{String.forgetPass}</Text>
 
         <CustomActionButton
           title={String.login}
@@ -101,7 +112,7 @@ export default function SignUp() {
             customContainerStyle={styles.googleContainerSty}
           />
           <CustomActionButton
-            title={String.fb}
+            title={String.facebook}
             onPress={onApplePress}
             leftIcon={localImage.fbIcon}
             leftIconStyle={styles.fbIconSty}
@@ -111,7 +122,7 @@ export default function SignUp() {
         </View>
         <Text style={styles.dontHaveAccountText}>
           {String.dontHaveAccount}
-          <TouchableOpacity activeOpacity={0.7} onPress={onPressSignUp}>
+          <TouchableOpacity activeOpacity={0.7}>
             <Text style={styles.spanText}>{String.signup}</Text>
           </TouchableOpacity>
         </Text>
@@ -121,8 +132,7 @@ export default function SignUp() {
 }
 const styles = StyleSheet.create({
   rootContainer: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     backgroundColor: Color.wheat,
   },
   headingCon: {
@@ -172,8 +182,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
   },
   fbContainerSty: {
-    backgroundColor: Color.white,
     marginLeft: normalize(-8),
+    backgroundColor: Color.white,
   },
   googleTitleSty: {
     color: Color.black,
@@ -191,7 +201,7 @@ const styles = StyleSheet.create({
     height: normalize(18),
   },
   errTextSty: {
-    marginLeft: normalize(16),
     color: Color.red,
+    marginLeft: normalize(16),
   },
 });

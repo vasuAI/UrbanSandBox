@@ -17,12 +17,10 @@ import {normalize} from '../../utils/Dimensions';
 interface Props {
   title: string;
   leftIcon?: any;
-  rightIcon?: any;
   onPress: Function;
   activeOpacity?: any;
   titleStyle?: TextStyle;
   leftIconStyle?: ImageStyle;
-  rightIconStyle?: ImageStyle;
   customContainerStyle?: ViewStyle;
 }
 
@@ -32,8 +30,6 @@ interface Props {
  * @returns
  */
 const CustomActionButton = (props: Props) => {
-  console.log('CutomBTN render');
-
   const {
     onPress,
     title,
@@ -47,7 +43,7 @@ const CustomActionButton = (props: Props) => {
       activeOpacity={activeOpacity}
       onPress={() => onPress()}
       style={[styles.parentContainer, customContainerStyle]}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={styles.childContainer}>
         <Image
           source={props.leftIcon}
           style={[styles.leftIconStyle, props.leftIconStyle]}
@@ -59,7 +55,7 @@ const CustomActionButton = (props: Props) => {
 };
 
 /**
- *@description cu
+ *@description initial styling of CustomActionButton
  */
 const styles = StyleSheet.create({
   parentContainer: {
@@ -82,10 +78,11 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: normalize(18),
   },
+  childContainer: {flexDirection: 'row'},
 });
 
 /**
- *
+ *@description binded in memo
  * @exports
  */
 export default React.memo(CustomActionButton);

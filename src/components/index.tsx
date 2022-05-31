@@ -1,3 +1,4 @@
-import CustomActionButton from './customActionButton/CustomActionButton';
+import CustomHeader from './customHeader/CustomHeader';
 import CustomTextInput from './customInput/CustomTextInput';
-export {CustomActionButton, CustomTextInput};
+import CustomActionButton from './customActionButton/CustomActionButton';
+export {CustomActionButton, CustomTextInput, CustomHeader};
