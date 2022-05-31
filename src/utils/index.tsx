@@ -1,8 +1,7 @@
 import Color from './Color';
-import Constants from './Constants';
-import Dimensions from './Dimensions';
 import Fonts from './Fonts';
-import LocalImages from './LocalImages';
 import String from './String';
+import Constants from './Constants';
+import LocalImages from './LocalImages';
 
-export {Color, Constants, Dimensions, Fonts, LocalImages, String};
+export {Color, Constants, Fonts, LocalImages, String};

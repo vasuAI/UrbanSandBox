@@ -1,13 +1,21 @@
 import ActionType from '../actions/ActionType';
 
+/**
+ * @description defining required props
+ */
 interface actionType {
   type: string;
   payload: any;
 }
+
+/**
+ * @description defining initial state
+ */
 const initialState = {
   email: '',
   password: '',
 };
+
 const authReducer = (state = initialState, action: actionType) => {
   const {type, payload} = action;
   switch (type) {

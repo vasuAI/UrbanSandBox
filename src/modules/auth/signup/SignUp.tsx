@@ -57,6 +57,9 @@ export default function SignUp() {
     dispatch(UserAction.passwordAction(password));
   }, []);
 
+  /**
+   * @description called onPress apple button
+   */
   const onApplePress = React.useCallback(() => {}, []);
 
   return (
