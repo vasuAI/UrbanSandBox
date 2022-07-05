@@ -1,19 +1,32 @@
-import {Image, StyleSheet, SafeAreaView} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import LocalImages from '../../utils/LocalImages';
 import {normalize} from '../../utils/Dimensions';
+import {useNavigation} from '@react-navigation/native';
+import ScreenNames from '../../utils/ScreenNames';
 
 const CustomHeader = () => {
+  const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.headerCon}>
+    <TouchableOpacity
+      style={styles.headerCon}
+      onPress={() => navigation.navigate(ScreenNames.LOG_IN)}>
       <Image source={LocalImages.backIcon} style={styles.backIconSty} />
-    </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
   headerCon: {
+    width: normalize(50),
     height: normalize(50),
-    marginTop: normalize(35),
+    justifyContent: 'center',
+    marginTop: normalize(40),
   },
   backIconSty: {
     width: normalize(16),

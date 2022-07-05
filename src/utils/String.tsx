@@ -3,10 +3,12 @@
  */
 
 export default {
+  name: 'Name',
   login: 'Log In',
   google: 'Google',
   pass: 'Password',
   signup: ' Sign Up',
+  welcome: 'Welcome',
   facebook: 'Facebook',
   email: 'Email Address',
   welcomeBack: 'Welcome back',
@@ -17,6 +19,9 @@ export default {
   enterValidPassword: 'Enter valid password',
   continueWithApple: 'Continue with Apple ID',
   loginToAccess: 'Login to access your account',
+  enterValidCreditials: 'Enter Valid Creditials',
   enterEmailAddress: 'Email address must be enter',
   enterValidEmailAddress: 'Enter valid email address',
+  signupDescription:
+    'A wonderful platform for children to read  and collaborate with teacher!',
 };

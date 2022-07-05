@@ -1,7 +1,13 @@
+import String from './String';
 import {Alert} from 'react-native';
 import Constants from '../utils/Constants';
-import String from './String';
+import Auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
+GoogleSignin.configure({
+  webClientId:
+    '46024764200-h41clvpeqfgjrdunot281b9vn9ffmsjn.apps.googleusercontent.com',
+});
 /**
  *
  * @param email
@@ -41,4 +47,68 @@ const showAlert = (message: string) => {
   return Alert.alert(message);
 };
 
-export {showAlert, validateEmail, validatePassword};
+/**
+ *
+ * @param successCallback
+ * @param failureCallback
+ *@description login using google
+ */
+async function onGooglePress(successCallback: Function, failureCallback: any) {
+  try {
+    const {idToken} = await GoogleSignin.signIn();
+    const googleCredential = Auth.GoogleAuthProvider.credential(idToken);
+    Auth()
+      .signInWithCredential(googleCredential)
+      .then(res => {
+        successCallback(res);
+      });
+  } catch (error: any) {
+    failureCallback(error);
+  }
+}
+
+/**
+ *
+ * @param successCallback
+ * @param failureCallback
+ * @description login with email and password firebase
+ */
+
+const logInWithEmailAndPassword = (
+  successCallback: any,
+  failureCallback: any,
+) => {
+  Auth()
+    .signInWithEmailAndPassword(successCallback, failureCallback)
+    .then(successCallback)
+    .catch(error => failureCallback(authErrorHandling(error.code)));
+};
+
+const authErrorHandling = (errorMsg: any) => {
+  switch (errorMsg) {
+    case 'auth/wrong-password':
+      return 'Wrong email or password.';
+      break;
+    case 'auth/network-request-failed':
+      return 'Network request failed.';
+      break;
+    case 'auth/invalid-email':
+      return 'Invalid email.';
+      break;
+    case 'auth/weak-password':
+      return 'Weak password.';
+      break;
+    case 'auth/no-current-user':
+      return 'No user signed in';
+      break;
+    default:
+      break;
+  }
+};
+export {
+  showAlert,
+  validateEmail,
+  onGooglePress,
+  validatePassword,
+  logInWithEmailAndPassword,
+};

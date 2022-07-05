@@ -1,4 +1,6 @@
 export default {
-  SIGN_UP: 'SignUp',
   HOME: 'Home',
+  LOG_IN: 'Login',
+  SIGN_UP: 'SignUp',
+  BOTTOM_TAB: 'BottomTabNavigator',
 };

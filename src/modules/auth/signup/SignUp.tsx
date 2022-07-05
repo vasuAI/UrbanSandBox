@@ -1,138 +1,88 @@
 import {
   View,
   Text,
+  Image,
   ScrollView,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
 import Color from '../../../utils/Color';
 import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
-import {normalize} from '../../../utils/Dimensions';
-import localImage from '../../../utils/LocalImages';
-import {
-  showAlert,
-  validateEmail,
-  validatePassword,
-} from '../../../utils/CommonFunction';
-import {UserAction} from '../../../actions';
+import {LocalImages} from '../../../utils';
 import {
   CustomActionButton,
-  CustomTextInput,
   CustomHeader,
+  CustomTextInput,
 } from '../../../components';
-
-export default function SignUp() {
-  const {email, password} = useSelector((store: any) => store.authReducer);
-
-  const dispatch: Function = useDispatch();
-  const statusEmail = validateEmail(email);
-  const statusPassword = validatePassword(password);
-
+import {normalize} from '../../../utils/Dimensions';
+const SignUp = () => {
   /**
-   * @description called on login button press
+   *
+   * @param value
    */
-  const onLongPress = React.useCallback(() => {
-    {
-      statusEmail == true && statusPassword == true
-        ? showAlert(String.loginSucess)
-        : showAlert('Enter Valid Creditials');
-    }
-  }, [statusEmail, statusPassword]);
+  const onChangeName = (value: string) => {
+    console.log(value);
+  };
 
-  /**
-   * @description called onChange email
-   */
-  const onChangeEmail = useCallback((email: any) => {
-    dispatch(UserAction.emailAction(email));
-  }, []);
-
-  /**
-   * @description called onChange password
-   */
-  const onChangePassword = useCallback((password: string) => {
-    dispatch(UserAction.passwordAction(password));
-  }, []);
-
-  /**
-   * @description called onPress apple button
-   */
-  const onApplePress = React.useCallback(() => {}, []);
+  const onChangeEmail = (value: string) => {
+    console.log(value);
+  };
+  const onChangePassword = (value: string) => {
+    console.log(value);
+  };
 
   return (
     <ImageBackground
-      source={localImage.background}
+      source={LocalImages.background}
       style={styles.rootContainer}>
       <CustomHeader />
-      <ScrollView>
-        <View style={styles.headingCon}>
-          <Text style={styles.welcomeBackText}>{String.welcomeBack}</Text>
-          <Text style={styles.loginAccessText}>{String.loginToAccess}</Text>
-        </View>
-        <CustomTextInput
-          value={email}
-          onChangeText={onChangeEmail}
-          placeholder={String.email}
-          keyboardType={'email-address'}
-          leftIcon={localImage.mailIcon}
+      <View style={styles.headingCon}>
+        <Text style={styles.welcomeText}>{String.welcome}</Text>
+        <Text style={styles.signupDescription}>{String.signupDescription}</Text>
+      </View>
+      <View style={styles.imageContainer}>
+        <Image
+          source={LocalImages.demoDp}
+          style={styles.imageContainer}
+          resizeMode="contain"
         />
-        {email.length > 0 ? (
-          <Text style={styles.errTextSty}>{statusEmail}</Text>
-        ) : null}
-        <CustomTextInput
-          value={password}
-          secureTextEntry={true}
-          placeholder={String.pass}
-          onChangeText={onChangePassword}
-          leftIcon={localImage.passwordIcon}
-        />
-        {password.length > 0 ? (
-          <Text style={styles.errTextSty}>{statusPassword}</Text>
-        ) : null}
-        <Text style={styles.forgetPassText}>{String.forgetPass}</Text>
+      </View>
+      <View style={styles.editIconContainer}>
+        <Image source={LocalImages.editIcon} style={styles.editIconStyle} />
+      </View>
+      <CustomTextInput // input name
+        // value={name}
+        onChangeText={onChangeName}
+        placeholder={String.name}
+        keyboardType={'email-address'}
+        leftIcon={LocalImages.nameIcon}
+      />
+      <CustomTextInput // input email
+        // value={email}
+        onChangeText={onChangeEmail}
+        placeholder={String.email}
+        keyboardType={'email-address'}
+        leftIcon={LocalImages.mailIcon}
+      />
+      <CustomTextInput // input password
+        // value={password}
+        secureTextEntry={true}
+        placeholder={String.pass}
+        onChangeText={onChangePassword}
+        leftIcon={LocalImages.passwordIcon}
+      />
 
-        <CustomActionButton
-          title={String.login}
-          onPress={onLongPress}
-          customContainerStyle={styles.loginButtonCon}
-        />
-        <CustomActionButton
-          onPress={onApplePress}
-          leftIcon={localImage.appleIcon}
-          title={String.continueWithApple}
-          leftIconStyle={styles.appleIconSty}
-        />
-        <View style={styles.halfCon}>
-          <CustomActionButton
-            title={String.google}
-            onPress={onApplePress}
-            leftIcon={localImage.googleIcon}
-            titleStyle={styles.googleTitleSty}
-            leftIconStyle={styles.googleIconSty}
-            customContainerStyle={styles.googleContainerSty}
-          />
-          <CustomActionButton
-            title={String.facebook}
-            onPress={onApplePress}
-            leftIcon={localImage.fbIcon}
-            leftIconStyle={styles.fbIconSty}
-            titleStyle={styles.googleTitleSty}
-            customContainerStyle={styles.fbContainerSty}
-          />
-        </View>
-        <Text style={styles.dontHaveAccountText}>
-          {String.dontHaveAccount}
-          <TouchableOpacity activeOpacity={0.7}>
-            <Text style={styles.spanText}>{String.signup}</Text>
-          </TouchableOpacity>
-        </Text>
-      </ScrollView>
+      <CustomActionButton // button Login
+        title={String.signup}
+        // onPress={onLoginPress}
+        customContainerStyle={styles.loginButtonCon}
+      />
     </ImageBackground>
   );
-}
+};
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -141,36 +91,19 @@ const styles = StyleSheet.create({
   headingCon: {
     marginTop: normalize(72),
   },
-  welcomeBackText: {
+  welcomeText: {
+    color: Color.black,
     alignSelf: 'center',
     fontSize: normalize(30),
     fontFamily: Fonts.pacifico,
   },
-  loginAccessText: {
+  signupDescription: {
     fontWeight: '400',
     alignSelf: 'center',
     fontSize: normalize(16),
     lineHeight: normalize(22),
     marginBottom: normalize(20),
-  },
-  forgetPassText: {
-    fontWeight: '700',
-    marginLeft: 'auto',
-    fontSize: normalize(16),
-    marginTop: normalize(13),
-    lineHeight: normalize(25),
-    marginRight: normalize(16),
-    marginBottom: normalize(30),
-  },
-  halfCon: {
-    flexDirection: 'row',
-  },
-  dontHaveAccountText: {
-    fontWeight: '400',
-    alignSelf: 'center',
-    fontSize: normalize(16),
-    marginTop: normalize(30),
-    lineHeight: normalize(22),
+    marginHorizontal: normalize(52),
   },
   spanText: {
     fontWeight: 'bold',
@@ -178,33 +111,36 @@ const styles = StyleSheet.create({
     color: Color.twilightBlue,
   },
   loginButtonCon: {
+    flex: 0.25,
+    marginTop: normalize(34),
     backgroundColor: Color.twilightBlue,
-  },
-  googleContainerSty: {
-    marginLeft: normalize(16),
-    backgroundColor: Color.white,
-  },
-  fbContainerSty: {
-    marginLeft: normalize(-8),
-    backgroundColor: Color.white,
-  },
-  googleTitleSty: {
-    color: Color.black,
-  },
-  googleIconSty: {
-    width: normalize(15),
-    height: normalize(16),
-  },
-  appleIconSty: {
-    width: normalize(14),
-    height: normalize(17),
-  },
-  fbIconSty: {
-    width: normalize(19),
-    height: normalize(18),
   },
   errTextSty: {
     color: Color.red,
     marginLeft: normalize(16),
   },
+  imageContainer: {
+    width: normalize(100),
+    height: normalize(100),
+    borderRadius: normalize(50),
+    alignSelf: 'center',
+    marginBottom: normalize(30),
+  },
+  editIconContainer: {
+    color: Color.black,
+    top: normalize(346),
+    alignItems: 'center',
+    position: 'absolute',
+    width: normalize(27),
+    left: normalize(210),
+    height: normalize(27),
+    justifyContent: 'center',
+    borderRadius: normalize(50),
+    backgroundColor: Color.twilightBlue,
+  },
+  editIconStyle: {
+    width: normalize(13),
+    height: normalize(13),
+  },
 });
+export default SignUp;

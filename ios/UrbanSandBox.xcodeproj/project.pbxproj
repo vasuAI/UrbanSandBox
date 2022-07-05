@@ -16,6 +16,7 @@
 		7699B88040F8A987B510C191 /* libPods-UrbanSandBox-UrbanSandBoxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-UrbanSandBox-UrbanSandBoxTests.a */; };
 		7C00996A8E8C483692115CF3 /* MuliSemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECA08C22A1C49A684C1AA92 /* MuliSemiBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		844E1CF32848CC48008B2C86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 844E1CF22848CC48008B2C86 /* GoogleService-Info.plist */; };
 		C1FB6CEC2E5645EAA5C16B90 /* Muli.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 342D1461628249D0967F781D /* Muli.ttf */; };
 		CE958127FD9B4F0A9B157E03 /* MuliBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE50ECF294484040ADD853D1 /* MuliBold.ttf */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,8 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-UrbanSandBox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrbanSandBox.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ECA08C22A1C49A684C1AA92 /* MuliSemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MuliSemiBold.ttf; path = ../src/assets/fonts/MuliSemiBold.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = UrbanSandBox/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		844E1CF22848CC48008B2C86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		844E1CF428491C7C008B2C86 /* UrbanSandBox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = UrbanSandBox.entitlements; path = UrbanSandBox/UrbanSandBox.entitlements; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-UrbanSandBox-UrbanSandBoxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrbanSandBox-UrbanSandBoxTests.release.xcconfig"; path = "Target Support Files/Pods-UrbanSandBox-UrbanSandBoxTests/Pods-UrbanSandBox-UrbanSandBoxTests.release.xcconfig"; sourceTree = "<group>"; };
 		AE50ECF294484040ADD853D1 /* MuliBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MuliBold.ttf; path = ../src/assets/fonts/MuliBold.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -94,6 +97,7 @@
 		13B07FAE1A68108700A75B9A /* UrbanSandBox */ = {
 			isa = PBXGroup;
 			children = (
+				844E1CF428491C7C008B2C86 /* UrbanSandBox.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -135,6 +139,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				844E1CF22848CC48008B2C86 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* UrbanSandBox */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* UrbanSandBoxTests */,
@@ -269,6 +274,7 @@
 				CE958127FD9B4F0A9B157E03 /* MuliBold.ttf in Resources */,
 				7C00996A8E8C483692115CF3 /* MuliSemiBold.ttf in Resources */,
 				5A98B7335B0642C09641CF96 /* Pacifico.ttf in Resources */,
+				844E1CF32848CC48008B2C86 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +527,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = UrbanSandBox/UrbanSandBox.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = UrbanSandBox/Info.plist;
@@ -547,6 +554,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = UrbanSandBox/UrbanSandBox.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = UrbanSandBox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -16,6 +16,7 @@ import localImages from '../../utils/LocalImages';
  * @params Props
  * @description defining required props
  */
+
 interface Props {
   value: string;
   leftIcon?: any;
@@ -57,8 +58,8 @@ const CustomInput = (props: Props) => {
         style={styles.container}
         placeholder={placeholder}
         keyboardType={keyboardType}
-        secureTextEntry={eyeVisble}
         onChangeText={handleChangeText}
+        secureTextEntry={secureTextEntry && eyeVisble}
       />
 
       {secureTextEntry && (
@@ -74,7 +75,7 @@ const CustomInput = (props: Props) => {
 };
 const styles = StyleSheet.create({
   parentContainer: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     height: normalize(50),
     borderRadius: normalize(10),

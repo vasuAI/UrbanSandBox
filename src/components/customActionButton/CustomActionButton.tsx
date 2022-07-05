@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: normalize(18),
   },
-  childContainer: {flexDirection: 'row'},
+  childContainer: {
+    flexDirection: 'row',
+  },
 });
 
 /**
