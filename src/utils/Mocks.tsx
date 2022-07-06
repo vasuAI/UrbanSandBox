@@ -1,0 +1,62 @@
+import LocalImages from './LocalImages';
+
+const discussionData = [
+  {
+    id: 1,
+    time: '2 hours ago',
+    likeCount: 21,
+    numberOfComments: 50,
+    heading: 'Partial Collions',
+    image: LocalImages.sampleImg1,
+    profileIcon: LocalImages.profileIcon,
+    title: 'Lorem ipsum dolor sit amet, consectetur 📖',
+    commentDetail: {
+      postId: 1,
+      id: 1,
+      time: '1 hours ago',
+      name: 'Alicia Krate',
+      img: LocalImages.demoDp,
+      email: 'AliciaKrate@biz',
+      body: 'I am book worm',
+    },
+  },
+  {
+    id: 2,
+    time: '2 hours ago',
+    likeCount: 21,
+    numberOfComments: 50,
+    heading: 'Partial Collions',
+    image: LocalImages.sampleImg2,
+    profileIcon: LocalImages.profileIcon,
+    title: 'Lorem ipsum dolor sit amet, consectetur 📖',
+    commentDetail: {
+      postId: 1,
+      id: 2,
+      time: '1 hours ago',
+      name: 'Alicia Krate',
+      img: LocalImages.demoDp,
+      email: 'AliciaKrate@biz',
+      body: 'I am book worm',
+    },
+  },
+  {
+    id: 3,
+    time: '2 hours ago',
+    likeCount: 21,
+    numberOfComments: 50,
+    heading: 'Partial Collions',
+    image: LocalImages.sampleImg1,
+    profileIcon: LocalImages.profileIcon,
+    title: 'Lorem ipsum dolor sit amet, consectetur 📖',
+    commentDetail: {
+      postId: 1,
+      id: 3,
+      time: '1 hours ago',
+      name: 'Alicia Krate',
+      img: LocalImages.demoDp,
+      email: 'AliciaKrate@biz',
+      body: 'I am book worm',
+    },
+  },
+];
+export default {discussionData};
