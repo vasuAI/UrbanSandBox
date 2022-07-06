@@ -59,6 +59,7 @@ const SignUp = () => {
         placeholder={String.name}
         keyboardType={'email-address'}
         leftIcon={LocalImages.nameIcon}
+        value={''}
       />
       <CustomTextInput // input email
         // value={email}
@@ -66,6 +67,7 @@ const SignUp = () => {
         placeholder={String.email}
         keyboardType={'email-address'}
         leftIcon={LocalImages.mailIcon}
+        value={''}
       />
       <CustomTextInput // input password
         // value={password}
@@ -73,12 +75,14 @@ const SignUp = () => {
         placeholder={String.pass}
         onChangeText={onChangePassword}
         leftIcon={LocalImages.passwordIcon}
+        value={''}
       />
 
       <CustomActionButton // button Login
         title={String.signup}
         // onPress={onLoginPress}
         customContainerStyle={styles.loginButtonCon}
+        onPress={undefined}
       />
     </ImageBackground>
   );
