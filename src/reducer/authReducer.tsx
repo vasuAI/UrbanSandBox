@@ -12,17 +12,42 @@ interface actionType {
  * @description defining initial state
  */
 const initialState = {
-  email: '',
-  password: '',
+  userDetails: {
+    _id: '',
+    dob: '',
+    name: '',
+    plan: '',
+    mPin: false,
+    token: '',
+    email: '',
+    gender: '',
+    languages: null,
+    childData: null,
+    address: '',
+    signType: 0,
+    timezone: '',
+    location: {},
+    userType: 0,
+    imageUrl: '',
+    profileSteps: null,
+    createdAt: '',
+    planActive: false,
+    emailVerify: false,
+    isSubscribed: false,
+    parentDetails: {},
+    totalAddedBooks: 0,
+    subscriptionType: '',
+    subscriptionEndDate: '',
+    subscriptionPlatForm: '',
+    allowNotification: false,
+  },
 };
 
 const authReducer = (state = initialState, action: actionType) => {
   const {type, payload} = action;
   switch (type) {
-    case ActionType.LOGIN_EMAIL:
-      return {...state, email: payload};
-    case ActionType.LOGIN_PASSWORD:
-      return {...state, password: payload};
+    case ActionType.SIGNUP_DETAILS:
+      return {...state, ...payload};
     default:
       return state;
   }

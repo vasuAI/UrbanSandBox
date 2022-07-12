@@ -3,6 +3,7 @@ import {Alert} from 'react-native';
 import Constants from '../utils/Constants';
 import Auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Snackbar from 'react-native-snackbar';
 
 GoogleSignin.configure({
   webClientId:
@@ -14,13 +15,13 @@ GoogleSignin.configure({
  * @description validate email
  * @returns
  */
-function validateEmail(email: any) {
-  if (email.length === 0) {
-    return String.enterEmailAddress;
-  } else if (Constants.emailRegex.test(email) === false) {
-    return String.enterValidEmailAddress;
-  } else return true;
-}
+// function validateEmail(email: any) {
+//   if (email.length === 0) {
+//     return String.enterEmailAddress;
+//   } else if (Constants.emailRegex.test(email) === false) {
+//     return String.enterValidEmailAddress;
+//   } else return true;
+// }
 
 /**
  *
@@ -84,6 +85,18 @@ const logInWithEmailAndPassword = (
     .catch(error => failureCallback(authErrorHandling(error.code)));
 };
 
+/**
+ *
+ * @param toastMessage
+ * @returns
+ */
+const showToast = (message: string) => {
+  Snackbar.show({
+    text: message,
+    duration: 1000,
+  });
+};
+
 const authErrorHandling = (errorMsg: any) => {
   switch (errorMsg) {
     case 'auth/wrong-password':
@@ -106,9 +119,10 @@ const authErrorHandling = (errorMsg: any) => {
   }
 };
 export {
+  showToast,
   showAlert,
-  validateEmail,
+  // validateEmail,
   onGooglePress,
-  validatePassword,
+  // validatePassword,
   logInWithEmailAndPassword,
 };

@@ -7,7 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Color from '../../../utils/Color';
 import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
@@ -18,22 +18,66 @@ import {
   CustomTextInput,
 } from '../../../components';
 import {normalize} from '../../../utils/Dimensions';
+import {UserAction} from '../../../actions';
+import ScreenNames from '../../../utils/ScreenNames';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 const SignUp = () => {
+  const navigation: any = useNavigation();
+  const dispatch: Function = useDispatch();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   /**
    *
    * @param value
    */
   const onChangeName = (value: string) => {
-    console.log(value);
+    setName(value);
   };
 
   const onChangeEmail = (value: string) => {
-    console.log(value);
+    setEmail(value);
   };
   const onChangePassword = (value: string) => {
-    console.log(value);
+    setPassword(value);
   };
 
+  const onPressSignup = () => {
+    const params = {
+      name: name,
+      email: email,
+      password: password,
+      deviceModel: 'iPhone 11',
+      deviceToken:
+        'cVF_mYxr5k8yvKQveCN1pF:APA91bGJgEdPtsvxQvAd2IUVCGyd4mjoUr1iabM5smv6eelcT10Hw11OHw0WMZQU9BIHmH-rZ5QwdbNrVILzxm4t7zwFbPxJFTd6ba-lZVBy8ArSNWmKlZzU3j3Ax0u0FZVDHD5FU8r7',
+      deviceType: 1,
+      voipToken: 'E10E2043-DAE2-4263-ADA9-666DB8819A81',
+    };
+
+    dispatch(
+      UserAction.parentSignUpWithEmail(
+        params,
+        (success: any) => {
+          console.log(
+            '🚀 ~ file: Signup.tsx ~ line 63 ~ onPressSignup ~ success',
+            success,
+          );
+          // setLoader(false);
+          success ? (setName(''), setEmail(''), setPassword('')) : null;
+          navigation.navigate(ScreenNames.LOG_IN);
+        },
+        (failure: any) => {
+          console.log(
+            '🚀 ~ file: Signup.tsx ~ line 68 ~ onPressSignup ~ failure',
+            failure,
+          );
+          // failure ? setLoader(false) : null;
+        },
+      ),
+    );
+  };
   return (
     <ImageBackground
       source={LocalImages.background}
@@ -54,35 +98,31 @@ const SignUp = () => {
         <Image source={LocalImages.editIcon} style={styles.editIconStyle} />
       </View>
       <CustomTextInput // input name
-        // value={name}
+        value={name}
         onChangeText={onChangeName}
         placeholder={String.name}
         keyboardType={'email-address'}
         leftIcon={LocalImages.nameIcon}
-        value={''}
       />
       <CustomTextInput // input email
-        // value={email}
+        value={email}
         onChangeText={onChangeEmail}
         placeholder={String.email}
         keyboardType={'email-address'}
         leftIcon={LocalImages.mailIcon}
-        value={''}
       />
       <CustomTextInput // input password
-        // value={password}
+        value={password}
         secureTextEntry={true}
         placeholder={String.pass}
         onChangeText={onChangePassword}
         leftIcon={LocalImages.passwordIcon}
-        value={''}
       />
 
-      <CustomActionButton // button Login
+      <CustomActionButton // button signup
         title={String.signup}
-        // onPress={onLoginPress}
+        onPress={onPressSignup}
         customContainerStyle={styles.loginButtonCon}
-        onPress={undefined}
       />
     </ImageBackground>
   );

@@ -26,4 +26,6 @@ export default {
   enterValidEmailAddress: 'Enter valid email address',
   signupDescription:
     'A wonderful platform for children to read  and collaborate with teacher!',
+  forgetDescription:
+    'Enter your registered email ID and we will send a link to reset password',
 };

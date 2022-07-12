@@ -1,6 +1,5 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
-  FlatList,
   Image,
   StyleSheet,
   Text,
@@ -17,77 +16,107 @@ import {Color, Fonts, LocalImages, String} from '../../utils';
  * @returns flatlist data
  */
 
-export default function RenderFlatlist({item}: any) {
-  console.log(
-    '🚀 ~ file: RenderFlatlist.tsx ~ line 21 ~ RenderFlatlist ~ item',
-    item,
-  );
-
-  const colorArray = [Color.beige, Color.duckEggBlue, Color.lightKhaki];
-  const _renderItem = useCallback(
-    ({item}: any) => {
-      const {heading, time, title, image, likeCount, commentDetail, id} = item;
-      return (
-        <View
-          style={[
-            styles.parentContainer,
-            {backgroundColor: colorArray[id % 3]},
-          ]}>
-          <View style={styles.cardHeaderContainer}>
-            <Image source={LocalImages.demoDp} style={styles.profileIcon} />
-            <View style={styles.profileText}>
-              <Text style={styles.headingTextStyle}>{heading}</Text>
-              <Text style={styles.timeTextStyle}>{time}</Text>
-            </View>
-            <Image
-              source={LocalImages.horiztontalIcon}
-              style={styles.horiztontalIconStyle}
-            />
-          </View>
-
-          <Text style={styles.titleTextStyle}>{title}</Text>
-          <Image source={image} style={styles.titleImg} />
-
-          <View style={styles.likeContainer}>
-            <TouchableOpacity>
-              <Image source={LocalImages.heartActiveIcon} />
-            </TouchableOpacity>
-            <Text style={styles.likeTextStyle}>{`${likeCount} Likes`}</Text>
-          </View>
-
-          <Text style={styles.numberOfCommentText}>
-            {`View all ${item.numberOfComments} comments`}
-          </Text>
-
-          <View style={styles.commentContainer}>
-            <Image source={LocalImages.demoDp} style={styles.commentIcon} />
-            <View style={styles.commnetVisibleStyle}>
-              <Text style={styles.commentUserStyle}>{commentDetail.name}</Text>
-              <Text style={styles.commentBodyStyle}>{commentDetail.body}</Text>
-            </View>
-          </View>
-
-          <View style={styles.postCommentContainer}>
-            <Image source={LocalImages.demoDp} style={styles.commentIcon} />
-            <TextInput
-              placeholder={String.placeholder}
-              style={styles.textInputSty}
-            />
-          </View>
-        </View>
-      );
-    },
-    [item],
-  );
-  const _keyExtractor = (item: {id: any}) => item + item.id;
-  return (
-    <FlatList
-      data={item}
-      renderItem={_renderItem}
-      keyExtractor={_keyExtractor}
-    />
-  );
+const colorArray = [
+  Color.paleLavender,
+  Color.beige,
+  Color.lightKhaki,
+  Color.duckEggBlue,
+  Color.veryLightPink,
+  Color.beige,
+  Color.lightKhaki,
+  Color.duckEggBlue,
+];
+interface commentDetail {
+  name: string;
+  body: string;
 }
+interface Props {
+  heading: string;
+  time: string;
+  title: string;
+  image: any;
+  likeCount: number;
+  commentDetail: commentDetail;
+  id: number;
+  isLiked: boolean;
+  handleLikeCounter: Function;
+  numberOfComments: number;
+}
+const RenderFlatlist = (props: Props) => {
+  const {
+    heading,
+    time,
+    title,
+    image,
+    likeCount,
+    commentDetail,
+    id,
+    isLiked,
+    handleLikeCounter,
+    numberOfComments,
+  } = props;
+  const handleLikes = () => {
+    handleLikeCounter(id);
+  };
+  return (
+    <View
+      style={[
+        styles.parentContainer,
+        {backgroundColor: colorArray[(id % 7) - 1]},
+      ]}>
+      <View style={styles.cardHeaderContainer}>
+        <Image source={LocalImages.demoDp} style={styles.profileIcon} />
+        <View style={styles.profileText}>
+          <Text style={styles.headingTextStyle}>{heading}</Text>
+          <Text style={styles.timeTextStyle}>{time}</Text>
+        </View>
+        <Image
+          source={LocalImages.horiztontalIcon}
+          style={styles.horiztontalIconStyle}
+        />
+      </View>
+
+      <Text style={styles.titleTextStyle}>{title}</Text>
+      <Image source={image} style={styles.titleImg} />
+
+      <View style={styles.likeContainer}>
+        <TouchableOpacity onPress={handleLikes}>
+          <Image
+            source={
+              isLiked ? LocalImages.heartActiveIcon : LocalImages.heartIcon
+            }
+          />
+        </TouchableOpacity>
+        {isLiked ? (
+          <Text style={styles.likeTextStyle}>{`${likeCount + 1} Likes`}</Text>
+        ) : (
+          <Text style={styles.likeTextStyle}>{`${likeCount} Likes`}</Text>
+        )}
+      </View>
+
+      <Text style={styles.numberOfCommentText}>
+        {`View all ${numberOfComments} comments`}
+      </Text>
+      <View style={styles.commentContainer}>
+        <Image source={LocalImages.demoDp} style={styles.commentIcon} />
+        <View style={styles.commnetVisibleStyle}>
+          <Text style={styles.commentUserStyle}>{commentDetail.name}</Text>
+          <Text style={styles.commentBodyStyle}>{commentDetail.body}</Text>
+        </View>
+      </View>
+
+      <View style={styles.postCommentContainer}>
+        <Image source={LocalImages.demoDp} style={styles.commentIcon} />
+        <TextInput
+          placeholder={String.placeholder}
+          style={styles.textInputSty}
+          placeholderTextColor={Color.grey}
+        />
+      </View>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   parentContainer: {
     width: normalize(343),
@@ -176,7 +205,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: normalize(35),
     padding: normalize(8),
-    backgroundColor: 'white',
+    backgroundColor: Color.white,
     borderRadius: normalize(5),
     marginHorizontal: normalize(10),
   },
@@ -186,3 +215,4 @@ const styles = StyleSheet.create({
     height: normalize(24),
   },
 });
+export default React.memo(RenderFlatlist);

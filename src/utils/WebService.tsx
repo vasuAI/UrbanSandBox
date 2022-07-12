@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Common from './Common';
+import {showToast} from './CommonFunction';
 
 const handleApiError = (payload: any) => {
   const {data, status} = payload;
@@ -8,6 +10,24 @@ const handleApiError = (payload: any) => {
     console.log('Unauthorized access');
   } else {
   }
+};
+
+const postApiCall = (
+  endPoint: string,
+  params: any,
+  successCallback: Function,
+  errorCallback: Function,
+) => {
+  Common.axiosInstance
+    .post(endPoint, params)
+    .then((response: any) => {
+      const {data} = response;
+      successCallback(data);
+    })
+    .catch((error: any) => {
+      handleApiError(error);
+      errorCallback(error);
+    });
 };
 
 const getApiCall = () => {
@@ -26,4 +46,5 @@ const getApiCall = () => {
 };
 export default {
   getApiCall,
+  postApiCall,
 };

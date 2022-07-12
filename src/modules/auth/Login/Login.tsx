@@ -6,7 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Color from '../../../utils/Color';
 import Fonts from '../../../utils/Fonts';
@@ -14,10 +14,7 @@ import String from '../../../utils/String';
 import {normalize} from '../../../utils/Dimensions';
 import localImage from '../../../utils/LocalImages';
 import {
-  showAlert,
   onGooglePress,
-  validateEmail,
-  validatePassword,
   logInWithEmailAndPassword,
 } from '../../../utils/CommonFunction';
 import {UserAction} from '../../../actions';
@@ -26,40 +23,77 @@ import {
   CustomTextInput,
   CustomHeader,
 } from '../../../components';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import ScreenNames from '../../../utils/ScreenNames';
 
 export default function SignUp() {
-  const {email, password} = useSelector((store: any) => store.authReducer);
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigation: any = useNavigation();
   const dispatch: Function = useDispatch();
-  const statusEmail = validateEmail(email);
-  const statusPassword = validatePassword(password);
+  // const statusEmail = validateEmail(email);
+  // const statusPassword = validatePassword(password);
 
   /**
    * @description called on login button press
    */
-  const onLoginPress = React.useCallback(() => {
-    logInWithEmailAndPassword(email, password);
+  const onLoginPress = () => {
+    const params = {
+      email: email,
+      password: password,
+      deviceModel: 'iPhone 11',
+      deviceToken:
+        'cVF_mYxr5k8yvKQveCN1pF:APA91bGJgEdPtsvxQvAd2IUVCGyd4mjoUr1iabM5smv6eelcT10Hw11OHw0WMZQU9BIHmH-rZ5QwdbNrVILzxm4t7zwFbPxJFTd6ba-lZVBy8ArSNWmKlZzU3j3Ax0u0FZVDHD5FU8r7',
+      deviceType: 1,
+      voipToken: 'E10E2043-DAE2-4263-ADA9-666DB8819A81',
+    };
 
-    {
-      statusEmail == true && statusPassword == true
-        ? showAlert(String.loginSucess)
-        : showAlert(String.enterValidCreditials);
-    }
-  }, [statusEmail, statusPassword]);
+    dispatch(
+      UserAction.parentLoginWithEmail(
+        params,
+
+        (success: any) => {
+          if (success) {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{name: ScreenNames.BOTTOM_TAB}],
+              }),
+            );
+            setEmail('');
+            setPassword('');
+          }
+        },
+        (failure: any) => {
+          console.log(
+            '🚀 ~ file: Login.tsx ~ line 63 ~ onLoginPress ~ failure',
+            failure,
+          );
+          // failure ? setLoader(false) : null;
+        },
+      ),
+    );
+  };
 
   /**
    * @description called onChange email
    */
-  const onChangeEmail = useCallback((email: string) => {
-    dispatch(UserAction.emailAction(email));
-  }, []);
+  const onChangeEmail = useCallback(
+    (value: string) => {
+      setEmail(value);
+    },
+    [email],
+  );
 
   /**
    * @description called onChange password
    */
-  const onChangePassword = useCallback((password: string) => {
-    dispatch(UserAction.passwordAction(password));
-  }, []);
+  const onChangePassword = useCallback(
+    (value: string) => {
+      setPassword(value);
+    },
+    [password],
+  );
 
   /**
    * @description called onPress apple button
@@ -80,6 +114,11 @@ export default function SignUp() {
       },
     );
   }, []);
+
+  /**
+   *
+   */
+  const onPressForgetPasss = () => navigation.navigate(ScreenNames.FORGET_PASS);
   return (
     <ImageBackground
       source={localImage.background}
@@ -97,9 +136,9 @@ export default function SignUp() {
           keyboardType={'email-address'}
           leftIcon={localImage.mailIcon}
         />
-        {email.length > 0 ? (
+        {/* {email.length > 0 ? (
           <Text style={styles.errTextSty}>{statusEmail}</Text>
-        ) : null}
+        ) : null} */}
         <CustomTextInput // input password
           value={password}
           secureTextEntry={true}
@@ -107,11 +146,12 @@ export default function SignUp() {
           onChangeText={onChangePassword}
           leftIcon={localImage.passwordIcon}
         />
-        {password.length > 0 ? (
+        {/* {password.length > 0 ? (
           <Text style={styles.errTextSty}>{statusPassword}</Text>
-        ) : null}
-        <Text style={styles.forgetPassText}>{String.forgetPass}</Text>
-
+        ) : null} */}
+        <TouchableOpacity onPress={onPressForgetPasss}>
+          <Text style={styles.forgetPassText}>{String.forgetPass}</Text>
+        </TouchableOpacity>
         <CustomActionButton // button Login
           title={String.login}
           onPress={onLoginPress}

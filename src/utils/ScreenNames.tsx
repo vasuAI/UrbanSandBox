@@ -6,5 +6,6 @@ export default {
   WRITING: 'Writing',
   MY_BOOKS: 'My Books',
   APPOINTMENTS: 'Appointments',
+  FORGET_PASS: 'ForgetPassword',
   BOTTOM_TAB: 'BottomTabNavigator',
 };

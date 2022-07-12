@@ -5,6 +5,7 @@ export default {
   pale: '#fff8d8',
   beige: '#f0dad6',
   wheat: '#ffa50099',
+  grey: '#00000040',
   lightKhaki: '#ecf7d1',
   duckEggBlue: '#d3ecf6',
   paleLavender: '#f4ebff',
