@@ -1,8 +1,20 @@
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import rootReducer from '../reducer';
-import {createStore, applyMiddleware} from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import {applyMiddleware, legacy_createStore} from 'redux';
+import {persistStore, persistReducer} from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const store = createStore(rootReducer, applyMiddleware(logger, thunk));
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['authReducer'],
+};
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = legacy_createStore(
+  persistedReducer,
+  applyMiddleware(thunkMiddleware, logger),
+);
+export const persistor = persistStore(store);

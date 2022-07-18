@@ -100,29 +100,17 @@ const showToast = (message: string) => {
 const authErrorHandling = (errorMsg: any) => {
   switch (errorMsg) {
     case 'auth/wrong-password':
-      return 'Wrong email or password.';
-      break;
+      return 'Wrong email or password.'; //string it
     case 'auth/network-request-failed':
       return 'Network request failed.';
-      break;
     case 'auth/invalid-email':
       return 'Invalid email.';
-      break;
     case 'auth/weak-password':
       return 'Weak password.';
-      break;
     case 'auth/no-current-user':
       return 'No user signed in';
-      break;
     default:
       break;
   }
 };
-export {
-  showToast,
-  showAlert,
-  // validateEmail,
-  onGooglePress,
-  // validatePassword,
-  logInWithEmailAndPassword,
-};
+export {showToast, showAlert, onGooglePress, logInWithEmailAndPassword};

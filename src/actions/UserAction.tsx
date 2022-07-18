@@ -1,15 +1,15 @@
 import Common from '../utils/Common';
-import {showToast} from '../utils/CommonFunction';
+import ActionType from './ActionType';
 import EndPoint from '../utils/EndPoint';
 import WebService from '../utils/WebService';
-import ActionType from './ActionType';
+import {showToast} from '../utils/CommonFunction';
 
 const parentSignUpWithEmail = (
   params: any,
   success: Function,
   fail: Function,
 ) => {
-  return (dispatch: Function, getState: Function) => {
+  return (dispatch: Function) => {
     WebService.postApiCall(
       EndPoint.PARENT_SIGNUP,
       params,
@@ -72,4 +72,18 @@ const parentLoginWithEmail = (
     );
   };
 };
-export default {parentSignUpWithEmail, parentLoginWithEmail};
+const languageApiHit = (params: any, success: Function, fail: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    WebService.getApiCall(
+      EndPoint.GET_LANGUAGES_PARENT,
+      params,
+      (response: any) => {
+        console.log('GET_LANGUAGES_PARENT', response);
+      },
+      (error: any) => {
+        fail(error);
+      },
+    );
+  };
+};
+export default {parentSignUpWithEmail, parentLoginWithEmail, languageApiHit};

@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import {View, Text, ImageBackground, StyleSheet, FlatList} from 'react-native';
+import React, {useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
 import RenderFlatlist from './RenderFlatlist';
 import Mocks from '../../utils/Mocks';
 import {Color, Fonts, LocalImages, String} from '../../utils';
+import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 /**
  *
  * @returns
@@ -48,11 +42,6 @@ const Discussion = () => {
 
   const _onEndReached = () => {
     let newData = Mocks.discussionData.slice(limit, limit + 5);
-    console.log(
-      '🚀 ~ file: Discussion.tsx ~ line 51 ~ Discussion ~ newData',
-      newData,
-    );
-
     setData([...data, ...newData]);
     setLimit(limit + 5);
   };
@@ -72,20 +61,12 @@ const Discussion = () => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headingTextStyle}>{String.discussion}</Text>
-        <View style={styles.iconContainer}>
-          <Image
-            source={LocalImages.seachIcon}
-            style={styles.headerSearchIconStyle}
-          />
-          <Image source={LocalImages.mailIcon} style={styles.headerIconStyle} />
-          <Image
-            source={LocalImages.profileIcon}
-            style={styles.headerIconStyle}
-          />
-        </View>
-      </View>
+      <CustomHeader2
+        title={String.discussion}
+        image1={LocalImages.seachIcon}
+        image2={LocalImages.mailIcon}
+        image3={LocalImages.profileIcon}
+      />
       <FlatList
         data={data}
         renderItem={_renderItem}
@@ -99,6 +80,7 @@ const Discussion = () => {
 const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
+    backgroundColor: Color.pureWhite,
   },
   imgBackgroundStyle: {
     opacity: 0.2,

@@ -25,13 +25,24 @@ interface Props {
   placeholder: string;
   rigtHiddenIcon?: any;
   secureTextEntry?: boolean;
+  customContainerStyle?: any;
+  customLefticonStyle?: any;
   keyboardType?: KeyboardTypeOptions;
 }
 
 const CustomInput = (props: Props) => {
+  console.log('render');
+
   const [eyeVisble, setEyeVisble] = useState(true);
-  const {leftIcon, placeholder, onChangeText, keyboardType, secureTextEntry} =
-    props;
+  const {
+    leftIcon,
+    placeholder,
+    onChangeText,
+    keyboardType,
+    secureTextEntry,
+    customLefticonStyle,
+    customContainerStyle,
+  } = props;
 
   /**
    * @description called on changing text
@@ -50,8 +61,11 @@ const CustomInput = (props: Props) => {
   };
 
   return (
-    <View style={styles.parentContainer}>
-      <Image source={leftIcon} style={styles.leftIconSty} />
+    <View style={[styles.parentContainer, customContainerStyle]}>
+      <Image
+        source={leftIcon}
+        style={[styles.leftIconSty, customLefticonStyle]}
+      />
       <TextInput
         value={props.value}
         autoCapitalize="none"
@@ -73,6 +87,7 @@ const CustomInput = (props: Props) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   parentContainer: {
     // flex: 1,

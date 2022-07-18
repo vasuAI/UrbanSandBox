@@ -7,20 +7,29 @@ const $http = axios.create({
   timeout: 10000,
 });
 
+const setAuthorizationToken = (token: string) => {
+  if (token) {
+    $http.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    delete $http.defaults.headers.common.devicedetails;
+  }
+};
+
 const STATUS_CODE = {
   success: 200,
-  successAction: 201,
-  notFound: 404,
-  badRequest: 400,
-  accountSuspend: 401,
   invalid: 422,
   timeout: 408,
-  userNotFound: 410,
+  notFound: 404,
+  badRequest: 400,
   userBlocked: 403,
+  userNotFound: 410,
+  successAction: 201,
+  accountSuspend: 401,
 };
 
 export default {
   BASE_URL,
   STATUS_CODE,
   axiosInstance: $http,
+  setAuthorizationToken,
 };

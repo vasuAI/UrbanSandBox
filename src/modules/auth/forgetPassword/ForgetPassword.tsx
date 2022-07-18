@@ -8,7 +8,7 @@ import {
 } from '../../../components';
 import {normalize} from '../../../utils/Dimensions';
 
-export default function ForgetPassword() {
+const ForgetPassword = () => {
   const [email, setEmail] = useState('');
   const onChangeEmail = (value: string) => {
     setEmail(value);
@@ -40,7 +40,7 @@ export default function ForgetPassword() {
       />
     </ImageBackground>
   );
-}
+};
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -71,3 +71,4 @@ const styles = StyleSheet.create({
     backgroundColor: Color.twilightBlue,
   },
 });
+export default React.memo(ForgetPassword);

@@ -26,7 +26,7 @@ import {
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import ScreenNames from '../../../utils/ScreenNames';
 
-export default function SignUp() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation: any = useNavigation();
@@ -57,7 +57,7 @@ export default function SignUp() {
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
-                routes: [{name: ScreenNames.BOTTOM_TAB}],
+                routes: [{name: ScreenNames.ON_BOARD}],
               }),
             );
             setEmail('');
@@ -119,6 +119,7 @@ export default function SignUp() {
    *
    */
   const onPressForgetPasss = () => navigation.navigate(ScreenNames.FORGET_PASS);
+  const onPressSignup = () => navigation.navigate(ScreenNames.SIGN_UP);
   return (
     <ImageBackground
       source={localImage.background}
@@ -183,14 +184,14 @@ export default function SignUp() {
         </View>
         <Text style={styles.dontHaveAccountText}>
           {String.dontHaveAccount}
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity activeOpacity={0.7} onPress={onPressSignup}>
             <Text style={styles.spanText}>{String.signup}</Text>
           </TouchableOpacity>
         </Text>
       </ScrollView>
     </ImageBackground>
   );
-}
+};
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -267,3 +268,5 @@ const styles = StyleSheet.create({
     marginLeft: normalize(16),
   },
 });
+
+export default React.memo(Login);

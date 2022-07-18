@@ -12,7 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import ScreenNames from '../../utils/ScreenNames';
 
 const CustomHeader = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   return (
     <TouchableOpacity
       style={styles.headerCon}

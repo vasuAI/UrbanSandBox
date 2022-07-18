@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import Color from '../../../utils/Color';
 import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
@@ -33,16 +25,25 @@ const SignUp = () => {
    *
    * @param value
    */
-  const onChangeName = (value: string) => {
-    setName(value);
-  };
+  const onChangeName = useCallback(
+    (value: string) => {
+      setName(value);
+    },
+    [name],
+  );
 
-  const onChangeEmail = (value: string) => {
-    setEmail(value);
-  };
-  const onChangePassword = (value: string) => {
-    setPassword(value);
-  };
+  const onChangeEmail = useCallback(
+    (value: string) => {
+      setEmail(value);
+    },
+    [email],
+  );
+  const onChangePassword = useCallback(
+    (value: string) => {
+      setPassword(value);
+    },
+    [password],
+  );
 
   const onPressSignup = () => {
     const params = {
@@ -60,10 +61,6 @@ const SignUp = () => {
       UserAction.parentSignUpWithEmail(
         params,
         (success: any) => {
-          console.log(
-            '🚀 ~ file: Signup.tsx ~ line 63 ~ onPressSignup ~ success',
-            success,
-          );
           // setLoader(false);
           success ? (setName(''), setEmail(''), setPassword('')) : null;
           navigation.navigate(ScreenNames.LOG_IN);
@@ -127,6 +124,7 @@ const SignUp = () => {
     </ImageBackground>
   );
 };
+
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -187,4 +185,4 @@ const styles = StyleSheet.create({
     height: normalize(13),
   },
 });
-export default SignUp;
+export default React.memo(SignUp);
