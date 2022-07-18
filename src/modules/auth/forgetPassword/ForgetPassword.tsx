@@ -9,8 +9,9 @@ import {
 import {normalize} from '../../../utils/Dimensions';
 
 export default function ForgetPassword() {
+  const [email, setEmail] = useState('');
   const onChangeEmail = (value: string) => {
-    console.log(value);
+    setEmail(value);
   };
   const onSubmitPress = (value: any) => {
     console.log(value);
@@ -25,7 +26,7 @@ export default function ForgetPassword() {
         <Text style={styles.signupDescription}>{String.forgetDescription}</Text>
       </View>
       <CustomTextInput // input email
-        // value={email}
+        value={email}
         onChangeText={onChangeEmail}
         placeholder={String.email}
         keyboardType={'email-address'}
