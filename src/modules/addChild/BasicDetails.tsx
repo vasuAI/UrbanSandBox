@@ -1,11 +1,11 @@
 import {
+  Text,
+  View,
   Image,
-  ImageBackground,
   ScrollView,
   StyleSheet,
-  Text,
+  ImageBackground,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
@@ -16,55 +16,142 @@ import {
   CustomTextInput,
   CustomProgressBar,
 } from '../../components';
+import {useDispatch, useSelector} from 'react-redux';
+import ActionType from '../../actions/ActionType';
+import ImagePicker from 'react-native-image-crop-picker';
+import {showAlert, showToast} from '../../utils/CommonFunction';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
-const BasicDetails = (props: any) => {
+interface Props {
+  screenType: Function;
+}
+const BasicDetails = (props: Props) => {
   const {screenType} = props;
   let loginUserName = 'fabio';
-  const [name, setName] = useState('');
-  const [DOB, setDOB] = useState('');
-  const [schoolName, setSchoolName] = useState('');
-  const [location, setSetlocation] = useState('');
-
+  const dispatch = useDispatch();
+  const {name, DOB, profileImg, location, schoolName} = useSelector(
+    (state: any) => state.childReducer,
+  );
   const [check, isCheck] = useState(true);
-  const onChangeName = useCallback(
-    (value: string) => {
-      setName(value);
-    },
-    [name],
-  );
-  const onChangeDOB = useCallback(
-    (value: string) => {
-      setDOB(value);
-    },
-    [DOB],
-  );
-  const onChangeSchoolName = useCallback(
-    (value: string) => {
-      setSchoolName(value);
-    },
-    [schoolName],
-  );
-  const onChangeLocation = useCallback(
-    (value: string) => {
-      setSetlocation(value);
-    },
-    [location],
-  );
-  const handelRadioBtn = () => isCheck(!check);
-  const _onPress = () => {
-    screenType('LANG_INTEREST');
+  const [date, setDate] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  /**
+   * @description name input handle
+   */
+  const onChangeName = useCallback((value: string) => {
+    return dispatch({type: ActionType.CHILD_NAME, payload: {name: value}});
+  }, []);
+
+  /**
+   * @description date of birth input handle
+   */
+  // const onChangeDOB = useCallback((value: string) => {
+  //   return dispatch({type: ActionType.CHILD_NAME, payload: {DOB: value}});
+  // }, []);
+
+  /**
+   * @description school name input handle
+   */
+  const onChangeSchoolName = useCallback((value: string) => {
+    return dispatch({
+      type: ActionType.CHILD_NAME,
+      payload: {schoolName: value},
+    });
+  }, []);
+
+  /**
+   * @description location input handle
+   */
+  const onChangeLocation = useCallback((value: string) => {
+    return dispatch({
+      type: ActionType.CHILD_NAME,
+      payload: {location: value},
+    });
+  }, []);
+
+  /**
+   *
+   * @param value
+   * @returns gender Value
+   */
+  const handelRadioBtn = (value: any) => {
+    let selectedGender = value;
+    isCheck(!check);
+    return dispatch({
+      type: ActionType.GENDER,
+      payload: {gender: selectedGender},
+    });
+  };
+
+  /**
+   * @params
+   * @return error message
+   */
+  const _onPressNext = useCallback(() => {
+    if (
+      name.trim().length === 0 ||
+      location.trim().length === 0 ||
+      schoolName.trim().length === 0
+    )
+      showToast(String.showEmptyFieldError);
+    else if (name.length <= 2) {
+      showToast('String.Name_ERROR');
+    } else if (schoolName.length <= 4) {
+      showToast(String.errorSchoolName);
+    } else if (location.trim().length <= 4) {
+      showToast(String.errorLocation);
+    } else {
+      screenType('LANG_INTEREST');
+    }
+  }, [name, DOB, schoolName, location]);
+
+  const _onPressUploadPic = () => {
+    ImagePicker.openPicker({
+      cropping: true,
+    })
+      .then(image => {
+        let childImage = image.sourceURL;
+        dispatch({
+          type: ActionType.CHILD_PROFILE_IMAGE,
+          payload: {profileImg: childImage},
+        });
+        showToast(String.profilePicUpdated);
+      })
+      .catch(error => {
+        console.log(error);
+        showAlert(error);
+      });
+  };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date: string) => {
+    dispatch({
+      type: ActionType.CHILD_DOB,
+      DOB: date,
+    });
+    setDate(date);
+    hideDatePicker();
   };
   return (
     <ImageBackground
       source={LocalImages.background}
-      imageStyle={styles.imgBackgroundStyle}
-      style={styles.parentContainer}>
+      style={styles.parentContainer}
+      imageStyle={styles.imgBackgroundStyle}>
       <CustomHeader2
-        title={String.basicDetails}
         icon={true}
         screenType={'INTERESTED'}
+        title={String.basicDetails}
       />
-      <ScrollView style={{flex: 1}}>
+      <ScrollView style={styles.childContainer}>
         <CustomProgressBar curntStatus={0} />
         <View style={styles.detailsDescriptionContainer}>
           <Text
@@ -75,65 +162,83 @@ const BasicDetails = (props: any) => {
         </View>
         <View style={styles.profileContiner}>
           <Image
-            source={LocalImages.skyIcon}
+            resizeMode={profileImg ? 'cover' : 'center'}
+            source={profileImg ? {uri: profileImg} : LocalImages.skyIcon}
             style={styles.imageContainer}
-            resizeMode="contain"
           />
         </View>
-        <View style={styles.editIconContainer}>
+        <TouchableOpacity
+          style={styles.editIconContainer}
+          onPress={_onPressUploadPic}>
           <Image source={LocalImages.editIcon} style={styles.editIconStyle} />
-        </View>
+        </TouchableOpacity>
+
         <CustomTextInput // input name
           value={name}
-          onChangeText={onChangeName}
-          placeholder={String.name}
           keyboardType={'default'}
+          placeholder={String.name}
+          onChangeText={onChangeName}
           leftIcon={LocalImages.nameIcon}
           customContainerStyle={styles.textContainerStyle}
         />
-        <CustomTextInput // input DOB
-          value={DOB}
-          onChangeText={onChangeDOB}
-          placeholder={String.DOB}
-          keyboardType={'default'}
-          leftIcon={LocalImages.dateIcon}
-          customContainerStyle={styles.textContainerStyle}
-        />
+
+        <TouchableOpacity // input DOB
+          onPress={showDatePicker}
+          activeOpacity={0.7}
+          style={styles.dateInput}>
+          <Image style={styles.dateImage} source={LocalImages.dateIcon} />
+          <Text
+            style={[
+              styles.dateText,
+              date ? {color: Color.black} : {color: Color.grey},
+            ]}>
+            {date ? moment(date).format('DD-MM-YYYY') : String.DOB}
+          </Text>
+        </TouchableOpacity>
+
         <CustomTextInput // input school
           value={schoolName}
-          onChangeText={onChangeSchoolName}
-          placeholder={String.school}
           keyboardType={'default'}
+          placeholder={String.school}
+          onChangeText={onChangeSchoolName}
           leftIcon={LocalImages.schoolIcon}
           customContainerStyle={styles.textContainerStyle}
         />
         <CustomTextInput // input location
           value={location}
-          onChangeText={onChangeLocation}
-          placeholder={String.location}
           keyboardType={'default'}
+          placeholder={String.location}
+          onChangeText={onChangeLocation}
           leftIcon={LocalImages.location}
           customContainerStyle={styles.textContainerStyle}
         />
         <Text style={styles.genderContainer}>{String.gender}</Text>
         <View style={styles.genderSelectionView}>
           <TouchableOpacity
-            onPress={handelRadioBtn}
+            onPress={() => handelRadioBtn(String.girl)}
             style={check ? styles.radioOuterView : styles.radioInnnerView}
           />
           <Text style={styles.genderSelectionTextStyle}>{String.girl}</Text>
           <TouchableOpacity
-            onPress={handelRadioBtn}
+            onPress={() => handelRadioBtn(String.boy)}
             style={check ? styles.radioInnnerView : styles.radioOuterView}
           />
           <Text style={styles.genderSelectionTextStyle}>{String.boy}</Text>
         </View>
         <CustomActionButton // button next
           title={String.next}
-          onPress={_onPress}
+          onPress={_onPressNext}
           customContainerStyle={styles.nextButtonCon}
         />
       </ScrollView>
+      <DateTimePicker
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        isVisible={isDatePickerVisible}
+        // maximumDate={maximumDate()}
+        // date={maximumDate()}
+      />
     </ImageBackground>
   );
 };
@@ -144,6 +249,9 @@ const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
     backgroundColor: Color.pureWhite,
+  },
+  childContainer: {
+    flex: 1,
   },
   imgBackgroundStyle: {
     opacity: 0.15,
@@ -173,14 +281,14 @@ const styles = StyleSheet.create({
     marginVertical: normalize(18),
   },
   imageContainer: {
-    width: normalize(60),
-    height: normalize(100),
+    width: '100%',
+    height: '100%',
     alignSelf: 'center',
     marginBottom: normalize(30),
     borderRadius: normalize(50),
   },
   editIconContainer: {
-    top: normalize(315),
+    top: normalize(230),
     alignItems: 'center',
     position: 'absolute',
     width: normalize(27),
@@ -251,4 +359,30 @@ const styles = StyleSheet.create({
     marginTop: normalize(34),
     backgroundColor: Color.twilightBlue,
   },
+  dateInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: normalize(50),
+    borderWidth: normalize(1),
+    borderColor: Color.wheat,
+    borderRadius: normalize(10),
+    marginHorizontal: normalize(16),
+    marginVertical: normalize(6),
+  },
+  dateImage: {
+    marginLeft: normalize(12),
+  },
+  dateText: {
+    opacity: 0.7,
+    color: Color.grey,
+    fontSize: normalize(16),
+    marginLeft: normalize(10),
+  },
 });
+function type(type: any, options: any): void {
+  throw new Error('Function not implemented.');
+}
+
+function options(type: (type: any, options: any) => void, options: any): void {
+  throw new Error('Function not implemented.');
+}

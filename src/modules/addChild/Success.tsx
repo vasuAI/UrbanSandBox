@@ -1,10 +1,16 @@
 import {View, Text, ImageBackground, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import {CustomHeader, CustomProgressBar} from '../../components';
 import {normalize} from '../../utils/Dimensions';
+import {useNavigation} from '@react-navigation/native';
+import ScreenNames from '../../utils/ScreenNames';
 
 const Success = () => {
+  const navigation: any = useNavigation();
+  useEffect(() => {
+    setTimeout(() => navigation.replace(ScreenNames.ADD_CHILD), 1000);
+  });
   return (
     <ImageBackground
       source={LocalImages.background}
@@ -23,7 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.wheat,
     justifyContent: 'center',
-    // alignItems: 'center',
   },
   headingCon: {
     // justifyContent: 'center',

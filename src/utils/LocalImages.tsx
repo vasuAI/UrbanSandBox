@@ -1,5 +1,6 @@
 export default {
   fbIcon: require('../assets/images/fb.png'),
+  logo: require('../assets/images/logo.png'),
   eyeIcon: require('../assets/images/eye.png'),
   editIcon: require('../assets/images/edit.png'),
   nameIcon: require('../assets/images/name.png'),
@@ -20,6 +21,7 @@ export default {
   schoolIcon: require('../assets/images/ic_school.png'),
   passwordIcon: require('../assets/images/password.png'),
   background: require('../assets/images/background.png'),
+  background2: require('../assets/images/ic_bg.png'),
   profileIcon: require('../assets/images/ic_profile.png'),
   hiddenEyeIcon: require('../assets/images/eyeHidden.png'),
   checkIcon: require('../assets/images/check.png'),

@@ -18,7 +18,7 @@ import localImages from '../../utils/LocalImages';
  */
 
 interface Props {
-  value: string;
+  value?: string;
   leftIcon?: any;
   rigtIcon?: any;
   onChangeText: any;
@@ -73,6 +73,7 @@ const CustomInput = (props: Props) => {
         placeholder={placeholder}
         keyboardType={keyboardType}
         onChangeText={handleChangeText}
+        placeholderTextColor={Color.grey}
         secureTextEntry={secureTextEntry && eyeVisble}
       />
 

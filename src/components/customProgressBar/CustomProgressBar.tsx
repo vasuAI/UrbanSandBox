@@ -9,6 +9,10 @@ interface Props {
   curntStatus: number;
 }
 const CustomProgressBar = (props: Props) => {
+  console.log(
+    '🚀 ~ file: CustomProgressBar.tsx ~ line 12 ~ CustomProgressBar ~ props',
+  );
+
   const {curntStatus} = props;
 
   const Node = (props: any) => {
@@ -38,7 +42,7 @@ const CustomProgressBar = (props: Props) => {
   return (
     <View style={styles.parentContainer}>
       {arr.map((e, i) => {
-        return <Node elements={e} index={i} />;
+        return <Node elements={e} index={i} key={i} />;
       })}
     </View>
   );

@@ -11,4 +11,5 @@ export default {
   BASIC_DETAILS: 'BasicDetails',
   FORGET_PASS: 'ForgetPassword',
   BOTTOM_TAB: 'BottomTabNavigator',
+  CHILD_NAMES: 'ChildName',
 };

@@ -3,19 +3,22 @@ import {Color, Fonts, LocalImages} from '../../utils';
 import {normalize} from '../../utils/Dimensions';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import ScreenNames from '../../utils/ScreenNames';
 
 const CustomHeader2 = (props: any) => {
   const {screenType} = props;
-  const navigate: any = useNavigation();
+  const navigation: any = useNavigation();
 
-  const _navigate = () => screenType('LANG_INTEREST');
+  const _navigate = () => navigation;
   const {title, text, image1, image2, image3, icon} = props;
 
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerChildContainer}>
         {icon && (
-          <TouchableOpacity onPress={_navigate} style={{}}>
+          <TouchableOpacity
+            onPress={() => navigation.replace(ScreenNames.ADD_CHILD)}
+            style={{}}>
             <Image source={LocalImages.backIcon} style={styles.backIconSty} />
           </TouchableOpacity>
         )}

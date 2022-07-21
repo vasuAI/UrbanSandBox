@@ -21,7 +21,7 @@ const ConfirmMpin = (props: any) => {
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
       <CustomHeader2 title={String.confirmMpin} icon={true} />
-      <CustomProgressBar curntStatus={5} />
+      <CustomProgressBar curntStatus={6} />
       <View style={styles.detailsDescriptionContainer}>
         <Text style={styles.descriptionTextStyle}>
           {String.setMpinDescription}
