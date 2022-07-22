@@ -34,6 +34,7 @@ const BasicDetails = (props: Props) => {
   const {name, DOB, profileImg, location, schoolName, gender} = useSelector(
     (state: any) => state.childReducer,
   );
+
   const [check, isCheck] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -113,7 +114,8 @@ const BasicDetails = (props: Props) => {
       name.trim().length === 0 ||
       location.trim().length === 0 ||
       schoolName.trim().length === 0 ||
-      DOB.trim().length === 0
+      DOB.trim().length === 0 ||
+      !gender
     )
       showToast(String.showEmptyFieldError);
     else if (name.length <= 2) {
@@ -125,7 +127,7 @@ const BasicDetails = (props: Props) => {
     } else {
       screenType(ScreenNames.LANG_INTEREST);
     }
-  }, [name, DOB, schoolName, location]);
+  }, [name, DOB, schoolName, location, gender]);
 
   /**
    * @description upload image
