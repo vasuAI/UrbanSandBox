@@ -11,14 +11,49 @@ import {normalize} from '../../utils/Dimensions';
 import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
 import WebService from '../../utils/WebService';
 import EndPoint from '../../utils/EndPoint';
+import ActionType from '../../actions/ActionType';
+import {useDispatch} from 'react-redux';
+import {LanguageRenderItem} from '../../modals';
+import ScreenNames from '../../utils/ScreenNames';
 
-const LangSpoken = (props: any) => {
+let selected: any = [];
+interface Props {
+  screenType: Function;
+}
+const LangSpoken = (props: Props) => {
   const {screenType} = props;
   const childerName = 'Skye';
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Array<any>>([]);
+  const dispatch: Function = useDispatch();
 
   const _onPressActionBtn = () => {
-    screenType('INTERESTED');
+    screenType(ScreenNames.INTERESTED);
+    dispatch({
+      type: ActionType.LANGUAGE_SPOKEN,
+      payload: {langSpoken: [...selected]},
+    });
+  };
+
+  /**
+   *
+   * @param _id
+   */
+  const onSelectlanguage = (_id: string) => {
+    let index = data.findIndex((current: any) => current?._id === _id);
+    if (index != -1) {
+      let selectedLanguage: any = [...data];
+      if (selectedLanguage[index].__v === 0) {
+        selectedLanguage[index].__v = selectedLanguage[index]?.__v + 1;
+        selected = [...selected, data[index]];
+      } else {
+        selectedLanguage[index].__v = selectedLanguage[index]?.__v - 1;
+        let unSelectedLanguage = selected.findIndex(
+          (element: any) => element._id === _id,
+        );
+        selected.splice(unSelectedLanguage, 1);
+      }
+      setData([...selectedLanguage]);
+    }
   };
 
   useEffect(() => {
@@ -30,9 +65,21 @@ const LangSpoken = (props: any) => {
       () => {},
     );
   }, []);
-  const _renderItem = ({item}: any) => {
-    const {title, _id} = item;
-    return <LanguageCardItem title={title} id={_id} />;
+  /**
+   *
+   * @param item
+   * @returns
+   */
+  const _renderItem = ({item}: {item: LanguageRenderItem}) => {
+    const {title, _id, __v} = item;
+    return (
+      <LanguageCardItem
+        title={title}
+        _id={_id}
+        onPress={onSelectlanguage}
+        __v={__v}
+      />
+    );
   };
   return (
     <ImageBackground

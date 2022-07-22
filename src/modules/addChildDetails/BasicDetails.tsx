@@ -22,6 +22,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {showAlert, showToast} from '../../utils/CommonFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import ScreenNames from '../../utils/ScreenNames';
 
 interface Props {
   screenType: Function;
@@ -33,7 +34,7 @@ const BasicDetails = (props: Props) => {
   const {name, DOB, profileImg, location, schoolName} = useSelector(
     (state: any) => state.childReducer,
   );
-  const [check, isCheck] = useState(true);
+  const [check, isCheck] = useState('');
   const [date, setDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -83,8 +84,8 @@ const BasicDetails = (props: Props) => {
    * @returns gender Value
    */
   const handelRadioBtn = (value: any) => {
+    isCheck(value);
     let selectedGender = value;
-    isCheck(!check);
     return dispatch({
       type: ActionType.GENDER,
       payload: {gender: selectedGender},
@@ -101,6 +102,7 @@ const BasicDetails = (props: Props) => {
   /**
    * @params
    * @return error message
+   * @descrption validate input fields on press next
    */
   const _onPressNext = useCallback(() => {
     if (
@@ -117,10 +119,13 @@ const BasicDetails = (props: Props) => {
     } else if (location.trim().length <= 4) {
       showToast(String.errorLocation);
     } else {
-      screenType('LANG_INTEREST');
+      screenType(ScreenNames.LANG_INTEREST);
     }
   }, [name, DOB, schoolName, location]);
 
+  /**
+   * @description upload image
+   */
   const _onPressUploadPic = () => {
     ImagePicker.openPicker({
       cropping: true,
@@ -138,9 +143,19 @@ const BasicDetails = (props: Props) => {
         showAlert(error);
       });
   };
+
+  /**
+   *
+   * @returns date
+   */
   const maximumDate = () => {
     let date = new Date();
     date.setFullYear(date.getFullYear() - 2);
+    return date;
+  };
+  const minimumDate = () => {
+    let date = new Date();
+    date.setFullYear(date.getFullYear() - 10);
     return date;
   };
 
@@ -151,7 +166,7 @@ const BasicDetails = (props: Props) => {
       imageStyle={styles.imgBackgroundStyle}>
       <CustomHeader2
         icon={true}
-        screenType={'INTERESTED'}
+        screenType={ScreenNames.INTERESTED}
         title={String.basicDetails}
       />
       <ScrollView style={styles.childContainer}>
@@ -193,9 +208,9 @@ const BasicDetails = (props: Props) => {
           <Text
             style={[
               styles.dateText,
-              date ? {color: Color.black} : {color: Color.grey},
+              DOB ? {color: Color.black} : {color: Color.grey},
             ]}>
-            {date ? moment(date).format('DD-MM-YYYY') : String.DOB}
+            {DOB ? DOB : String.DOB}
           </Text>
         </TouchableOpacity>
 
@@ -215,31 +230,40 @@ const BasicDetails = (props: Props) => {
           leftIcon={LocalImages.location}
           customContainerStyle={styles.textContainerStyle}
         />
+
         <Text style={styles.genderContainer}>{String.gender}</Text>
         <View style={styles.genderSelectionView}>
-          <TouchableOpacity
+          <TouchableOpacity // radio btn gender
             onPress={() => handelRadioBtn(String.girl)}
-            style={check ? styles.radioOuterView : styles.radioInnnerView}
+            style={[
+              styles.radioButtonStyle,
+              check === String.girl && styles.radioButtonActive,
+            ]}
           />
           <Text style={styles.genderSelectionTextStyle}>{String.girl}</Text>
           <TouchableOpacity
             onPress={() => handelRadioBtn(String.boy)}
-            style={check ? styles.radioInnnerView : styles.radioOuterView}
+            style={[
+              styles.radioButtonStyle,
+              check === String.boy && styles.radioButtonActive,
+            ]}
           />
           <Text style={styles.genderSelectionTextStyle}>{String.boy}</Text>
         </View>
+
         <CustomActionButton // button next
           title={String.next}
           onPress={_onPressNext}
           customContainerStyle={styles.nextButtonCon}
         />
       </ScrollView>
-      <DateTimePicker
+      <DateTimePicker // date selector
         mode="date"
         date={maximumDate()}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         maximumDate={maximumDate()}
+        minimumDate={minimumDate()}
         isVisible={isDatePickerVisible}
       />
     </ImageBackground>
@@ -319,22 +343,36 @@ const styles = StyleSheet.create({
     marginLeft: normalize(16),
     lineHeight: normalize(25),
   },
-  radioOuterView: {
+  // radioOuterView: {
+  //   alignItems: 'center',
+  //   width: normalize(20),
+  //   height: normalize(20),
+  //   borderColor: Color.grey,
+  //   justifyContent: 'center',
+  //   borderWidth: normalize(1),
+  //   borderRadius: normalize(10),
+  // },
+  radioButtonStyle: {
     alignItems: 'center',
+    justifyContent: 'center',
     width: normalize(20),
     height: normalize(20),
     borderColor: Color.grey,
-    justifyContent: 'center',
     borderWidth: normalize(1),
     borderRadius: normalize(10),
   },
-  radioInnnerView: {
-    width: normalize(20),
-    height: normalize(20),
+  radioButtonActive: {
     borderWidth: normalize(5),
     borderRadius: normalize(10),
     borderColor: Color.twilightBlue,
   },
+  // radioInnnerView: {
+  //   width: normalize(20),
+  //   height: normalize(20),
+  //   borderWidth: normalize(5),
+  //   borderRadius: normalize(10),
+  //   borderColor: Color.twilightBlue,
+  // },
   genderSelectionView: {
     flexDirection: 'row',
     width: normalize(140),
@@ -376,16 +414,9 @@ const styles = StyleSheet.create({
     marginLeft: normalize(12),
   },
   dateText: {
-    opacity: 0.7,
+    // opacity: 0.7,
     color: Color.grey,
     fontSize: normalize(16),
     marginLeft: normalize(10),
   },
 });
-function type(type: any, options: any): void {
-  throw new Error('Function not implemented.');
-}
-
-function options(type: (type: any, options: any) => void, options: any): void {
-  throw new Error('Function not implemented.');
-}

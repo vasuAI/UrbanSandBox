@@ -7,8 +7,8 @@ import BottomTab from '../routers/bottomTAbNavigator';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScreenNames from '../../utils/ScreenNames';
 import ForgetPassword from '../auth/forgetPassword/ForgetPassword';
-import AddChild from '../addChild/AddChild';
-import BasicDetails from '../addChild/BasicDetails';
+import AddChild from '../addChildDetails/addNewChild/AddChild';
+import BasicDetails from '../addChildDetails/BasicDetails';
 import OnBoarding from '../onBoarding/OnBoarding';
 const Stack = createNativeStackNavigator();
 export default function Router() {

@@ -8,12 +8,13 @@ import {
   CustomTextInput,
 } from '../../components';
 import {normalize} from '../../utils/Dimensions';
+import ScreenNames from '../../utils/ScreenNames';
 
 const SetMpin = (props: any) => {
   const {screenType} = props;
 
   const _onPressActionBtn = () => {
-    screenType('CONFIRM_MPIN');
+    screenType(ScreenNames.CONFIRM_MPIN);
   };
   return (
     <ImageBackground

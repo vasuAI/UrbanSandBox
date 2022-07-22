@@ -12,4 +12,10 @@ export default {
   FORGET_PASS: 'ForgetPassword',
   BOTTOM_TAB: 'BottomTabNavigator',
   CHILD_NAMES: 'ChildName',
+  INTERESTED: 'Interested',
+  LANG_INTEREST: 'langInterest',
+  LANG_SPOKEN: 'LangSpoken',
+  SET_MPIN: 'SetMpin',
+  CONFIRM_MPIN: 'ConfirmMpin',
+  SUCCESS: 'Success',
 };

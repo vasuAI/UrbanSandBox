@@ -27,6 +27,20 @@ export interface userDetailsType {
   subscriptionEndDate: string;
   subscriptionPlatForm: string;
 }
+
+export interface LanguageRenderItem {
+  title: string;
+  _id: string;
+  onPress: Function;
+  __v: number;
+  imageUrl?: string;
+}
+export interface InterstedRenderItem {
+  name: string;
+  imageUrl: string;
+  _id: string;
+}
+
 export interface UserDetails {
   userDetails: userDetailsType;
 }

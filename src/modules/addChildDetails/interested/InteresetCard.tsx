@@ -8,11 +8,12 @@ interface Props {
   imageUrl: string;
   _id: string;
   index: number;
+  onPress: Function;
 }
 const InteresetCard = (props: Props) => {
   const [isSelected, setIsSelected] = useState(false);
 
-  const {name, imageUrl, _id, index} = props;
+  const {name, imageUrl, _id, index, onPress} = props;
   return (
     <TouchableOpacity
       style={[
@@ -20,7 +21,10 @@ const InteresetCard = (props: Props) => {
         {backgroundColor: Constants.colorArray[index % 7]},
         isSelected && {borderWidth: 2, borderColor: Color.twilightBlue},
       ]}
-      onPress={() => setIsSelected(!isSelected)}>
+      onPress={() => {
+        onPress(_id);
+        setIsSelected(!isSelected);
+      }}>
       {isSelected && (
         <View style={styles.checkIcon}>
           <Image source={LocalImages.checkIconWhite} />

@@ -2,15 +2,20 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {Color, Fonts, LocalImages} from '../../utils';
 import {normalize} from '../../utils/Dimensions';
+interface Props {
+  _id: string;
+  __v: number;
+  title: string;
+  onPress: Function;
+}
 
-const LanguageCardItem = (props: any) => {
-  const {title} = props;
-  const [isSelected, setIsSelected] = useState(false);
+const LanguageCardItem = (props: Props) => {
+  const {title, onPress, _id, __v} = props;
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.textStyle}>{title}</Text>
       <TouchableOpacity
-        onPress={() => setIsSelected(!isSelected)}
+        onPress={() => onPress(_id, __v)}
         style={{
           marginStart: 'auto',
           alignItems: 'center',
@@ -19,12 +24,12 @@ const LanguageCardItem = (props: any) => {
           justifyContent: 'center',
           backgroundColor: Color.white,
         }}>
-        {isSelected && (
+        {__v ? (
           <Image
             source={LocalImages.checkIconBlue}
             style={styles.checkIcontyle}
           />
-        )}
+        ) : null}
       </TouchableOpacity>
     </View>
   );
