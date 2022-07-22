@@ -1,4 +1,5 @@
 import React from 'react';
+import {NodeProps} from '../../modals';
 import {normalize} from '../../utils/Dimensions';
 import {Color, LocalImages} from '../../utils';
 import {Image, StyleSheet, Text, View} from 'react-native';
@@ -8,10 +9,7 @@ const lastElement = arr.length - 1;
 interface Props {
   curntStatus: number;
 }
-interface NodeProps {
-  index: number;
-  elements: number;
-}
+
 const CustomProgressBar = (props: Props) => {
   const {curntStatus} = props;
 

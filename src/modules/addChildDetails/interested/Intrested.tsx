@@ -1,30 +1,37 @@
-import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
+import {useDispatch} from 'react-redux';
+import InteresetCard from './InteresetCard';
+import EndPoint from '../../../utils/EndPoint';
 import React, {useEffect, useState} from 'react';
+import WebService from '../../../utils/WebService';
+import {InterstedRenderItem} from '../../../modals';
+import {normalize} from '../../../utils/Dimensions';
+import ActionType from '../../../actions/ActionType';
+import ScreenNames from '../../../utils/ScreenNames';
+import {showToast} from '../../../utils/CommonFunction';
 import {Color, Fonts, LocalImages, String} from '../../../utils';
 import CustomHeader2 from '../../../components/customHeader/CustomHeader2';
 import {CustomActionButton, CustomProgressBar} from '../../../components';
-import {normalize} from '../../../utils/Dimensions';
-import InteresetCard from './InteresetCard';
-import WebService from '../../../utils/WebService';
-import EndPoint from '../../../utils/EndPoint';
-import {useDispatch} from 'react-redux';
-import ActionType from '../../../actions/ActionType';
-import {InterstedRenderItem} from '../../../modals';
-import ScreenNames from '../../../utils/ScreenNames';
+import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
 
-let select: any = [];
-
-const Intrested = (props: any) => {
+let select: Array<any> = [];
+interface Props {
+  screenType: Function;
+}
+const Intrested = (props: Props) => {
   const {screenType} = props;
   const childerName = 'Skye';
   const [data, setData] = useState<Array<any>>([]);
   const dispatch: Function = useDispatch();
   const _onPressActionBtn = () => {
-    screenType(ScreenNames.SET_MPIN);
-    dispatch({
-      type: ActionType.LANGUAGE_SPOKEN,
-      payload: {interested: [...select]},
-    });
+    if (select.length != 0) {
+      screenType(ScreenNames.SET_MPIN);
+      dispatch({
+        type: ActionType.LANGUAGE_SPOKEN,
+        payload: {interested: [...select]},
+      });
+    } else {
+      showToast(String.showEmptyFieldError);
+    }
   };
   useEffect(() => {
     WebService.getApiCall(
@@ -36,7 +43,11 @@ const Intrested = (props: any) => {
     );
   }, []);
 
-  const onPressLanguage = (_id: string) => {
+  /**
+   *
+   * @param _id
+   */
+  const onSelectCard = (_id: string) => {
     let index = data.findIndex((current: any) => current?._id === _id);
     if (index != -1) {
       let selectedLanguage: any = [...data];
@@ -53,7 +64,11 @@ const Intrested = (props: any) => {
       setData([...selectedLanguage]);
     }
   };
-
+  /**
+   *
+   * @param param0
+   * @returns
+   */
   const _renderItem = ({
     item,
     index,
@@ -64,11 +79,11 @@ const Intrested = (props: any) => {
     const {name, imageUrl, _id} = item;
     return (
       <InteresetCard
-        name={name}
-        imageUrl={imageUrl}
         _id={_id}
+        name={name}
         index={index}
-        onPress={onPressLanguage}
+        imageUrl={imageUrl}
+        onPress={onSelectCard}
       />
     );
   };
@@ -100,7 +115,7 @@ const Intrested = (props: any) => {
   );
 };
 
-export default Intrested;
+export default React.memo(Intrested);
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -111,20 +126,20 @@ const styles = StyleSheet.create({
     opacity: 0.15,
   },
   detailsDescriptionContainer: {
-    marginHorizontal: normalize(60),
     width: '70%',
+    marginHorizontal: normalize(60),
   },
   titleText: {
-    fontFamily: Fonts.muliBold,
-    fontSize: normalize(14),
     textAlign: 'center',
+    fontSize: normalize(14),
     lineHeight: normalize(27),
+    fontFamily: Fonts.muliBold,
   },
   descriptionTextStyle: {
-    fontFamily: Fonts.muliRegular,
-    fontSize: normalize(14),
     textAlign: 'center',
+    fontSize: normalize(14),
     lineHeight: normalize(27),
+    fontFamily: Fonts.muliRegular,
   },
   nextButtonCon: {
     flex: 0.12,

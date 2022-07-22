@@ -31,8 +31,6 @@ interface Props {
 }
 
 const CustomInput = (props: Props) => {
-  console.log('render');
-
   const [eyeVisble, setEyeVisble] = useState(true);
   const {
     leftIcon,
@@ -91,7 +89,6 @@ const CustomInput = (props: Props) => {
 
 const styles = StyleSheet.create({
   parentContainer: {
-    // flex: 1,
     flexDirection: 'row',
     height: normalize(50),
     borderRadius: normalize(10),

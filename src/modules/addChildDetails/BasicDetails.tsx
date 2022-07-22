@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   Text,
   View,
@@ -7,22 +8,21 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {normalize} from '../../utils/Dimensions';
 import {
   CustomActionButton,
   CustomTextInput,
   CustomProgressBar,
 } from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useCallback, useState} from 'react';
+import {normalize} from '../../utils/Dimensions';
 import ActionType from '../../actions/ActionType';
+import ScreenNames from '../../utils/ScreenNames';
+import {useDispatch, useSelector} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Color, Fonts, LocalImages, String} from '../../utils';
 import {showAlert, showToast} from '../../utils/CommonFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import moment from 'moment';
-import ScreenNames from '../../utils/ScreenNames';
+import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 
 interface Props {
   screenType: Function;
@@ -31,11 +31,10 @@ const BasicDetails = (props: Props) => {
   const {screenType} = props;
   let loginUserName = 'fabio';
   const dispatch = useDispatch();
-  const {name, DOB, profileImg, location, schoolName} = useSelector(
+  const {name, DOB, profileImg, location, schoolName, gender} = useSelector(
     (state: any) => state.childReducer,
   );
   const [check, isCheck] = useState('');
-  const [date, setDate] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   /**
@@ -54,29 +53,34 @@ const BasicDetails = (props: Props) => {
       type: ActionType.CHILD_DOB,
       payload: {DOB: moment(date).format('DD-MM-YYYY')},
     });
-    setDate(date);
     hideDatePicker();
   };
 
   /**
    * @description school name input handle
    */
-  const onChangeSchoolName = useCallback((value: string) => {
-    return dispatch({
-      type: ActionType.CHILD_NAME,
-      payload: {schoolName: value},
-    });
-  }, []);
+  const onChangeSchoolName = useCallback(
+    (value: string) => {
+      return dispatch({
+        type: ActionType.CHILD_NAME,
+        payload: {schoolName: value},
+      });
+    },
+    [schoolName],
+  );
 
   /**
    * @description location input handle
    */
-  const onChangeLocation = useCallback((value: string) => {
-    return dispatch({
-      type: ActionType.CHILD_NAME,
-      payload: {location: value},
-    });
-  }, []);
+  const onChangeLocation = useCallback(
+    (value: string) => {
+      return dispatch({
+        type: ActionType.CHILD_NAME,
+        payload: {location: value},
+      });
+    },
+    [location],
+  );
 
   /**
    *
@@ -136,7 +140,6 @@ const BasicDetails = (props: Props) => {
           type: ActionType.CHILD_PROFILE_IMAGE,
           payload: {profileImg: childImage},
         });
-        showToast(String.profilePicUpdated);
       })
       .catch(error => {
         console.log(error);
@@ -155,7 +158,7 @@ const BasicDetails = (props: Props) => {
   };
   const minimumDate = () => {
     let date = new Date();
-    date.setFullYear(date.getFullYear() - 10);
+    date.setFullYear(date.getFullYear() - 18);
     return date;
   };
 

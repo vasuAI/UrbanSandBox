@@ -1,20 +1,21 @@
-import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {
+  CustomTextInput,
+  CustomProgressBar,
+  CustomActionButton,
+} from '../../components';
+import {useDispatch} from 'react-redux';
+import EndPoint from '../../utils/EndPoint';
+import WebService from '../../utils/WebService';
+import {LanguageRenderItem} from '../../modals';
+import {normalize} from '../../utils/Dimensions';
+import ActionType from '../../actions/ActionType';
+import ScreenNames from '../../utils/ScreenNames';
+import {showToast} from '../../utils/CommonFunction';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {
-  CustomActionButton,
-  CustomProgressBar,
-  CustomTextInput,
-} from '../../components';
-import {normalize} from '../../utils/Dimensions';
+import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
-import WebService from '../../utils/WebService';
-import EndPoint from '../../utils/EndPoint';
-import ActionType from '../../actions/ActionType';
-import {useDispatch} from 'react-redux';
-import {LanguageRenderItem} from '../../modals';
-import ScreenNames from '../../utils/ScreenNames';
 
 let selected: any = [];
 interface Props {
@@ -27,11 +28,15 @@ const LangSpoken = (props: Props) => {
   const dispatch: Function = useDispatch();
 
   const _onPressActionBtn = () => {
-    screenType(ScreenNames.INTERESTED);
-    dispatch({
-      type: ActionType.LANGUAGE_SPOKEN,
-      payload: {langSpoken: [...selected]},
-    });
+    if (selected.length != 0) {
+      screenType(ScreenNames.INTERESTED);
+      dispatch({
+        type: ActionType.LANGUAGE_SPOKEN,
+        payload: {langSpoken: [...selected]},
+      });
+    } else {
+      showToast(String.showEmptyFieldError);
+    }
   };
 
   /**
@@ -74,10 +79,10 @@ const LangSpoken = (props: Props) => {
     const {title, _id, __v} = item;
     return (
       <LanguageCardItem
-        title={title}
         _id={_id}
-        onPress={onSelectlanguage}
         __v={__v}
+        title={title}
+        onPress={onSelectlanguage}
       />
     );
   };
@@ -89,7 +94,7 @@ const LangSpoken = (props: Props) => {
       <CustomHeader2
         title={String.languageSpoken}
         icon={true}
-        screenType="LANG_INTEREST"
+        screenType={ScreenNames.LANG_INTEREST}
       />
       <CustomProgressBar curntStatus={3} />
       <View style={styles.detailsDescriptionContainer}>
@@ -106,7 +111,11 @@ const LangSpoken = (props: Props) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
-      <FlatList data={data} renderItem={_renderItem} />
+      <FlatList
+        data={data}
+        renderItem={_renderItem}
+        contentContainerStyle={styles.contentContainerStyle}
+      />
 
       <CustomActionButton // button next
         title={String.next}
@@ -117,7 +126,7 @@ const LangSpoken = (props: Props) => {
   );
 };
 
-export default LangSpoken;
+export default React.memo(LangSpoken);
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -148,14 +157,17 @@ const styles = StyleSheet.create({
     width: normalize(14),
   },
   customContainerStyle: {
-    marginHorizontal: normalize(20),
     height: normalize(36),
     width: normalize(335),
-    // backgroundColor: 'red',
+    marginHorizontal: normalize(20),
   },
   nextButtonCon: {
-    flex: 0.25,
+    flex: 0.12,
     marginBottom: normalize(34),
     backgroundColor: Color.twilightBlue,
+  },
+  contentContainerStyle: {
+    flex: 1,
+    marginHorizontal: 10,
   },
 });

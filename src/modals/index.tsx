@@ -44,3 +44,8 @@ export interface InterstedRenderItem {
 export interface UserDetails {
   userDetails: userDetailsType;
 }
+
+export interface NodeProps {
+  index: number;
+  elements: number;
+}

@@ -1,20 +1,21 @@
 import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import {useDispatch} from 'react-redux';
 import {
-  CustomActionButton,
-  CustomProgressBar,
   CustomTextInput,
+  CustomProgressBar,
+  CustomActionButton,
 } from '../../components';
 import {normalize} from '../../utils/Dimensions';
 import WebService from '../../utils/WebService';
 import EndPoint from '../../utils/EndPoint';
-import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
-import {useDispatch} from 'react-redux';
 import ActionType from '../../actions/ActionType';
 import {LanguageRenderItem} from '../../modals';
 import ScreenNames from '../../utils/ScreenNames';
+import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
+import {showToast} from '../../utils/CommonFunction';
 
 var selected: Array<any> = [];
 
@@ -26,13 +27,26 @@ const LangInterest = (props: Props) => {
   const [data, setData] = useState<Array<any>>([]);
   const dispatch = useDispatch();
   const childerName = 'Skye';
+
+  /**
+   *
+   */
   const _onPressActionBtn = () => {
-    screenType(ScreenNames.LANG_SPOKEN);
-    dispatch({
-      type: ActionType.LANGUAGE_INTERSTED,
-      payload: {langInterested: [...selected]},
-    });
+    if (selected.length != 0) {
+      screenType(ScreenNames.LANG_SPOKEN);
+      dispatch({
+        type: ActionType.LANGUAGE_INTERSTED,
+        payload: {langInterested: [...selected]},
+      });
+    } else {
+      showToast(String.showEmptyFieldError);
+    }
   };
+
+  /**
+   *
+   * @param _id
+   */
   const onPressLanguage = (_id: string) => {
     let index = data.findIndex((current: any) => current?._id === _id);
     if (index != -1) {
@@ -51,6 +65,7 @@ const LangInterest = (props: Props) => {
     }
   };
 
+  //api hit
   useEffect(() => {
     WebService.getApiCall(
       EndPoint.GET_LANGUAGES_PARENT,
@@ -60,14 +75,20 @@ const LangInterest = (props: Props) => {
       () => {},
     );
   }, []);
+
+  /**
+   *
+   * @param item
+   * @returns
+   */
   const _renderItem = ({item}: {item: LanguageRenderItem}) => {
     const {title, _id, __v} = item;
     return (
       <LanguageCardItem
-        title={title}
         _id={_id}
-        onPress={onPressLanguage}
         __v={__v}
+        title={title}
+        onPress={onPressLanguage}
       />
     );
   };
@@ -92,7 +113,11 @@ const LangInterest = (props: Props) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
-      <FlatList data={data} renderItem={_renderItem} />
+      <FlatList
+        data={data}
+        renderItem={_renderItem}
+        contentContainerStyle={styles.contentContainerStyle}
+      />
       <CustomActionButton // button next
         title={String.next}
         onPress={_onPressActionBtn}
@@ -133,13 +158,17 @@ const styles = StyleSheet.create({
     width: normalize(14),
   },
   customContainerStyle: {
-    marginHorizontal: normalize(20),
     height: normalize(36),
     width: normalize(335),
+    marginHorizontal: normalize(20),
   },
   nextButtonCon: {
-    flex: 0.25,
+    flex: 0.12,
     marginBottom: normalize(34),
     backgroundColor: Color.twilightBlue,
+  },
+  contentContainerStyle: {
+    flex: 1,
+    marginHorizontal: 10,
   },
 });

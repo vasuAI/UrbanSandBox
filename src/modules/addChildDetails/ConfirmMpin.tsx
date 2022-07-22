@@ -2,18 +2,15 @@ import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {
-  CustomActionButton,
-  CustomProgressBar,
-  CustomTextInput,
-} from '../../components';
+import {CustomActionButton, CustomProgressBar} from '../../components';
 import {normalize} from '../../utils/Dimensions';
+import ScreenNames from '../../utils/ScreenNames';
 
 const ConfirmMpin = (props: any) => {
   const {screenType} = props;
 
   const _onPressActionBtn = () => {
-    screenType('SUCCESS');
+    screenType(ScreenNames.SUCCESS);
   };
   return (
     <ImageBackground
@@ -70,7 +67,6 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(20),
     height: normalize(36),
     width: normalize(335),
-    // backgroundColor: 'red',
   },
   nextButtonCon: {
     flex: 0.12,
