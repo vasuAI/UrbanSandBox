@@ -41,15 +41,13 @@ const postApiCall = (
 
 const getApiCall = (
   endPoint: string,
-  params: any,
   successCallback: Function,
   errorCallback: Function,
 ) => {
   Common.axiosInstance
-    .get(endPoint, params)
+    .get(endPoint)
     .then((response: any) => {
-      const {data} = response;
-      successCallback(data);
+      successCallback(response);
     })
     .catch((error: any) => {
       handleApiError(error);

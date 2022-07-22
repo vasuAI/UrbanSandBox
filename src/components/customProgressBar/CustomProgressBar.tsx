@@ -8,14 +8,19 @@ const lastElement = arr.length - 1;
 interface Props {
   curntStatus: number;
 }
+interface NodeProps {
+  index: number;
+  elements: number;
+}
 const CustomProgressBar = (props: Props) => {
-  console.log(
-    '🚀 ~ file: CustomProgressBar.tsx ~ line 12 ~ CustomProgressBar ~ props',
-  );
-
   const {curntStatus} = props;
 
-  const Node = (props: any) => {
+  /**
+   *
+   * @param props
+   * @returns
+   */
+  const Node = (props: NodeProps) => {
     const {elements, index} = props;
     return (
       <>
@@ -27,7 +32,10 @@ const CustomProgressBar = (props: Props) => {
           {index >= curntStatus - 1 ? (
             <Text>{elements}</Text>
           ) : (
-            <Image source={LocalImages.checkIcon} style={styles.iconStyle} />
+            <Image
+              source={LocalImages.checkIconBlack}
+              style={styles.iconStyle}
+            />
           )}
         </View>
         {index < lastElement ? (

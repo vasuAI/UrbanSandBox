@@ -48,10 +48,10 @@ const BasicDetails = (props: Props) => {
    * @description date of birth input handle
    */
 
-  const handleConfirm = (date: string) => {
+  const handleConfirm: any = (date: string) => {
     dispatch({
       type: ActionType.CHILD_DOB,
-      DOB: date,
+      payload: {DOB: moment(date).format('DD-MM-YYYY')},
     });
     setDate(date);
     hideDatePicker();
@@ -103,22 +103,22 @@ const BasicDetails = (props: Props) => {
    * @return error message
    */
   const _onPressNext = useCallback(() => {
-    screenType('LANG_INTEREST');
-    // if (
-    //   name.trim().length === 0 ||
-    //   location.trim().length === 0 ||
-    //   schoolName.trim().length === 0
-    // )
-    //   showToast(String.showEmptyFieldError);
-    // else if (name.length <= 2) {
-    //   showToast('String.Name_ERROR');
-    // } else if (schoolName.length <= 4) {
-    //   showToast(String.errorSchoolName);
-    // } else if (location.trim().length <= 4) {
-    //   showToast(String.errorLocation);
-    // } else {
-    //   screenType('LANG_INTEREST');
-    // }
+    if (
+      name.trim().length === 0 ||
+      location.trim().length === 0 ||
+      schoolName.trim().length === 0 ||
+      DOB.trim().length === 0
+    )
+      showToast(String.showEmptyFieldError);
+    else if (name.length <= 2) {
+      showToast('String.Name_ERROR');
+    } else if (schoolName.length <= 4) {
+      showToast(String.errorSchoolName);
+    } else if (location.trim().length <= 4) {
+      showToast(String.errorLocation);
+    } else {
+      screenType('LANG_INTEREST');
+    }
   }, [name, DOB, schoolName, location]);
 
   const _onPressUploadPic = () => {
@@ -137,6 +137,11 @@ const BasicDetails = (props: Props) => {
         console.log(error);
         showAlert(error);
       });
+  };
+  const maximumDate = () => {
+    let date = new Date();
+    date.setFullYear(date.getFullYear() - 2);
+    return date;
   };
 
   return (
@@ -231,11 +236,11 @@ const BasicDetails = (props: Props) => {
       </ScrollView>
       <DateTimePicker
         mode="date"
+        date={maximumDate()}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
+        maximumDate={maximumDate()}
         isVisible={isDatePickerVisible}
-        // maximumDate={maximumDate()}
-        // date={maximumDate()}
       />
     </ImageBackground>
   );

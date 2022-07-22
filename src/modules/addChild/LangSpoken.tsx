@@ -1,5 +1,5 @@
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import {
@@ -8,13 +8,31 @@ import {
   CustomTextInput,
 } from '../../components';
 import {normalize} from '../../utils/Dimensions';
+import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
+import WebService from '../../utils/WebService';
+import EndPoint from '../../utils/EndPoint';
 
 const LangSpoken = (props: any) => {
   const {screenType} = props;
   const childerName = 'Skye';
+  const [data, setData] = useState([]);
 
   const _onPressActionBtn = () => {
     screenType('INTERESTED');
+  };
+
+  useEffect(() => {
+    WebService.getApiCall(
+      EndPoint.GET_LANGUAGES_PARENT,
+      (response: any) => {
+        setData(response.data.result.data);
+      },
+      () => {},
+    );
+  }, []);
+  const _renderItem = ({item}: any) => {
+    const {title, _id} = item;
+    return <LanguageCardItem title={title} id={_id} />;
   };
   return (
     <ImageBackground
@@ -41,6 +59,8 @@ const LangSpoken = (props: any) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
+      <FlatList data={data} renderItem={_renderItem} />
+
       <CustomActionButton // button next
         title={String.next}
         onPress={_onPressActionBtn}
@@ -87,8 +107,8 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
   nextButtonCon: {
-    flex: 0.12,
-    marginTop: normalize(34),
+    flex: 0.25,
+    marginBottom: normalize(34),
     backgroundColor: Color.twilightBlue,
   },
 });

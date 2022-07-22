@@ -6,10 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import ScreenNames from '../../utils/ScreenNames';
 
 const CustomHeader2 = (props: any) => {
-  const {screenType} = props;
   const navigation: any = useNavigation();
 
-  const _navigate = () => navigation;
   const {title, text, image1, image2, image3, icon} = props;
 
   return (
@@ -17,8 +15,7 @@ const CustomHeader2 = (props: any) => {
       <View style={styles.headerChildContainer}>
         {icon && (
           <TouchableOpacity
-            onPress={() => navigation.replace(ScreenNames.ADD_CHILD)}
-            style={{}}>
+            onPress={() => navigation.replace(ScreenNames.ADD_CHILD)}>
             <Image source={LocalImages.backIcon} style={styles.backIconSty} />
           </TouchableOpacity>
         )}

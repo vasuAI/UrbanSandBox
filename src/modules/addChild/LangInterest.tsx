@@ -1,5 +1,12 @@
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import {
@@ -8,12 +15,32 @@ import {
   CustomTextInput,
 } from '../../components';
 import {normalize} from '../../utils/Dimensions';
+import WebService from '../../utils/WebService';
+import EndPoint from '../../utils/EndPoint';
+import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
 
 const LangInterest = (props: any) => {
   const {screenType} = props;
+  const [data, setData] = useState([]);
+  console.log('data', data);
+
   const childerName = 'Skye';
   const _onPressActionBtn = () => {
     screenType('LANG_SPOKEN');
+  };
+
+  useEffect(() => {
+    WebService.getApiCall(
+      EndPoint.GET_LANGUAGES_PARENT,
+      (response: any) => {
+        setData(response.data.result.data);
+      },
+      () => {},
+    );
+  }, []);
+  const _renderItem = ({item}: any) => {
+    const {title, _id} = item;
+    return <LanguageCardItem title={title} id={_id} />;
   };
   return (
     <ImageBackground
@@ -36,6 +63,7 @@ const LangInterest = (props: any) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
+      <FlatList data={data} renderItem={_renderItem} />
       <CustomActionButton // button next
         title={String.next}
         onPress={_onPressActionBtn}
@@ -45,7 +73,7 @@ const LangInterest = (props: any) => {
   );
 };
 
-export default LangInterest;
+export default React.memo(LangInterest);
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -79,11 +107,10 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(20),
     height: normalize(36),
     width: normalize(335),
-    // backgroundColor: 'red',
   },
   nextButtonCon: {
-    flex: 0.12,
-    marginTop: normalize(34),
+    flex: 0.25,
+    marginBottom: normalize(34),
     backgroundColor: Color.twilightBlue,
   },
 });

@@ -56,22 +56,22 @@ const AddChild = () => {
 
   const params = {};
 
-  dispatch(
-    ChildAction.languageApiHit(
-      params,
-      (success: any) => {
-        if (success) {
-          console.dir('Success', success);
-        }
-      },
-      (failure: any) => {
-        console.dir(
-          '🚀 ~ file: AddChild.tsx ~ line 63 ~ AddChild ~ failure',
-          failure,
-        );
-      },
-    ),
-  );
+  // dispatch(
+  //   ChildAction.languageApiHit(
+  //     params,
+  //     (success: any) => {
+  //       if (success) {
+  //         console.dir('Success', success);
+  //       }
+  //     },
+  //     (failure: any) => {
+  //       console.dir(
+  //         '🚀 ~ file: AddChild.tsx ~ line 63 ~ AddChild ~ failure',
+  //         failure,
+  //       );
+  //     },
+  //   ),
+  // );
   const _renderItem = () => {
     return (
       <TouchableOpacity
