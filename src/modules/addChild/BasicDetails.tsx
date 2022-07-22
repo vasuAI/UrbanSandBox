@@ -47,9 +47,15 @@ const BasicDetails = (props: Props) => {
   /**
    * @description date of birth input handle
    */
-  // const onChangeDOB = useCallback((value: string) => {
-  //   return dispatch({type: ActionType.CHILD_NAME, payload: {DOB: value}});
-  // }, []);
+
+  const handleConfirm = (date: string) => {
+    dispatch({
+      type: ActionType.CHILD_DOB,
+      DOB: date,
+    });
+    setDate(date);
+    hideDatePicker();
+  };
 
   /**
    * @description school name input handle
@@ -84,27 +90,35 @@ const BasicDetails = (props: Props) => {
       payload: {gender: selectedGender},
     });
   };
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
 
   /**
    * @params
    * @return error message
    */
   const _onPressNext = useCallback(() => {
-    if (
-      name.trim().length === 0 ||
-      location.trim().length === 0 ||
-      schoolName.trim().length === 0
-    )
-      showToast(String.showEmptyFieldError);
-    else if (name.length <= 2) {
-      showToast('String.Name_ERROR');
-    } else if (schoolName.length <= 4) {
-      showToast(String.errorSchoolName);
-    } else if (location.trim().length <= 4) {
-      showToast(String.errorLocation);
-    } else {
-      screenType('LANG_INTEREST');
-    }
+    screenType('LANG_INTEREST');
+    // if (
+    //   name.trim().length === 0 ||
+    //   location.trim().length === 0 ||
+    //   schoolName.trim().length === 0
+    // )
+    //   showToast(String.showEmptyFieldError);
+    // else if (name.length <= 2) {
+    //   showToast('String.Name_ERROR');
+    // } else if (schoolName.length <= 4) {
+    //   showToast(String.errorSchoolName);
+    // } else if (location.trim().length <= 4) {
+    //   showToast(String.errorLocation);
+    // } else {
+    //   screenType('LANG_INTEREST');
+    // }
   }, [name, DOB, schoolName, location]);
 
   const _onPressUploadPic = () => {
@@ -125,22 +139,6 @@ const BasicDetails = (props: Props) => {
       });
   };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date: string) => {
-    dispatch({
-      type: ActionType.CHILD_DOB,
-      DOB: date,
-    });
-    setDate(date);
-    hideDatePicker();
-  };
   return (
     <ImageBackground
       source={LocalImages.background}

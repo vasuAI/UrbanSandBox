@@ -21,6 +21,7 @@ import LangSpoken from './LangSpoken';
 import SetMpin from './SetMpin';
 import ConfirmMpin from './ConfirmMpin';
 import Success from './Success';
+import ChildAction from '../../actions/ChildAction';
 
 const AddChild = () => {
   const dispatch: Function = useDispatch();
@@ -56,15 +57,15 @@ const AddChild = () => {
   const params = {};
 
   dispatch(
-    UserAction.languageApiHit(
+    ChildAction.languageApiHit(
       params,
       (success: any) => {
         if (success) {
-          console.log(success);
+          console.dir('Success', success);
         }
       },
       (failure: any) => {
-        console.log(
+        console.dir(
           '🚀 ~ file: AddChild.tsx ~ line 63 ~ AddChild ~ failure',
           failure,
         );
