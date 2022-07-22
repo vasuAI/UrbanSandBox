@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {normalize} from '../../utils/Dimensions';
 import {Color, Fonts, LocalImages, String} from '../../utils';
+import {Constants} from '../../utils';
 
 /**
  *
@@ -16,16 +17,6 @@ import {Color, Fonts, LocalImages, String} from '../../utils';
  * @returns flatlist data
  */
 
-const colorArray = [
-  Color.paleLavender,
-  Color.beige,
-  Color.lightKhaki,
-  Color.duckEggBlue,
-  Color.veryLightPink,
-  Color.beige,
-  Color.lightKhaki,
-  Color.duckEggBlue,
-];
 interface commentDetail {
   name: string;
   body: string;
@@ -62,7 +53,7 @@ const RenderFlatlist = (props: Props) => {
     <View
       style={[
         styles.parentContainer,
-        {backgroundColor: colorArray[(id % 7) - 1]},
+        {backgroundColor: Constants.colorArray[(id % 7) - 1]},
       ]}>
       <View style={styles.cardHeaderContainer}>
         <Image source={LocalImages.demoDp} style={styles.profileIcon} />
@@ -216,3 +207,6 @@ const styles = StyleSheet.create({
   },
 });
 export default React.memo(RenderFlatlist);
+function colorArray(arg0: string, colorArray: any) {
+  throw new Error('Function not implemented.');
+}

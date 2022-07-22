@@ -7,38 +7,39 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {CustomActionButton, CustomProgressBar} from '../../components';
-import {normalize} from '../../utils/Dimensions';
+import React, {useEffect, useState} from 'react';
+import {Color, Fonts, LocalImages, String} from '../../../utils';
+import CustomHeader2 from '../../../components/customHeader/CustomHeader2';
+import {CustomActionButton, CustomProgressBar} from '../../../components';
+import {normalize} from '../../../utils/Dimensions';
+import InteresetCard from './InteresetCard';
+import WebService from '../../../utils/WebService';
+import EndPoint from '../../../utils/EndPoint';
 
 const Intrested = (props: any) => {
   const {screenType} = props;
   const childerName = 'Skye';
-  const data = [1, 2, 3, 4, 5, 6];
+  const [data, setData] = useState([]);
   const _onPressActionBtn = () => {
     screenType('SET_MPIN');
   };
-
-  const _renderItem = ({item}: any) => {
+  useEffect(() => {
+    WebService.getApiCall(
+      EndPoint.GET_INTERESTPARENT,
+      (response: any) => {
+        console.log(
+          '🚀 ~ file: Intrested.tsx ~ line 30 ~ useEffect ~ response',
+          response,
+        );
+        setData(response.data.result.data);
+      },
+      () => {},
+    );
+  }, []);
+  const _renderItem = ({item, index}: any) => {
+    const {name, imageUrl, _id} = item;
     return (
-      <TouchableOpacity
-        style={{
-          height: 145,
-          width: 145,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'green',
-          margin: 10,
-          borderWidth: 2,
-          borderColor: Color.twilightBlue,
-        }}>
-        <View style={styles.checkIcon}>
-          <Image source={LocalImages.checkIconWhite} />
-        </View>
-        <Text>{'hello'}</Text>
-      </TouchableOpacity>
+      <InteresetCard name={name} imageUrl={imageUrl} _id={_id} index={index} />
     );
   };
   return (
@@ -58,11 +59,7 @@ const Intrested = (props: any) => {
         renderItem={_renderItem}
         numColumns={2}
         horizontal={false}
-        contentContainerStyle={{
-          flex: 1,
-          marginHorizontal: 40,
-          // backgroundColor: 'red',
-        }}
+        contentContainerStyle={styles.contentContainerStyle}
       />
       <CustomActionButton // button next
         title={String.next}
@@ -104,12 +101,8 @@ const styles = StyleSheet.create({
     marginBottom: normalize(40),
     backgroundColor: Color.twilightBlue,
   },
-  checkIcon: {
-    position: 'absolute',
-    left: 125,
-    bottom: 295,
-    padding: 2,
-    borderRadius: normalize(50),
-    backgroundColor: Color.twilightBlue,
+  contentContainerStyle: {
+    flex: 1,
+    marginHorizontal: 25,
   },
 });

@@ -14,7 +14,7 @@ import LangInterest from './LangInterest';
 import {normalize} from '../../utils/Dimensions';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import Intrested from './Intrested';
+import Intrested from './Interested/Intrested';
 import {UserAction} from '../../actions';
 import {useDispatch} from 'react-redux';
 import LangSpoken from './LangSpoken';
