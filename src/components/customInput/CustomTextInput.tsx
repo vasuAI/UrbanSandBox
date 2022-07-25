@@ -18,27 +18,33 @@ import localImages from '../../utils/LocalImages';
  */
 
 interface Props {
+  ref?: any;
   value?: string;
+  maxLength?: number;
   leftIcon?: any;
   rigtIcon?: any;
   onChangeText: any;
-  placeholder: string;
+  placeholder?: string;
   rigtHiddenIcon?: any;
   secureTextEntry?: boolean;
   customContainerStyle?: any;
   customLefticonStyle?: any;
+  CustomTextInputStyle?: any;
   keyboardType?: KeyboardTypeOptions;
 }
 
 const CustomInput = (props: Props) => {
   const [eyeVisble, setEyeVisble] = useState(true);
   const {
+    ref,
     leftIcon,
+    maxLength,
     placeholder,
     onChangeText,
     keyboardType,
     secureTextEntry,
     customLefticonStyle,
+    CustomTextInputStyle,
     customContainerStyle,
   } = props;
 
@@ -60,18 +66,22 @@ const CustomInput = (props: Props) => {
 
   return (
     <View style={[styles.parentContainer, customContainerStyle]}>
-      <Image
-        source={leftIcon}
-        style={[styles.leftIconSty, customLefticonStyle]}
-      />
+      {leftIcon && (
+        <Image
+          source={leftIcon}
+          style={[styles.leftIconSty, customLefticonStyle]}
+        />
+      )}
       <TextInput
+        ref={ref}
         value={props.value}
         autoCapitalize="none"
-        style={styles.container}
+        style={[styles.container, CustomTextInputStyle]}
         placeholder={placeholder}
         keyboardType={keyboardType}
         onChangeText={handleChangeText}
         placeholderTextColor={Color.grey}
+        maxLength={maxLength}
         secureTextEntry={secureTextEntry && eyeVisble}
       />
 

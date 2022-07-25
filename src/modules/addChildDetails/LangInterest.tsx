@@ -1,4 +1,11 @@
-import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
 import {useDispatch} from 'react-redux';
@@ -25,6 +32,7 @@ interface Props {
 const LangInterest = (props: Props) => {
   const {screenType} = props;
   const [data, setData] = useState<Array<any>>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const childerName = 'Skye';
 
@@ -67,6 +75,7 @@ const LangInterest = (props: Props) => {
 
   //api hit
   useEffect(() => {
+    setIsLoading(true);
     WebService.getApiCall(
       EndPoint.GET_LANGUAGES_PARENT,
       (response: any) => {
@@ -74,6 +83,7 @@ const LangInterest = (props: Props) => {
       },
       () => {},
     );
+    setIsLoading(false);
   }, []);
 
   /**
@@ -113,6 +123,7 @@ const LangInterest = (props: Props) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
+      {isLoading && <ActivityIndicator size={'large'} />}
       <FlatList
         data={data}
         renderItem={_renderItem}

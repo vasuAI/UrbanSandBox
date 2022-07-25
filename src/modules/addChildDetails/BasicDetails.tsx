@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {
-  CustomActionButton,
   CustomTextInput,
   CustomProgressBar,
+  CustomActionButton,
 } from '../../components';
 import React, {useCallback, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
@@ -35,7 +35,7 @@ const BasicDetails = (props: Props) => {
     (state: any) => state.childReducer,
   );
 
-  const [check, isCheck] = useState('');
+  const [radioButtonStatus, setRadioButtonStatus] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   /**
@@ -88,8 +88,8 @@ const BasicDetails = (props: Props) => {
    * @param value
    * @returns gender Value
    */
-  const handelRadioBtn = (value: any) => {
-    isCheck(value);
+  const handelRadioBtn = (value: string) => {
+    setRadioButtonStatus(value);
     let selectedGender = value;
     return dispatch({
       type: ActionType.GENDER,
@@ -119,7 +119,7 @@ const BasicDetails = (props: Props) => {
     )
       showToast(String.showEmptyFieldError);
     else if (name.length <= 2) {
-      showToast('String.Name_ERROR');
+      showToast(String.errorName);
     } else if (schoolName.length <= 4) {
       showToast(String.errorSchoolName);
     } else if (location.trim().length <= 4) {
@@ -175,7 +175,7 @@ const BasicDetails = (props: Props) => {
         title={String.basicDetails}
       />
       <ScrollView style={styles.childContainer}>
-        <CustomProgressBar curntStatus={0} />
+        <CustomProgressBar curntStatus={1} />
         <View style={styles.detailsDescriptionContainer}>
           <Text
             style={styles.titleText}>{`${String.hey} ${loginUserName},`}</Text>
@@ -235,14 +235,13 @@ const BasicDetails = (props: Props) => {
           leftIcon={LocalImages.location}
           customContainerStyle={styles.textContainerStyle}
         />
-
         <Text style={styles.genderContainer}>{String.gender}</Text>
         <View style={styles.genderSelectionView}>
           <TouchableOpacity // radio btn gender
             onPress={() => handelRadioBtn(String.girl)}
             style={[
               styles.radioButtonStyle,
-              check === String.girl && styles.radioButtonActive,
+              radioButtonStatus === String.girl && styles.radioButtonActive,
             ]}
           />
           <Text style={styles.genderSelectionTextStyle}>{String.girl}</Text>
@@ -250,7 +249,7 @@ const BasicDetails = (props: Props) => {
             onPress={() => handelRadioBtn(String.boy)}
             style={[
               styles.radioButtonStyle,
-              check === String.boy && styles.radioButtonActive,
+              radioButtonStatus === String.boy && styles.radioButtonActive,
             ]}
           />
           <Text style={styles.genderSelectionTextStyle}>{String.boy}</Text>
@@ -289,28 +288,28 @@ const styles = StyleSheet.create({
     opacity: 0.15,
   },
   detailsDescriptionContainer: {
-    marginHorizontal: normalize(60),
     width: '70%',
+    marginHorizontal: normalize(60),
   },
   titleText: {
-    fontFamily: Fonts.muliBold,
-    fontSize: normalize(14),
     textAlign: 'center',
+    fontSize: normalize(14),
     lineHeight: normalize(27),
+    fontFamily: Fonts.muliBold,
   },
   descriptionTextStyle: {
-    fontFamily: Fonts.muliRegular,
-    fontSize: normalize(14),
     textAlign: 'center',
+    fontSize: normalize(14),
     lineHeight: normalize(27),
+    fontFamily: Fonts.muliRegular,
   },
   profileContiner: {
     alignSelf: 'center',
-    backgroundColor: Color.duckEggBlue,
-    height: normalize(100),
     width: normalize(100),
+    height: normalize(100),
     borderRadius: normalize(50),
     marginVertical: normalize(18),
+    backgroundColor: Color.duckEggBlue,
   },
   imageContainer: {
     width: '100%',
@@ -348,18 +347,7 @@ const styles = StyleSheet.create({
     marginLeft: normalize(16),
     lineHeight: normalize(25),
   },
-  // radioOuterView: {
-  //   alignItems: 'center',
-  //   width: normalize(20),
-  //   height: normalize(20),
-  //   borderColor: Color.grey,
-  //   justifyContent: 'center',
-  //   borderWidth: normalize(1),
-  //   borderRadius: normalize(10),
-  // },
   radioButtonStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
     width: normalize(20),
     height: normalize(20),
     borderColor: Color.grey,
@@ -371,13 +359,6 @@ const styles = StyleSheet.create({
     borderRadius: normalize(10),
     borderColor: Color.twilightBlue,
   },
-  // radioInnnerView: {
-  //   width: normalize(20),
-  //   height: normalize(20),
-  //   borderWidth: normalize(5),
-  //   borderRadius: normalize(10),
-  //   borderColor: Color.twilightBlue,
-  // },
   genderSelectionView: {
     flexDirection: 'row',
     width: normalize(140),
@@ -409,17 +390,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: normalize(50),
-    borderWidth: normalize(1),
     borderColor: Color.wheat,
+    borderWidth: normalize(1),
     borderRadius: normalize(10),
-    marginHorizontal: normalize(16),
     marginVertical: normalize(6),
+    marginHorizontal: normalize(16),
   },
   dateImage: {
     marginLeft: normalize(12),
   },
   dateText: {
-    // opacity: 0.7,
     color: Color.grey,
     fontSize: normalize(16),
     marginLeft: normalize(10),

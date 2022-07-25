@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
   rootContainer: {
     height: normalize(145),
     width: normalize(145),
-    justifyContent: 'center',
     alignItems: 'center',
     margin: normalize(10),
+    justifyContent: 'center',
     borderRadius: normalize(5),
   },
   checkIcon: {

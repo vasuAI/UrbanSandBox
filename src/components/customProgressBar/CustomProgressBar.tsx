@@ -25,7 +25,7 @@ const CustomProgressBar = (props: Props) => {
         <View
           style={[
             styles.nodeContainer,
-            index >= curntStatus - 1 ? null : styles.nodeContainerFilled,
+            index < curntStatus - 1 ? styles.nodeContainerFilled : null,
           ]}>
           {index >= curntStatus - 1 ? (
             <Text>{elements}</Text>
@@ -37,8 +37,7 @@ const CustomProgressBar = (props: Props) => {
           )}
         </View>
         {index < lastElement ? (
-          <Text
-            style={[index >= curntStatus - 1 ? null : styles.linkNodeStyle]}>
+          <Text style={[index < curntStatus - 1 ? styles.linkNodeStyle : null]}>
             ___
           </Text>
         ) : null}
