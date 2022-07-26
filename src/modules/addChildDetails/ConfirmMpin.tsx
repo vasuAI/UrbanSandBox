@@ -5,6 +5,7 @@ import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import {CustomActionButton, CustomProgressBar} from '../../components';
 import {normalize} from '../../utils/Dimensions';
 import ScreenNames from '../../utils/ScreenNames';
+import OtpScreen from '../../components/otpScreen/OtpScreen';
 
 const ConfirmMpin = (props: any) => {
   const {screenType} = props;
@@ -24,6 +25,7 @@ const ConfirmMpin = (props: any) => {
           {String.setMpinDescription}
         </Text>
       </View>
+      <OtpScreen />
       <CustomActionButton // button next
         title={String.next}
         onPress={_onPressActionBtn}
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
   },
   nextButtonCon: {
     flex: 0.12,
-    marginTop: normalize(34),
+    marginBottom: normalize(40),
     backgroundColor: Color.twilightBlue,
   },
 });

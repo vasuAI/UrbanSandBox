@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import {Color} from '../../utils';
 import {normalize} from '../../utils/Dimensions';
 
 /**
@@ -40,6 +41,7 @@ const CustomActionButton = (props: Props) => {
 
   return (
     <TouchableOpacity
+      // disabled={true}
       activeOpacity={activeOpacity}
       onPress={() => onPress()}
       style={[styles.parentContainer, customContainerStyle]}>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: normalize(50),
     justifyContent: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: Color.black,
     marginVertical: normalize(8),
     borderRadius: normalize(10),
     marginHorizontal: normalize(16),
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     marginRight: normalize(2),
   },
   titleStyle: {
-    color: '#ffffff',
+    color: Color.white,
     fontSize: normalize(18),
   },
   childContainer: {

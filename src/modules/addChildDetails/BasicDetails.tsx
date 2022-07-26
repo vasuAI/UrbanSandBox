@@ -4,6 +4,7 @@ import {
   View,
   Image,
   ScrollView,
+  Platform,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
@@ -13,7 +14,7 @@ import {
   CustomProgressBar,
   CustomActionButton,
 } from '../../components';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
 import ActionType from '../../actions/ActionType';
 import ScreenNames from '../../utils/ScreenNames';
@@ -23,6 +24,9 @@ import {Color, Fonts, LocalImages, String} from '../../utils';
 import {showAlert, showToast} from '../../utils/CommonFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import EndPoint from '../../utils/EndPoint';
+import WebService from '../../utils/WebService';
+import ChildAction from '../../actions/ChildAction';
 
 interface Props {
   screenType: Function;
@@ -30,14 +34,19 @@ interface Props {
 const BasicDetails = (props: Props) => {
   const {screenType} = props;
   let loginUserName = 'fabio';
-  const dispatch = useDispatch();
+  const {
+    userDetails: {
+      userData: {_id},
+    },
+  } = useSelector((state: any) => state.authReducer);
+  const dispatch: Function = useDispatch();
   const {name, DOB, profileImg, location, schoolName, gender} = useSelector(
     (state: any) => state.childReducer,
   );
 
   const [radioButtonStatus, setRadioButtonStatus] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+  const [isDisable, setIsDisable] = useState(false);
   /**
    * @description name input handle
    */
@@ -88,9 +97,9 @@ const BasicDetails = (props: Props) => {
    * @param value
    * @returns gender Value
    */
-  const handelRadioBtn = (value: string) => {
+  const handelRadioBtn = (value: string, number: number) => {
     setRadioButtonStatus(value);
-    let selectedGender = value;
+    let selectedGender = number;
     return dispatch({
       type: ActionType.GENDER,
       payload: {gender: selectedGender},
@@ -102,6 +111,36 @@ const BasicDetails = (props: Props) => {
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
+  };
+
+  const submitStep1 = () => {
+    let params = {
+      dob: DOB,
+      name: name,
+      gender: gender,
+      school: schoolName,
+      lat: 0,
+      long: 0,
+      imageUrl: profileImg,
+      stepNumber: 1,
+      address: location,
+    };
+
+    dispatch(
+      ChildAction.hitAddChildApi(
+        params,
+        (response: any) => {
+          console.log(
+            '🚀 ~ file: BasicDetails.tsx ~ line 132 ~ submitStep1 ~ response',
+            response,
+          );
+          showToast(response.message);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+      ),
+    );
   };
 
   /**
@@ -125,9 +164,9 @@ const BasicDetails = (props: Props) => {
     } else if (location.trim().length <= 4) {
       showToast(String.errorLocation);
     } else {
-      screenType(ScreenNames.LANG_INTEREST);
+      submitStep1();
     }
-  }, [name, DOB, schoolName, location, gender]);
+  }, [name, DOB, schoolName, location, gender, isDisable]);
 
   /**
    * @description upload image
@@ -137,7 +176,12 @@ const BasicDetails = (props: Props) => {
       cropping: true,
     })
       .then(image => {
-        let childImage = image.sourceURL;
+        let childImage;
+        if (Platform.OS === 'ios') {
+          childImage = image.sourceURL;
+        } else {
+          childImage = `file://${image.path}`;
+        }
         dispatch({
           type: ActionType.CHILD_PROFILE_IMAGE,
           payload: {profileImg: childImage},
@@ -238,7 +282,7 @@ const BasicDetails = (props: Props) => {
         <Text style={styles.genderContainer}>{String.gender}</Text>
         <View style={styles.genderSelectionView}>
           <TouchableOpacity // radio btn gender
-            onPress={() => handelRadioBtn(String.girl)}
+            onPress={() => handelRadioBtn(String.girl, 1)}
             style={[
               styles.radioButtonStyle,
               radioButtonStatus === String.girl && styles.radioButtonActive,
@@ -246,7 +290,7 @@ const BasicDetails = (props: Props) => {
           />
           <Text style={styles.genderSelectionTextStyle}>{String.girl}</Text>
           <TouchableOpacity
-            onPress={() => handelRadioBtn(String.boy)}
+            onPress={() => handelRadioBtn(String.boy, 2)}
             style={[
               styles.radioButtonStyle,
               radioButtonStatus === String.boy && styles.radioButtonActive,
@@ -257,6 +301,7 @@ const BasicDetails = (props: Props) => {
 
         <CustomActionButton // button next
           title={String.next}
+          // isDisable={isDisable}
           onPress={_onPressNext}
           customContainerStyle={styles.nextButtonCon}
         />

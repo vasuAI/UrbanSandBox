@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
 import ScreenNames from '../../utils/ScreenNames';
 import {Color, Fonts, LocalImages, String} from '../../utils';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  ImageBackground,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import {
   CustomActionButton,
   CustomProgressBar,
   CustomTextInput,
 } from '../../components';
+import OtpScreen from '../../components/otpScreen/OtpScreen';
 
 interface Props {
   screenType: Function;
@@ -19,6 +27,9 @@ const SetMpin = (props: Props) => {
   const _onPressActionBtn = () => {
     screenType(ScreenNames.CONFIRM_MPIN);
   };
+  useEffect(() => {
+    useRef;
+  });
   return (
     <ImageBackground
       source={LocalImages.background}
@@ -31,39 +42,10 @@ const SetMpin = (props: Props) => {
           {String.setMpinDescription}
         </Text>
       </View>
-      <View style={styles.childContainer}>
-        <CustomTextInput
-          maxLength={1}
-          onChangeText={() => console.log('')}
-          customContainerStyle={styles.customInputContainerStyle}
-          CustomTextInputStyle={styles.customInputTextStyleStyle}
-          keyboardType={'numeric'}
-        />
-        <CustomTextInput
-          maxLength={1}
-          onChangeText={() => console.log('')}
-          customContainerStyle={styles.customInputContainerStyle}
-          CustomTextInputStyle={styles.customInputTextStyleStyle}
-          keyboardType={'numeric'}
-        />
-        <CustomTextInput
-          maxLength={1}
-          onChangeText={() => console.log('')}
-          customContainerStyle={styles.customInputContainerStyle}
-          CustomTextInputStyle={styles.customInputTextStyleStyle}
-          keyboardType={'numeric'}
-        />
-        <CustomTextInput
-          maxLength={1}
-          onChangeText={() => console.log('')}
-          customContainerStyle={styles.customInputContainerStyle}
-          CustomTextInputStyle={styles.customInputTextStyleStyle}
-          keyboardType={'numeric'}
-        />
-      </View>
+      <OtpScreen />
 
       <CustomActionButton // button next
-        title={String.next}
+        title={String.add}
         onPress={_onPressActionBtn}
         customContainerStyle={styles.nextButtonCon}
       />
@@ -99,7 +81,7 @@ const styles = StyleSheet.create({
   },
   nextButtonCon: {
     flex: 0.12,
-    marginTop: normalize(34),
+    marginBottom: normalize(40),
     backgroundColor: Color.twilightBlue,
   },
   childContainer: {
@@ -120,3 +102,35 @@ const styles = StyleSheet.create({
     fontSize: normalize(24),
   },
 });
+
+{
+  /* <CustomTextInput
+
+  maxLength={1}
+  onChangeText={() => console.log('')}
+  customContainerStyle={styles.customInputContainerStyle}
+  CustomTextInputStyle={styles.customInputTextStyleStyle}
+  keyboardType={'numeric'}
+/>
+<CustomTextInput
+  maxLength={1}
+  onChangeText={() => console.log('')}
+  customContainerStyle={styles.customInputContainerStyle}
+  CustomTextInputStyle={styles.customInputTextStyleStyle}
+  keyboardType={'numeric'}
+/>
+<CustomTextInput
+  maxLength={1}
+  onChangeText={() => console.log('')}
+  customContainerStyle={styles.customInputContainerStyle}
+  CustomTextInputStyle={styles.customInputTextStyleStyle}
+  keyboardType={'numeric'}
+/>
+<CustomTextInput
+  maxLength={1}
+  onChangeText={() => console.log('')}
+  customContainerStyle={styles.customInputContainerStyle}
+  CustomTextInputStyle={styles.customInputTextStyleStyle}
+  keyboardType={'numeric'}
+/> */
+}

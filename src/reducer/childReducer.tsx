@@ -33,6 +33,8 @@ const childReducer = (state = initialState, action: actionType) => {
       return {...state, ...payload};
     case ActionType.LANGUAGE_SPOKEN:
       return {...state, ...payload};
+    case ActionType.ADD_CHILD:
+      return {...state, ...payload};
     default:
       return state;
   }

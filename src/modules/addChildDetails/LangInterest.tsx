@@ -138,7 +138,7 @@ const LangInterest = (props: Props) => {
   );
 };
 
-export default React.memo(LangInterest);
+export default LangInterest;
 
 const styles = StyleSheet.create({
   parentContainer: {

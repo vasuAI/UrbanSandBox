@@ -1,2 +1,3 @@
 import UserAction from './UserAction';
-export {UserAction};
+import ChildAction from './ChildAction';
+export {UserAction, ChildAction};

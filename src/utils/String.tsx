@@ -5,6 +5,7 @@
 export default {
   hey: 'Hi',
   boy: 'Boy',
+  add: 'Add',
   girl: 'Girl',
   next: 'Next',
   skip: 'Skip',

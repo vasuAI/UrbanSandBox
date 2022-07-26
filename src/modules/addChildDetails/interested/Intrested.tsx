@@ -12,6 +12,7 @@ import {Color, Fonts, LocalImages, String} from '../../../utils';
 import CustomHeader2 from '../../../components/customHeader/CustomHeader2';
 import {CustomActionButton, CustomProgressBar} from '../../../components';
 import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
+import ChildAction from '../../../actions/ChildAction';
 
 let select: Array<any> = [];
 interface Props {
@@ -35,7 +36,7 @@ const Intrested = (props: Props) => {
   };
   useEffect(() => {
     WebService.getApiCall(
-      EndPoint.GET_INTERESTPARENT,
+      EndPoint.GET_INTEREST_PARENT,
       (response: any) => {
         setData(response.data.result.data);
       },

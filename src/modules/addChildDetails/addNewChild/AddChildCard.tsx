@@ -1,7 +1,9 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Color, LocalImages} from '../../../utils';
 import {normalize} from '../../../utils/Dimensions';
+import WebService from '../../../utils/WebService';
+import EndPoint from '../../../utils/EndPoint';
 
 const AddChildCard = (props: any) => {
   const {onPressCard} = props;
@@ -20,11 +22,11 @@ export default React.memo(AddChildCard);
 const styles = StyleSheet.create({
   rectagularContainer: {
     alignItems: 'center',
+    margin: normalize(20),
     width: normalize(145),
     height: normalize(145),
     justifyContent: 'center',
     backgroundColor: Color.white,
-    margin: normalize(20),
   },
   addIconSty: {
     height: normalize(36),

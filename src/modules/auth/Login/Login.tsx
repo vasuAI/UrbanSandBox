@@ -13,10 +13,7 @@ import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
 import {normalize} from '../../../utils/Dimensions';
 import localImage from '../../../utils/LocalImages';
-import {
-  onGooglePress,
-  logInWithEmailAndPassword,
-} from '../../../utils/CommonFunction';
+import {onGooglePress, showToast} from '../../../utils/CommonFunction';
 import {UserAction} from '../../../actions';
 import {
   CustomActionButton,
@@ -65,6 +62,7 @@ const Login = () => {
           }
         },
         (failure: any) => {
+          showToast(failure.message);
           console.log(
             '🚀 ~ file: Login.tsx ~ line 63 ~ onLoginPress ~ failure',
             failure,

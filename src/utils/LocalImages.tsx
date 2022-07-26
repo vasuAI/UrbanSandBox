@@ -12,6 +12,7 @@ export default {
   appleIcon: require('../assets/images/apple.png'),
   dateIcon: require('../assets/images/ic_date.png'),
   googleIcon: require('../assets/images/google.png'),
+  noInternet: require('../assets/images/noIntenet.jpeg'),
   sampleImg2: require('../assets/images/sample2.png'),
   sampleImg1: require('../assets/images/sample1.png'),
   seachIcon: require('../assets/images/ic-search.png'),

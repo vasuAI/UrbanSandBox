@@ -48,11 +48,11 @@ const parentLoginWithEmail = (
       EndPoint.PARENT_LOGIN,
       params,
       (response: any) => {
-        console.log('res', response);
         if (response) {
           const {message, statusCode, result} = response;
           showToast(message);
           if (statusCode == Common.STATUS_CODE.success) {
+            Common.setAuthorizationToken(result.token);
             dispatch({
               type: ActionType.SIGNUP_DETAILS,
               payload: {userDetails: result},
@@ -72,18 +72,5 @@ const parentLoginWithEmail = (
     );
   };
 };
-const languageApiHit = (params: any, success: Function, fail: Function) => {
-  return (dispatch: Function, getState: Function) => {
-    WebService.getApiCall(
-      EndPoint.GET_LANGUAGES_PARENT,
-      params,
-      (response: any) => {
-        console.log('GET_LANGUAGES_PARENT', response);
-      },
-      (error: any) => {
-        fail(error);
-      },
-    );
-  };
-};
-export default {parentSignUpWithEmail, parentLoginWithEmail, languageApiHit};
+
+export default {parentSignUpWithEmail, parentLoginWithEmail};
