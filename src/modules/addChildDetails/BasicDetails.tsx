@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
   Text,
   View,
@@ -14,18 +13,17 @@ import {
   CustomProgressBar,
   CustomActionButton,
   CustomLoader,
+  CustomHeader2,
 } from '../../components';
-import React, {useCallback, useEffect, useState} from 'react';
+import moment from 'moment';
 import {normalize} from '../../utils/Dimensions';
-import ActionType from '../../actions/ActionType';
-import ScreenNames from '../../utils/ScreenNames';
+import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {ChildAction, ActionType} from '../../actions';
 import ImagePicker from 'react-native-image-crop-picker';
-import {Color, Fonts, LocalImages, String} from '../../utils';
 import {showAlert, showToast} from '../../utils/CommonFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import ChildAction from '../../actions/ChildAction';
+import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
 interface Props {
   screenType: Function;

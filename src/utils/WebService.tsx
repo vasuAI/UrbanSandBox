@@ -1,7 +1,12 @@
 import Common from './Common';
-import {showToast} from './CommonFunction';
 import String from './String';
+import {showToast} from './CommonFunction';
 
+/**
+ *
+ * @param payload
+ * @returns toastMessage error
+ */
 const handleApiError = (payload: any) => {
   const {statusCode, message} = payload;
   switch (statusCode) {
@@ -21,6 +26,14 @@ const handleApiError = (payload: any) => {
       return showToast(String.networkErrorCode);
   }
 };
+
+/**
+ *
+ * @param endPoint
+ * @param params
+ * @param successCallback
+ * @param errorCallback
+ */
 const postApiCall = (
   endPoint: string,
   params: any,
@@ -39,6 +52,12 @@ const postApiCall = (
     });
 };
 
+/**
+ *
+ * @param endPoint
+ * @param successCallback
+ * @param errorCallback
+ */
 const getApiCall = (
   endPoint: string,
   successCallback: Function,

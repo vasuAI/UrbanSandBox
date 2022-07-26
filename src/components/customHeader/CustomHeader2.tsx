@@ -1,9 +1,8 @@
 import React from 'react';
-import {Color, Fonts, LocalImages} from '../../utils';
 import {normalize} from '../../utils/Dimensions';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import ScreenNames from '../../utils/ScreenNames';
+import {Color, Fonts, LocalImages, ScreenNames} from '../../utils';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const CustomHeader2 = (props: any) => {
   const navigation: any = useNavigation();

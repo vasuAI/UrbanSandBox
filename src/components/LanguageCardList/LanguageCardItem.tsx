@@ -1,7 +1,7 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {Color, Fonts, LocalImages} from '../../utils';
+import React from 'react';
 import {normalize} from '../../utils/Dimensions';
+import {Color, Fonts, LocalImages} from '../../utils';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 interface Props {
   _id: string;
   __v: number;

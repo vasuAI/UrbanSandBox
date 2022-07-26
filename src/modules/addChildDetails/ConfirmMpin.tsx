@@ -1,21 +1,23 @@
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {CustomActionButton, CustomProgressBar} from '../../components';
+import {ChildAction} from '../../actions';
 import {normalize} from '../../utils/Dimensions';
-import ScreenNames from '../../utils/ScreenNames';
-import OtpScreen from '../../components/otpScreen/OtpScreen';
-import ActionType from '../../actions/ActionType';
 import {showToast} from '../../utils/CommonFunction';
 import {useDispatch, useSelector} from 'react-redux';
-import {ChildAction} from '../../actions';
+import OtpScreen from '../../components/otpScreen/OtpScreen';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import {CustomActionButton, CustomProgressBar} from '../../components';
+import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
 const ConfirmMpin = (props: any) => {
   const {screenType} = props;
   const [mPin2, setMpin2] = useState('');
   const dispatch: Function = useDispatch();
   const {Mpin, childId} = useSelector((state: any) => state.childReducer);
+
+  /**
+   * @description setMpin
+   */
   const _onPressActionBtn = () => {
     if (Mpin === mPin2) {
       const params = {
@@ -75,8 +77,8 @@ const styles = StyleSheet.create({
     opacity: 0.15,
   },
   detailsDescriptionContainer: {
-    marginHorizontal: normalize(60),
     width: '70%',
+    marginHorizontal: normalize(60),
   },
   titleText: {
     fontFamily: Fonts.muliBold,

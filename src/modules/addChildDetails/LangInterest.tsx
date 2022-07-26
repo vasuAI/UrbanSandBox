@@ -21,7 +21,7 @@ import ActionType from '../../actions/ActionType';
 import {LanguageRenderItem} from '../../modals';
 import ScreenNames from '../../utils/ScreenNames';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
+import LanguageCardItem from '../../components/LanguageCardList/LanguageCardItem';
 import {showToast} from '../../utils/CommonFunction';
 import {ChildAction} from '../../actions';
 

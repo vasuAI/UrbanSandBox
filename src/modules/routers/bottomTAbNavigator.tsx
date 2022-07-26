@@ -1,10 +1,9 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import Discussion from '../discussion/Discussion';
-import ScreenNames from '../../utils/ScreenNames';
 import {Image, StyleSheet} from 'react-native';
-import {LocalImages} from '../../utils';
 import {normalize} from '../../utils/Dimensions';
+import Discussion from '../discussion/Discussion';
+import {LocalImages, ScreenNames} from '../../utils';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
 function BottmTabnavigator() {

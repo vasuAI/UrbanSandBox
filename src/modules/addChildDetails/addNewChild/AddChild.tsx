@@ -1,27 +1,34 @@
 import {
   Text,
   View,
+  Image,
   FlatList,
   StyleSheet,
   ImageBackground,
-  ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
+import {
+  Color,
+  Fonts,
+  String,
+  EndPoint,
+  Constants,
+  WebService,
+  ScreenNames,
+  LocalImages,
+} from '../../../utils';
 import Success from '../Success';
 import SetMpin from '../SetMpin';
 import LangSpoken from '../LangSpoken';
-import Mocks from '../../../utils/Mocks';
 import ConfirmMpin from '../ConfirmMpin';
 import BasicDetails from '../BasicDetails';
 import AddChildCard from './AddChildCard';
 import LangInterest from '../LangInterest';
 import Intrested from '../interested/Intrested';
-import React, {useCallback, useEffect, useState} from 'react';
 import {normalize} from '../../../utils/Dimensions';
-import ScreenNames from '../../../utils/ScreenNames';
-import {Color, Fonts, LocalImages, String} from '../../../utils';
-import CustomHeader2 from '../../../components/customHeader/CustomHeader2';
-import EndPoint from '../../../utils/EndPoint';
-import WebService from '../../../utils/WebService';
+import {showToast} from '../../../utils/CommonFunction';
+import React, {useCallback, useEffect, useState} from 'react';
+import {CustomLoader, CustomHeader2} from '../../../components';
 
 const AddChild = () => {
   const [types, setTypes] = useState('');
@@ -72,9 +79,37 @@ const AddChild = () => {
       break;
   }
 
-  const _renderItem = (items: any) => {
-    const {imageUrl} = items;
-    return <AddChildCard onPressCard={onPressCard} imageUrl={imageUrl} />;
+  const _onPress = () => {
+    data.length < 4 ? onPressCard() : showToast(String.cannotAddChild);
+  };
+  const _renderItem = ({item, index}: any) => {
+    const {imageUrl, name, _id} = item;
+
+    return (
+      <>
+        <AddChildCard
+          containerColor={Constants.colorArray[index]}
+          name={name}
+          imageUrl={imageUrl}
+          _id={_id}
+        />
+      </>
+    );
+  };
+  const _addNewChild = () => {
+    return (
+      <>
+        <TouchableOpacity
+          onPress={_onPress}
+          style={styles.rectagularContainer}
+          activeOpacity={0.7}>
+          <Image source={LocalImages.addIcon} style={styles.addIconSty} />
+        </TouchableOpacity>
+      </>
+    );
+  };
+  const _keyExtractor = (item: any) => {
+    return item._id;
   };
   return (
     <ImageBackground
@@ -88,12 +123,15 @@ const AddChild = () => {
         </Text>
       </View>
       <FlatList
-        data={Mocks.addChildData}
-        renderItem={_renderItem}
+        data={data}
         numColumns={2}
         horizontal={false}
+        scrollEnabled={false}
+        renderItem={_renderItem}
+        keyExtractor={_keyExtractor}
+        ListFooterComponent={_addNewChild}
       />
-      {isLoading && <ActivityIndicator size={'large'} />}
+      {isLoading && <CustomLoader />}
     </ImageBackground>
   );
 };
@@ -123,5 +161,18 @@ const styles = StyleSheet.create({
   },
   childContainer: {
     marginStart: normalize(5),
+  },
+  rectagularContainer: {
+    alignItems: 'center',
+    margin: normalize(20),
+    width: normalize(145),
+    height: normalize(145),
+    justifyContent: 'center',
+    backgroundColor: Color.white,
+  },
+  addIconSty: {
+    height: normalize(36),
+    width: normalize(36),
+    opacity: 3,
   },
 });

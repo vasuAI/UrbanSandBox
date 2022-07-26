@@ -1,4 +1,3 @@
-import React, {useCallback, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -7,9 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import React from 'react';
 import {normalize} from '../../utils/Dimensions';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import {Constants} from '../../utils';
+import {Color, Fonts, LocalImages, String, Constants} from '../../utils';
 
 /**
  *
@@ -207,6 +206,3 @@ const styles = StyleSheet.create({
   },
 });
 export default React.memo(RenderFlatlist);
-function colorArray(arg0: string, colorArray: any) {
-  throw new Error('Function not implemented.');
-}

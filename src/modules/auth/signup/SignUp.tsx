@@ -1,5 +1,3 @@
-import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
-import React, {useCallback, useState} from 'react';
 import Color from '../../../utils/Color';
 import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
@@ -9,11 +7,14 @@ import {
   CustomHeader,
   CustomTextInput,
 } from '../../../components';
-import {normalize} from '../../../utils/Dimensions';
+import {useDispatch} from 'react-redux';
 import {UserAction} from '../../../actions';
+import React, {useCallback, useState} from 'react';
+import {normalize} from '../../../utils/Dimensions';
 import ScreenNames from '../../../utils/ScreenNames';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
+
 const SignUp = () => {
   const navigation: any = useNavigation();
   const dispatch: Function = useDispatch();

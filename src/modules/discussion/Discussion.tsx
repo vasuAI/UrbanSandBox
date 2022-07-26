@@ -1,10 +1,9 @@
-import {View, Text, ImageBackground, StyleSheet, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
 import RenderFlatlist from './RenderFlatlist';
-import Mocks from '../../utils/Mocks';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import {CustomHeader2} from '../../components';
+import {Color, Fonts, LocalImages, String, Mocks} from '../../utils';
+import {View, Text, ImageBackground, StyleSheet, FlatList} from 'react-native';
 /**
  *
  * @returns
@@ -20,6 +19,11 @@ const Discussion = () => {
       </View>
     );
   };
+  /**
+   *
+   * @param param0
+   * @returns
+   */
   const _renderItem = ({item}: any) => {
     return (
       <RenderFlatlist

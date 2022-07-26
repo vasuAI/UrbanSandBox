@@ -1,7 +1,7 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {Color, Fonts, LocalImages, Constants} from '../../../utils';
 import {normalize} from '../../../utils/Dimensions';
+import {Color, Fonts, LocalImages, Constants} from '../../../utils';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface Props {
   name: string;
@@ -10,10 +10,11 @@ interface Props {
   index: number;
   onPress: Function;
 }
+
 const InteresetCard = (props: Props) => {
   const [isSelected, setIsSelected] = useState(false);
-
   const {name, imageUrl, _id, index, onPress} = props;
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -39,7 +40,7 @@ const InteresetCard = (props: Props) => {
   );
 };
 
-export default InteresetCard;
+export default React.memo(InteresetCard);
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -53,25 +54,25 @@ const styles = StyleSheet.create({
   checkIcon: {
     position: 'absolute',
     left: normalize(123),
-    bottom: normalize(125),
     padding: normalize(2),
-    borderRadius: normalize(50),
     width: normalize(27),
     height: normalize(27),
-    backgroundColor: Color.twilightBlue,
-    justifyContent: 'center',
     alignItems: 'center',
     borderLeftWidth: 1.5,
-    borderBottomWidth: 1.5,
     borderRightWidth: 1.5,
+    bottom: normalize(125),
+    borderBottomWidth: 1.5,
+    justifyContent: 'center',
+    borderRadius: normalize(50),
     borderLeftColor: Color.white,
     borderBottomColor: Color.white,
     borderRightColor: Color.white,
+    backgroundColor: Color.twilightBlue,
   },
   imageContainer: {
-    backgroundColor: Color.grey,
     width: normalize(70),
     height: normalize(75),
+    backgroundColor: Color.grey,
   },
   textStyle: {
     fontSize: normalize(16),

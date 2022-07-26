@@ -1,3 +1,4 @@
 import UserAction from './UserAction';
 import ChildAction from './ChildAction';
-export {UserAction, ChildAction};
+import ActionType from './ActionType';
+export {UserAction, ChildAction, ActionType};

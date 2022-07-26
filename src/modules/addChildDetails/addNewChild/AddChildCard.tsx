@@ -1,18 +1,23 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect} from 'react';
-import {Color, LocalImages} from '../../../utils';
+import React from 'react';
+import {Color, Fonts} from '../../../utils';
 import {normalize} from '../../../utils/Dimensions';
-import WebService from '../../../utils/WebService';
-import EndPoint from '../../../utils/EndPoint';
+import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+interface Props {
+  onPressCard?: Function;
+  imageUrl: string;
+  name: string;
+  _id: string;
+  containerColor: any;
+}
 
-const AddChildCard = (props: any) => {
-  const {onPressCard} = props;
+const AddChildCard = (props: Props) => {
+  const {imageUrl, name, _id, containerColor} = props;
   return (
     <TouchableOpacity
-      onPress={onPressCard}
-      style={styles.rectagularContainer}
+      style={[styles.rectagularContainer, {backgroundColor: containerColor}]}
       activeOpacity={0.7}>
-      <Image source={LocalImages.addIcon} style={styles.addIconSty} />
+      <Image source={{uri: imageUrl}} style={styles.addIconSty} />
+      <Text style={styles.titleSttyle}>{name}</Text>
     </TouchableOpacity>
   );
 };
@@ -26,11 +31,18 @@ const styles = StyleSheet.create({
     width: normalize(145),
     height: normalize(145),
     justifyContent: 'center',
+    borderRadius: normalize(5),
     backgroundColor: Color.white,
   },
   addIconSty: {
-    height: normalize(36),
-    width: normalize(36),
+    height: normalize(50),
+    width: normalize(50),
     opacity: 3,
+  },
+  titleSttyle: {
+    fontFamily: Fonts.muliBold,
+    fontSize: normalize(16),
+    lineHeight: normalize(25),
+    marginTop: normalize(15),
   },
 });

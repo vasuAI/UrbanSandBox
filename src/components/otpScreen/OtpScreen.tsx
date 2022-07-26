@@ -1,7 +1,7 @@
-import {Keyboard, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Color, Fonts} from '../../utils';
 import React, {useRef, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
-import {Color, Fonts} from '../../utils';
+import {Keyboard, StyleSheet, TextInput, View} from 'react-native';
 
 const OtpScreen = (props: any) => {
   console.log('🚀 ~ file: OtpScreen.tsx ~ line 7 ~ OtpScreen ~ props', props);

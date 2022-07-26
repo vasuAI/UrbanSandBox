@@ -8,13 +8,15 @@ const Constants = {
 };
 
 const colorArray = [
+  Color.duckEggBlue,
+  Color.paleTeal,
+  Color.robinsEggBlue,
   Color.paleLavender,
-  Color.beige,
   Color.lightKhaki,
   Color.duckEggBlue,
+  Color.beige,
   Color.veryLightPink,
   Color.beige,
   Color.lightKhaki,
-  Color.duckEggBlue,
 ];
 export default {Constants, colorArray};

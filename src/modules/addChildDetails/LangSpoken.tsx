@@ -1,23 +1,30 @@
-import React, {useEffect, useState} from 'react';
 import {
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
+  CustomHeader2,
 } from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
-import EndPoint from '../../utils/EndPoint';
-import WebService from '../../utils/WebService';
+import {
+  Color,
+  Fonts,
+  LocalImages,
+  String,
+  ScreenNames,
+  WebService,
+  EndPoint,
+} from '../../utils';
 import {LanguageRenderItem} from '../../modals';
 import {normalize} from '../../utils/Dimensions';
-import ActionType from '../../actions/ActionType';
-import ScreenNames from '../../utils/ScreenNames';
+import React, {useEffect, useState} from 'react';
 import {showToast} from '../../utils/CommonFunction';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import {useDispatch, useSelector} from 'react-redux';
+import {ChildAction, ActionType} from '../../actions';
 import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
-import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
-import {ChildAction} from '../../actions';
+import LanguageCardItem from '../../components/LanguageCardList/LanguageCardItem';
 
+/**
+ * @des array to store selected language
+ */
 let selected: any = [];
 interface Props {
   screenType: Function;
@@ -56,6 +63,9 @@ const LangSpoken = (props: Props) => {
       ),
     );
   };
+  /**
+   * @desc onPress nextbutton dispatch selected languages
+   */
   const _onPressActionBtn = () => {
     if (selected.length != 0) {
       dispatch({

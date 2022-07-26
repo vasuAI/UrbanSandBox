@@ -1,15 +1,8 @@
-import {
-  Image,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
 import React from 'react';
-import LocalImages from '../../utils/LocalImages';
 import {normalize} from '../../utils/Dimensions';
 import {useNavigation} from '@react-navigation/native';
-import ScreenNames from '../../utils/ScreenNames';
+import {ScreenNames, LocalImages} from '../../utils';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 const CustomHeader = () => {
   const navigation: any = useNavigation();

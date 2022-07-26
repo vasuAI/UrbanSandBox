@@ -8,14 +8,14 @@ const index = () => {
   const type = (props: any) => {
     setTypes(props);
   };
-  switch (types) {
-    case 'BASIC_DETAILS':
-      return <BasicDetails screenType={type} />;
-    case 'LANG_INTEREST':
-      return <LangInterest />;
-    default:
-      break;
-  }
+  // switch (types) {
+  //   case 'BASIC_DETAILS':
+  //     return <BasicDetails screenType={type} />;
+  //   case 'LANG_INTEREST':
+  //     return <LangInterest />;
+  //   default:
+  //     break;
+  // }
 };
 
 export default index;

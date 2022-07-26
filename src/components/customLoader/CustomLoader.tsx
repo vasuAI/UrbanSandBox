@@ -1,5 +1,5 @@
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {ActivityIndicator, StyleSheet} from 'react-native';
 
 const CustomLoader = () => {
   return <ActivityIndicator size={'large'} />;

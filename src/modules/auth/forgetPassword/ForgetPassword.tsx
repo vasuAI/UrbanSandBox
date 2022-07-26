@@ -1,12 +1,12 @@
-import {View, Text, ImageBackground, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../../utils';
 import {
   CustomActionButton,
   CustomHeader,
   CustomTextInput,
 } from '../../../components';
+import React, {useState} from 'react';
 import {normalize} from '../../../utils/Dimensions';
+import {Color, Fonts, LocalImages, String} from '../../../utils';
+import {View, Text, ImageBackground, StyleSheet} from 'react-native';
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState('');

@@ -1,10 +1,8 @@
-import {View, Text, ImageBackground, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import {CustomHeader, CustomProgressBar} from '../../components';
 import {normalize} from '../../utils/Dimensions';
 import {useNavigation} from '@react-navigation/native';
-import ScreenNames from '../../utils/ScreenNames';
+import {Text, ImageBackground, StyleSheet} from 'react-native';
+import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
 const Success = () => {
   const navigation: any = useNavigation();
@@ -15,12 +13,8 @@ const Success = () => {
     <ImageBackground
       source={LocalImages.background}
       style={styles.rootContainer}>
-      <View style={styles.headingCon}>
-        <Text style={styles.welcomeText}>{String.sucess}</Text>
-        <Text style={styles.signupDescription}>
-          {String.setMpinDescription}
-        </Text>
-      </View>
+      <Text style={styles.welcomeText}>{String.sucess}</Text>
+      <Text style={styles.signupDescription}>{String.setMpinDescription}</Text>
     </ImageBackground>
   );
 };
@@ -30,10 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.wheat,
     justifyContent: 'center',
   },
-  headingCon: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
+
   welcomeText: {
     color: Color.black,
     alignSelf: 'center',

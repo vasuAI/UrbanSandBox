@@ -1,9 +1,6 @@
-import {useDispatch} from 'react-redux';
-import Common from '../utils/Common';
+import {ActionType} from './';
 import {showToast} from '../utils/CommonFunction';
-import EndPoint from '../utils/EndPoint';
-import WebService from '../utils/WebService';
-import ActionType from './ActionType';
+import {WebService, EndPoint, Common} from '../utils/';
 
 const languageApiHit = (params: any, success: Function, fail: Function) => {
   return (dispatch: Function, getState: Function) => {

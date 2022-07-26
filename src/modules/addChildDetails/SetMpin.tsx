@@ -1,25 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
-import ScreenNames from '../../utils/ScreenNames';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import {
-  ImageBackground,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import {
   CustomActionButton,
   CustomProgressBar,
-  CustomTextInput,
+  CustomHeader2,
 } from '../../components';
-import OtpScreen from '../../components/otpScreen/OtpScreen';
-import ActionType from '../../actions/ActionType';
-import {showToast} from '../../utils/CommonFunction';
 import {useDispatch} from 'react-redux';
+import React, {useState} from 'react';
+import {ActionType} from '../../actions';
+import {showToast} from '../../utils/CommonFunction';
+import OtpScreen from '../../components/otpScreen/OtpScreen';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
 interface Props {
   screenType: Function;
@@ -27,7 +18,6 @@ interface Props {
 const SetMpin = (props: Props) => {
   const {screenType} = props;
   const [mPin, setMpin] = useState('');
-  console.log('🚀 ~ file: SetMpin.tsx ~ line 30 ~ SetMpin ~ mPin', mPin);
 
   const dispatch: Function = useDispatch();
   const _onPressActionBtn = () => {

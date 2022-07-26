@@ -63,10 +63,6 @@ const Login = () => {
         },
         (failure: any) => {
           showToast(failure.message);
-          console.log(
-            '🚀 ~ file: Login.tsx ~ line 63 ~ onLoginPress ~ failure',
-            failure,
-          );
           // failure ? setLoader(false) : null;
         },
       ),

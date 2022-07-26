@@ -38,6 +38,7 @@ export default {
   languageSpoken: 'Language Spoken',
   loginSucess: 'Login Sucessfully',
   seachlanguage: 'Search by languages',
+  cannotAddChild: 'Cannot add more than 4 children',
   errorLocation: 'Please Enter Valid location',
   errorDOB: 'Please Enter Valid Date Of Birth',
   profilePicUpdated: 'ProfilePicUpload',

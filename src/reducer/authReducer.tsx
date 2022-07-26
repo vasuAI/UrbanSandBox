@@ -1,5 +1,4 @@
-import {InitialState} from '@react-navigation/native';
-import ActionType from '../actions/ActionType';
+import {ActionType} from '../actions/';
 
 /**
  * @description defining required props

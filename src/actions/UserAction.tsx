@@ -1,8 +1,6 @@
-import Common from '../utils/Common';
-import ActionType from './ActionType';
-import EndPoint from '../utils/EndPoint';
-import WebService from '../utils/WebService';
+import {ActionType} from './';
 import {showToast} from '../utils/CommonFunction';
+import {EndPoint, Common, WebService} from '../utils/';
 
 const parentSignUpWithEmail = (
   params: any,
