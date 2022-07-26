@@ -6,13 +6,42 @@ import {CustomActionButton, CustomProgressBar} from '../../components';
 import {normalize} from '../../utils/Dimensions';
 import ScreenNames from '../../utils/ScreenNames';
 import OtpScreen from '../../components/otpScreen/OtpScreen';
+import ActionType from '../../actions/ActionType';
+import {showToast} from '../../utils/CommonFunction';
+import {useDispatch, useSelector} from 'react-redux';
+import {ChildAction} from '../../actions';
 
 const ConfirmMpin = (props: any) => {
   const {screenType} = props;
-
+  const [mPin2, setMpin2] = useState('');
+  const dispatch: Function = useDispatch();
+  const {Mpin, childId} = useSelector((state: any) => state.childReducer);
   const _onPressActionBtn = () => {
-    screenType(ScreenNames.SUCCESS);
+    if (Mpin === mPin2) {
+      const params = {
+        mPin: Mpin,
+        stepNumber: 5,
+        childId: childId,
+      };
+
+      dispatch(
+        ChildAction.hitAddChildApi(
+          params,
+          (response: any) => {
+            if (response == 'Success') {
+              screenType(ScreenNames.SUCCESS);
+            }
+          },
+          (error: any) => {
+            console.log(error);
+          },
+        ),
+      );
+    } else {
+      showToast(String.missMatchMpin);
+    }
   };
+
   return (
     <ImageBackground
       source={LocalImages.background}
@@ -25,7 +54,7 @@ const ConfirmMpin = (props: any) => {
           {String.setMpinDescription}
         </Text>
       </View>
-      <OtpScreen />
+      <OtpScreen setMpin1={setMpin2} />
       <CustomActionButton // button next
         title={String.next}
         onPress={_onPressActionBtn}

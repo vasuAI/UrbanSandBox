@@ -1,3 +1,4 @@
+import {InitialState} from '@react-navigation/native';
 import ActionType from '../actions/ActionType';
 
 /**
@@ -41,6 +42,7 @@ const initialState = {
     subscriptionPlatForm: '',
     allowNotification: false,
   },
+  isConnected: true,
 };
 
 const authReducer = (state = initialState, action: actionType) => {
@@ -52,4 +54,13 @@ const authReducer = (state = initialState, action: actionType) => {
       return state;
   }
 };
+// export const internetStatusReducer = (state = initialState, action: any) => {
+//   const {payload} = action;
+//   switch (action.type) {
+//     case ActionType.UPDATE_INTERNET_FIELDS:
+//       return {...state, ...payload};
+//     default:
+//       return state;
+//   }
+// };
 export default authReducer;

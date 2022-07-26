@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color, Fonts, LocalImages, String} from '../../utils';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   CustomTextInput,
   CustomProgressBar,
@@ -23,6 +23,7 @@ import ScreenNames from '../../utils/ScreenNames';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
 import {showToast} from '../../utils/CommonFunction';
+import {ChildAction} from '../../actions';
 
 var selected: Array<any> = [];
 
@@ -33,19 +34,52 @@ const LangInterest = (props: Props) => {
   const {screenType} = props;
   const [data, setData] = useState<Array<any>>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useDispatch();
+  const dispatch: Function = useDispatch();
   const childerName = 'Skye';
+  const {childId} = useSelector((state: any) => state.childReducer);
+  console.log(
+    '🚀 ~ file: LangInterest.tsx ~ line 39 ~ LangInterest ~ childId',
+    childId,
+  );
+
+  const submitStep2 = () => {
+    let language = selected.map((item: any) => {
+      return {
+        id: item._id,
+        name: item.title,
+      };
+    });
+    let params = {
+      stepNumber: 3,
+      childId: childId,
+      languageInterested: [...language],
+    };
+
+    dispatch(
+      ChildAction.hitAddChildApi(
+        params,
+        (response: any) => {
+          if (response == 'Success') {
+            screenType(ScreenNames.LANG_SPOKEN);
+          }
+        },
+        (error: any) => {
+          console.log(error);
+        },
+      ),
+    );
+  };
 
   /**
    *
    */
-  const _onPressActionBtn = () => {
+  const _onPressNextButton = () => {
     if (selected.length != 0) {
-      screenType(ScreenNames.LANG_SPOKEN);
       dispatch({
         type: ActionType.LANGUAGE_INTERSTED,
         payload: {langInterested: [...selected]},
       });
+      submitStep2();
     } else {
       showToast(String.showEmptyFieldError);
     }
@@ -131,7 +165,7 @@ const LangInterest = (props: Props) => {
       />
       <CustomActionButton // button next
         title={String.next}
-        onPress={_onPressActionBtn}
+        onPress={_onPressNextButton}
         customContainerStyle={styles.nextButtonCon}
       />
     </ImageBackground>

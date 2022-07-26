@@ -16,6 +16,7 @@ const InteresetCard = (props: Props) => {
   const {name, imageUrl, _id, index, onPress} = props;
   return (
     <TouchableOpacity
+      activeOpacity={0.7}
       style={[
         styles.rootContainer,
         {backgroundColor: Constants.colorArray[index % 7]},
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     borderRightColor: Color.white,
   },
   imageContainer: {
-    backgroundColor: 'red',
+    backgroundColor: Color.grey,
     width: normalize(70),
     height: normalize(75),
   },

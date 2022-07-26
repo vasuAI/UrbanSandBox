@@ -54,6 +54,7 @@ export default {
   errorCode422: "server can't process your request",
   enterEmailAddress: 'Email address must be enter',
   enterValidEmailAddress: 'Enter valid email address',
+  missMatchMpin: 'Confirm Mpin does not match ',
   showEmptyFieldError: 'Please Enter all the required field',
   signupDescription:
     'A wonderful platform for children to read  and collaborate with teacher!',

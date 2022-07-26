@@ -5,4 +5,5 @@ export default {
   PARENT_SET_MPIN: 'parent/v1/set-mpin',
   GET_INTEREST_PARENT: 'parent/v1/get-interests',
   GET_LANGUAGES_PARENT: 'parent/v1/get-languages',
+  CHILD_DASHBOARD_PARENT: 'parent/v1/child-dashboard',
 };

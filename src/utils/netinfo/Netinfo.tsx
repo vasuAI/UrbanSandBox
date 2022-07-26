@@ -3,21 +3,23 @@ import Modal from 'react-native-modal';
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
+import {useDispatch} from 'react-redux';
+import ActionType from '../../actions/ActionType';
 
 export default function NetInfoHandler() {
-  const [connected, setConnected] = useState<boolean | null>(true);
-
+  const [isConnected, setIsConnected] = useState<boolean | null>(true);
+  const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
-      setConnected(state.isConnected);
+      setIsConnected(state.isConnected);
     });
-
+    dispatch({type: ActionType.UPDATE_INTERNET_FIELDS, payload: {isConnected}});
     return () => {
       unsubscribe();
     };
   }, []);
 
-  if (connected) {
+  if (isConnected) {
     return null;
   }
 
@@ -25,7 +27,7 @@ export default function NetInfoHandler() {
     <Modal
       coverScreen
       avoidKeyboard
-      isVisible={!connected}
+      isVisible={!isConnected}
       animationInTiming={600}
       animationOutTiming={300}
       animationOut="fadeOutDown"

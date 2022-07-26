@@ -1,4 +1,11 @@
-import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  StyleSheet,
+  ImageBackground,
+  ActivityIndicator,
+} from 'react-native';
 import Success from '../Success';
 import SetMpin from '../SetMpin';
 import LangSpoken from '../LangSpoken';
@@ -8,18 +15,36 @@ import BasicDetails from '../BasicDetails';
 import AddChildCard from './AddChildCard';
 import LangInterest from '../LangInterest';
 import Intrested from '../interested/Intrested';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {normalize} from '../../../utils/Dimensions';
 import ScreenNames from '../../../utils/ScreenNames';
 import {Color, Fonts, LocalImages, String} from '../../../utils';
 import CustomHeader2 from '../../../components/customHeader/CustomHeader2';
+import EndPoint from '../../../utils/EndPoint';
+import WebService from '../../../utils/WebService';
 
 const AddChild = () => {
   const [types, setTypes] = useState('');
-
+  const [data, setData] = useState([]);
+  console.log('🚀 ~ file: AddChild.tsx ~ line 29 ~ AddChild ~ data', data);
+  const [isLoading, setIsLoading] = useState(false);
   const onPressCard = useCallback(() => {
     setTypes(ScreenNames.BASIC_DETAILS);
   }, [types]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    WebService.getApiCall(
+      EndPoint.CHILD_DASHBOARD_PARENT,
+      (response: any) => {
+        setData(response.data.result);
+      },
+      (err: any) => {
+        console.log(err);
+      },
+    );
+    setIsLoading(false);
+  }, []);
 
   /**
    *
@@ -47,8 +72,9 @@ const AddChild = () => {
       break;
   }
 
-  const _renderItem = () => {
-    return <AddChildCard onPressCard={onPressCard} />;
+  const _renderItem = (items: any) => {
+    const {imageUrl} = items;
+    return <AddChildCard onPressCard={onPressCard} imageUrl={imageUrl} />;
   };
   return (
     <ImageBackground
@@ -67,6 +93,7 @@ const AddChild = () => {
         numColumns={2}
         horizontal={false}
       />
+      {isLoading && <ActivityIndicator size={'large'} />}
     </ImageBackground>
   );
 };

@@ -30,10 +30,6 @@ const postApiCall = (
   Common.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      console.log(
-        '🚀 ~ file: WebService.tsx ~ line 33 ~ .then ~ response',
-        response,
-      );
       const {data} = response;
       successCallback(data);
     })
@@ -51,9 +47,14 @@ const getApiCall = (
   Common.axiosInstance
     .get(endPoint)
     .then((response: any) => {
+      console.log(
+        '🚀 ~ file: WebService.tsx ~ line 50 ~ .then ~ response',
+        response,
+      );
       successCallback(response);
     })
     .catch((error: any) => {
+      console.log('🚀 ~ file: WebService.tsx ~ line 54 ~ error', error);
       handleApiError(error);
       errorCallback(error);
     });

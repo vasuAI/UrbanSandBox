@@ -59,13 +59,16 @@ const interestApiHit = (params: any, success: Function, fail: Function) => {
 };
 
 const hitAddChildApi = (params: any, success: Function, failure: Function) => {
-  return (dispatch: Function) => {
+  return (dispatch: any) => {
     console.log('params', params);
     WebService.postApiCall(
       EndPoint.ADD_CHILD_PARENT,
       params,
       (response: any) => {
-        console.log('Child Api response', response);
+        console.log(
+          '🚀 ~ file: ChildAction.tsx ~ line 68 ~ return ~ response',
+          response,
+        );
         if (response) {
           const {
             statusCode,
@@ -73,8 +76,7 @@ const hitAddChildApi = (params: any, success: Function, failure: Function) => {
             result: {childId},
           } = response;
           showToast(message);
-          console.log('res', response);
-          if (statusCode == statusCode.success) {
+          if (statusCode == Common.STATUS_CODE.success) {
             if (childId) {
               dispatch({
                 type: ActionType.LANGUAGE_INTERSTED,
@@ -86,7 +88,11 @@ const hitAddChildApi = (params: any, success: Function, failure: Function) => {
         }
       },
       (error: any) => {
-        fail(error);
+        console.log(
+          '🚀 ~ file: ChildAction.tsx ~ line 88 ~ return ~ error',
+          error,
+        );
+        failure(error);
       },
     );
   };

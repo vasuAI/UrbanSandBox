@@ -1,4 +1,4 @@
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import InteresetCard from './InteresetCard';
 import EndPoint from '../../../utils/EndPoint';
 import React, {useEffect, useState} from 'react';
@@ -14,7 +14,7 @@ import {CustomActionButton, CustomProgressBar} from '../../../components';
 import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
 import ChildAction from '../../../actions/ChildAction';
 
-let select: Array<any> = [];
+let selected: Array<any> = [];
 interface Props {
   screenType: Function;
 }
@@ -23,13 +23,44 @@ const Intrested = (props: Props) => {
   const childerName = 'Skye';
   const [data, setData] = useState<Array<any>>([]);
   const dispatch: Function = useDispatch();
+
+  const {childId} = useSelector((state: any) => state.childReducer);
+
+  const submitStep4 = () => {
+    let interesrSelected = selected.map((item: any) => {
+      return {
+        id: item._id,
+        name: item.name,
+      };
+    });
+    let params = {
+      stepNumber: 4,
+      childId: childId,
+      interests: [...interesrSelected],
+    };
+
+    dispatch(
+      ChildAction.hitAddChildApi(
+        params,
+        (response: any) => {
+          if (response == 'Success') {
+            screenType(ScreenNames.SET_MPIN);
+          }
+        },
+        (error: any) => {
+          console.log(error);
+        },
+      ),
+    );
+  };
+
   const _onPressActionBtn = () => {
-    if (select.length != 0) {
-      screenType(ScreenNames.SET_MPIN);
+    if (selected.length != 0) {
       dispatch({
-        type: ActionType.LANGUAGE_SPOKEN,
-        payload: {interested: [...select]},
+        type: ActionType.INTERESTED,
+        payload: {interested: [...selected]},
       });
+      submitStep4();
     } else {
       showToast(String.showEmptyFieldError);
     }
@@ -51,18 +82,18 @@ const Intrested = (props: Props) => {
   const onSelectCard = (_id: string) => {
     let index = data.findIndex((current: any) => current?._id === _id);
     if (index != -1) {
-      let selectedLanguage: any = [...data];
-      if (selectedLanguage[index].status === 1) {
-        selectedLanguage[index].status = selectedLanguage[index]?.status + 1;
-        select = [...select, data[index]];
+      let selectInterested: any = [...data];
+      if (selectInterested[index].status === 1) {
+        selectInterested[index].status = selectInterested[index]?.status + 1;
+        selected = [...selected, data[index]];
       } else {
-        selectedLanguage[index].status = selectedLanguage[index]?.status - 1;
-        let unSelectedLanguage = select.findIndex(
+        selectInterested[index].status = selectInterested[index]?.status - 1;
+        let unselectInterested = selected.findIndex(
           (element: any) => element._id === _id,
         );
-        select.splice(unSelectedLanguage, 1);
+        selected.splice(unselectInterested, 1);
       }
-      setData([...selectedLanguage]);
+      setData([...selectInterested]);
     }
   };
   /**

@@ -17,19 +17,30 @@ import {
   CustomTextInput,
 } from '../../components';
 import OtpScreen from '../../components/otpScreen/OtpScreen';
+import ActionType from '../../actions/ActionType';
+import {showToast} from '../../utils/CommonFunction';
+import {useDispatch} from 'react-redux';
 
 interface Props {
   screenType: Function;
 }
 const SetMpin = (props: Props) => {
   const {screenType} = props;
+  const [mPin, setMpin] = useState('');
+  console.log('🚀 ~ file: SetMpin.tsx ~ line 30 ~ SetMpin ~ mPin', mPin);
 
+  const dispatch: Function = useDispatch();
   const _onPressActionBtn = () => {
-    screenType(ScreenNames.CONFIRM_MPIN);
+    if (mPin.length > 3) {
+      screenType(ScreenNames.CONFIRM_MPIN);
+      dispatch({
+        type: ActionType.ADD_MPIN,
+        payload: {Mpin: mPin},
+      });
+    } else {
+      showToast(String.showEmptyFieldError);
+    }
   };
-  useEffect(() => {
-    useRef;
-  });
   return (
     <ImageBackground
       source={LocalImages.background}
@@ -42,7 +53,7 @@ const SetMpin = (props: Props) => {
           {String.setMpinDescription}
         </Text>
       </View>
-      <OtpScreen />
+      <OtpScreen setMpin1={setMpin} />
 
       <CustomActionButton // button next
         title={String.add}

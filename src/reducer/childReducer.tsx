@@ -4,11 +4,13 @@ const initialState = {
   name: '',
   DOB: '',
   location: '',
-  profileImg: '',
+  profileImg: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
   schoolName: '',
   langSpoken: [],
   interested: [],
   langInterested: [],
+  childId: '',
+  Mpin: '',
 };
 interface actionType {
   type: string;
@@ -16,6 +18,10 @@ interface actionType {
 }
 const childReducer = (state = initialState, action: actionType) => {
   const {type, payload} = action;
+  console.log(
+    '🚀 ~ file: childReducer.tsx ~ line 20 ~ childReducer ~ payload',
+    payload,
+  );
   switch (type) {
     case ActionType.CHILD_NAME:
       return {...state, ...payload};
@@ -34,6 +40,8 @@ const childReducer = (state = initialState, action: actionType) => {
     case ActionType.LANGUAGE_SPOKEN:
       return {...state, ...payload};
     case ActionType.ADD_CHILD:
+      return {...state, ...payload};
+    case ActionType.ADD_MPIN:
       return {...state, ...payload};
     default:
       return state;

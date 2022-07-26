@@ -3,16 +3,24 @@ import React, {useRef, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
 import {Color, Fonts} from '../../utils';
 
-const OtpScreen = () => {
+const OtpScreen = (props: any) => {
+  console.log('🚀 ~ file: OtpScreen.tsx ~ line 7 ~ OtpScreen ~ props', props);
+
   const pin1ref = useRef<any>();
   const pin2ref = useRef<any>();
   const pin3ref = useRef<any>();
   const pin4ref = useRef<any>();
-
+  let mpin1 = '';
+  // let mpin2 = '',
   const [pin1, setPin1] = useState('');
   const [pin2, setPin2] = useState('');
   const [pin3, setPin3] = useState('');
   const [pin4, setPin4] = useState('');
+
+  mpin1 = pin1 + pin2 + pin3 + pin4;
+  props?.setMpin1(mpin1);
+  // props?.setMpin2();
+
   return (
     <View style={styles.childContainer}>
       <TextInput
@@ -105,7 +113,7 @@ const OtpScreen = () => {
   );
 };
 
-export default OtpScreen;
+export default React.memo(OtpScreen);
 
 const styles = StyleSheet.create({
   childContainer: {

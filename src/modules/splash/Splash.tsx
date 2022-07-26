@@ -6,8 +6,8 @@ import Common from '../../utils/Common';
 import {useSelector} from 'react-redux';
 import {Color, LocalImages} from '../../utils';
 import {normalize} from '../../utils/Dimensions';
-
-const OnBoarding = () => {
+import NetInfoHandler from '../../utils/netinfo/Netinfo';
+const Splash = () => {
   const navigation: any = useNavigation();
   const {
     userDetails: {token},
@@ -29,11 +29,12 @@ const OnBoarding = () => {
       source={LocalImages.background2}
       style={styles.parentContainer}>
       <Image source={LocalImages.logo} style={styles.logoIconStyle} />
+      <NetInfoHandler />
     </ImageBackground>
   );
 };
 
-export default OnBoarding;
+export default Splash;
 
 const styles = StyleSheet.create({
   parentContainer: {

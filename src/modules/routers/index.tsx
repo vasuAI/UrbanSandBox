@@ -2,7 +2,7 @@ import React from 'react';
 import HomeScreen from '../home';
 import LoginScreen from '../auth/login/Login';
 import ScreenNames from '../../utils/ScreenNames';
-import OnBoarding from '../onBoarding/OnBoarding';
+import OnBoarding from '../splash/Splash';
 import BottomTab from '../routers/bottomTAbNavigator';
 import SignUpScreen from '../../modules/auth/signup/SignUp';
 import {NavigationContainer} from '@react-navigation/native';

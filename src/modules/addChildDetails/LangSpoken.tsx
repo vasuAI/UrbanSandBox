@@ -4,7 +4,7 @@ import {
   CustomProgressBar,
   CustomActionButton,
 } from '../../components';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import EndPoint from '../../utils/EndPoint';
 import WebService from '../../utils/WebService';
 import {LanguageRenderItem} from '../../modals';
@@ -16,6 +16,7 @@ import {Color, Fonts, LocalImages, String} from '../../utils';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
 import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import LanguageCardItem from '../../components/flatListComponents/LanguageCardItem';
+import {ChildAction} from '../../actions';
 
 let selected: any = [];
 interface Props {
@@ -26,14 +27,42 @@ const LangSpoken = (props: Props) => {
   const childerName = 'Skye';
   const [data, setData] = useState<Array<any>>([]);
   const dispatch: Function = useDispatch();
+  const {childId} = useSelector((state: any) => state.childReducer);
 
+  const submitStep3 = () => {
+    let languageSpoken = selected.map((item: any) => {
+      return {
+        id: item._id,
+        name: item.title,
+      };
+    });
+    let params = {
+      stepNumber: 2,
+      childId: childId,
+      languageSpoken: [...languageSpoken],
+    };
+
+    dispatch(
+      ChildAction.hitAddChildApi(
+        params,
+        (response: any) => {
+          if (response == 'Success') {
+            screenType(ScreenNames.INTERESTED);
+          }
+        },
+        (error: any) => {
+          console.log(error);
+        },
+      ),
+    );
+  };
   const _onPressActionBtn = () => {
     if (selected.length != 0) {
-      screenType(ScreenNames.INTERESTED);
       dispatch({
         type: ActionType.LANGUAGE_SPOKEN,
         payload: {langSpoken: [...selected]},
       });
+      submitStep3();
     } else {
       showToast(String.showEmptyFieldError);
     }

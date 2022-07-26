@@ -13,6 +13,7 @@ import {
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
+  CustomLoader,
 } from '../../components';
 import React, {useCallback, useEffect, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
@@ -24,8 +25,6 @@ import {Color, Fonts, LocalImages, String} from '../../utils';
 import {showAlert, showToast} from '../../utils/CommonFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import EndPoint from '../../utils/EndPoint';
-import WebService from '../../utils/WebService';
 import ChildAction from '../../actions/ChildAction';
 
 interface Props {
@@ -46,7 +45,7 @@ const BasicDetails = (props: Props) => {
 
   const [radioButtonStatus, setRadioButtonStatus] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isDisable, setIsDisable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   /**
    * @description name input handle
    */
@@ -61,7 +60,7 @@ const BasicDetails = (props: Props) => {
   const handleConfirm: any = (date: string) => {
     dispatch({
       type: ActionType.CHILD_DOB,
-      payload: {DOB: moment(date).format('DD-MM-YYYY')},
+      payload: {DOB: date},
     });
     hideDatePicker();
   };
@@ -95,6 +94,7 @@ const BasicDetails = (props: Props) => {
   /**
    *
    * @param value
+   * @param number
    * @returns gender Value
    */
   const handelRadioBtn = (value: string, number: number) => {
@@ -113,36 +113,6 @@ const BasicDetails = (props: Props) => {
     setDatePickerVisibility(false);
   };
 
-  const submitStep1 = () => {
-    let params = {
-      dob: DOB,
-      name: name,
-      gender: gender,
-      school: schoolName,
-      lat: 0,
-      long: 0,
-      imageUrl: profileImg,
-      stepNumber: 1,
-      address: location,
-    };
-
-    dispatch(
-      ChildAction.hitAddChildApi(
-        params,
-        (response: any) => {
-          console.log(
-            '🚀 ~ file: BasicDetails.tsx ~ line 132 ~ submitStep1 ~ response',
-            response,
-          );
-          showToast(response.message);
-        },
-        (error: any) => {
-          console.log(error);
-        },
-      ),
-    );
-  };
-
   /**
    * @params
    * @return error message
@@ -153,7 +123,7 @@ const BasicDetails = (props: Props) => {
       name.trim().length === 0 ||
       location.trim().length === 0 ||
       schoolName.trim().length === 0 ||
-      DOB.trim().length === 0 ||
+      DOB.length === 0 ||
       !gender
     )
       showToast(String.showEmptyFieldError);
@@ -166,7 +136,7 @@ const BasicDetails = (props: Props) => {
     } else {
       submitStep1();
     }
-  }, [name, DOB, schoolName, location, gender, isDisable]);
+  }, [name, DOB, schoolName, location, gender]);
 
   /**
    * @description upload image
@@ -206,6 +176,39 @@ const BasicDetails = (props: Props) => {
     let date = new Date();
     date.setFullYear(date.getFullYear() - 18);
     return date;
+  };
+  /**
+   * @description
+   */
+  const submitStep1 = () => {
+    // isLoading(true);
+    let params = {
+      dob: DOB,
+      name: name,
+      gender: gender,
+      school: schoolName,
+      lat: 0,
+      long: 0,
+      imageUrl: profileImg,
+      stepNumber: 1,
+      address: location,
+    };
+
+    dispatch(
+      ChildAction.hitAddChildApi(
+        params,
+        (response: any) => {
+          // isLoading(false);
+          if (response == 'Success') {
+            screenType(ScreenNames.LANG_INTEREST);
+          }
+        },
+        (error: any) => {
+          // isLoading(false);
+          console.log(error);
+        },
+      ),
+    );
   };
 
   return (
@@ -259,7 +262,7 @@ const BasicDetails = (props: Props) => {
               styles.dateText,
               DOB ? {color: Color.black} : {color: Color.grey},
             ]}>
-            {DOB ? DOB : String.DOB}
+            {DOB ? moment(DOB).format('DD-MM-YYYY') : String.DOB}
           </Text>
         </TouchableOpacity>
 
@@ -315,6 +318,7 @@ const BasicDetails = (props: Props) => {
         minimumDate={minimumDate()}
         isVisible={isDatePickerVisible}
       />
+      {isLoading && <CustomLoader />}
     </ImageBackground>
   );
 };
