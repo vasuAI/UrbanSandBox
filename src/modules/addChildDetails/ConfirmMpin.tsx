@@ -35,7 +35,10 @@ const ConfirmMpin = (props: any) => {
             }
           },
           (error: any) => {
-            console.log(error);
+            const {
+              data: {message},
+            } = error;
+            showToast(message);
           },
         ),
       );
@@ -81,12 +84,14 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(60),
   },
   titleText: {
+    color: Color.black,
     fontFamily: Fonts.muliBold,
     fontSize: normalize(14),
     textAlign: 'center',
     lineHeight: normalize(27),
   },
   descriptionTextStyle: {
+    color: Color.black,
     fontFamily: Fonts.muliRegular,
     fontSize: normalize(14),
     textAlign: 'center',

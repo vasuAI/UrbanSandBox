@@ -2,10 +2,12 @@ import {Color, Fonts} from '../../utils';
 import React, {useRef, useState} from 'react';
 import {normalize} from '../../utils/Dimensions';
 import {Keyboard, StyleSheet, TextInput, View} from 'react-native';
+interface Props {
+  setMpin1: Function;
+}
 
-const OtpScreen = (props: any) => {
-  console.log('🚀 ~ file: OtpScreen.tsx ~ line 7 ~ OtpScreen ~ props', props);
-
+const OtpScreen = (props: Props) => {
+  const {setMpin1} = props;
   const pin1ref = useRef<any>();
   const pin2ref = useRef<any>();
   const pin3ref = useRef<any>();
@@ -18,9 +20,35 @@ const OtpScreen = (props: any) => {
   const [pin4, setPin4] = useState('');
 
   mpin1 = pin1 + pin2 + pin3 + pin4;
-  props?.setMpin1(mpin1);
-  // props?.setMpin2();
+  setMpin1(mpin1);
 
+  const _onEnterPin = (
+    value: any,
+    setPin: Function,
+    pinNumber: string,
+    pinRef?: any,
+  ) => {
+    setPin(value);
+    if (pinNumber != ' ' && pinNumber.length <= 0) {
+      pinRef.current.focus();
+    }
+  };
+  const _onPressBackKey = (
+    event: any,
+    emptyPin: Function,
+    pinNumber: string,
+    pinRef: any,
+  ) => {
+    if (event.nativeEvent.key == 'Backspace') {
+      emptyPin('');
+      if (pinNumber.length === 0) {
+        pinRef.current.focus();
+      }
+    } else {
+      setPin4(event.nativeEvent.key);
+      Keyboard.dismiss();
+    }
+  };
   return (
     <View style={styles.childContainer}>
       <TextInput
@@ -28,15 +56,10 @@ const OtpScreen = (props: any) => {
         focusable={true}
         maxLength={1}
         onChangeText={(value: any) => {
-          setPin1(value);
-          if (pin1 != ' ') {
-            pin2ref.current.focus();
-          }
+          _onEnterPin(value, setPin1, pin1, pin2ref);
         }}
         onKeyPress={(e: any) => {
-          if (e.nativeEvent.key == 'Backspace') {
-            Keyboard.dismiss();
-          }
+          _onPressBackKey(e, setMpin1, pin1, pin2ref);
         }}
         style={styles.customInputContainerStyle}
         keyboardType={'numeric'}
@@ -44,68 +67,30 @@ const OtpScreen = (props: any) => {
       <TextInput
         ref={pin2ref}
         maxLength={1}
-        onChangeText={(value: any) => {
-          setPin2(value);
-          if (pin2 != ' ' && pin2.length <= 0) {
-            pin3ref.current.focus();
-          }
-        }}
-        onKeyPress={(e: any) => {
-          if (e.nativeEvent.key == 'Backspace') {
-            setPin2('');
-            if (pin2.length === 0) {
-              pin1ref.current.focus();
-            }
-          } else {
-            setPin4(e.nativeEvent.key);
-            Keyboard.dismiss();
-          }
-        }}
+        onChangeText={(value: any) =>
+          _onEnterPin(value, setPin2, pin2, pin3ref)
+        }
+        onKeyPress={(e: any) => _onPressBackKey(e, setPin2, pin2, pin1ref)}
         style={styles.customInputContainerStyle}
         keyboardType={'numeric'}
       />
       <TextInput
         ref={pin3ref}
         maxLength={1}
-        onChangeText={(value: any) => {
-          setPin3(value);
-          if (pin3 != ' ' && pin3.length <= 0) {
-            pin4ref.current.focus();
-          }
-        }}
-        onKeyPress={(e: any) => {
-          if (e.nativeEvent.key == 'Backspace') {
-            setPin3('');
-            if (pin3.length === 0) {
-              pin2ref.current.focus();
-            }
-          } else {
-            setPin4(e.nativeEvent.key);
-            Keyboard.dismiss();
-          }
-        }}
+        onChangeText={(value: any) =>
+          _onEnterPin(value, setPin3, pin3, pin4ref)
+        }
+        onKeyPress={(e: any) => _onPressBackKey(e, setPin3, pin3, pin2ref)}
         style={styles.customInputContainerStyle}
         keyboardType={'numeric'}
       />
       <TextInput
         ref={pin4ref}
         maxLength={1}
-        onChangeText={(value: any) => {
-          setPin4(value);
-          if (pin4 != ' ') {
-          }
-        }}
-        onKeyPress={(e: any) => {
-          if (e.nativeEvent.key == 'Backspace') {
-            setPin4('');
-            if (pin4.length === 0) {
-              pin3ref.current.focus();
-            }
-          } else {
-            setPin4(e.nativeEvent.key);
-            Keyboard.dismiss();
-          }
-        }}
+        onChangeText={(value: any) =>
+          _onEnterPin(value, setPin4, pin4, pin4ref)
+        }
+        onKeyPress={(e: any) => _onPressBackKey(e, setPin4, pin4, pin3ref)}
         style={styles.customInputContainerStyle}
         keyboardType={'numeric'}
       />

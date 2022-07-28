@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -152,12 +153,14 @@ const Login = () => {
           onPress={onLoginPress}
           customContainerStyle={styles.loginButtonCon}
         />
-        <CustomActionButton //button apple
-          onPress={onApplePress}
-          leftIcon={localImage.appleIcon}
-          title={String.continueWithApple}
-          leftIconStyle={styles.appleIconSty}
-        />
+        {Platform.OS === 'ios' && (
+          <CustomActionButton //button apple
+            onPress={onApplePress}
+            leftIcon={localImage.appleIcon}
+            title={String.continueWithApple}
+            leftIconStyle={styles.appleIconSty}
+          />
+        )}
         <View style={styles.halfCon}>
           <CustomActionButton //button google
             title={String.google}
@@ -195,6 +198,7 @@ const styles = StyleSheet.create({
     marginTop: normalize(72),
   },
   welcomeBackText: {
+    color: Color.black,
     alignSelf: 'center',
     fontSize: normalize(30),
     fontFamily: Fonts.pacifico,
@@ -202,6 +206,7 @@ const styles = StyleSheet.create({
   loginAccessText: {
     fontWeight: '400',
     alignSelf: 'center',
+    color: Color.black,
     fontSize: normalize(16),
     lineHeight: normalize(22),
     marginBottom: normalize(20),
@@ -209,6 +214,7 @@ const styles = StyleSheet.create({
   forgetPassText: {
     fontWeight: '700',
     marginLeft: 'auto',
+    color: Color.black,
     fontSize: normalize(16),
     marginTop: normalize(13),
     lineHeight: normalize(25),
@@ -221,12 +227,14 @@ const styles = StyleSheet.create({
   },
   dontHaveAccountText: {
     fontWeight: '400',
+    color: Color.black,
     alignSelf: 'center',
     fontSize: normalize(16),
     marginTop: normalize(30),
     lineHeight: normalize(22),
   },
   spanText: {
+    top: normalize(4),
     fontWeight: 'bold',
     fontSize: normalize(16),
     color: Color.twilightBlue,

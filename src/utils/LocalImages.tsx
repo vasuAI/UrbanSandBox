@@ -3,6 +3,8 @@ export default {
   logo: require('../assets/images/logo.png'),
   eyeIcon: require('../assets/images/eye.png'),
   editIcon: require('../assets/images/edit.png'),
+  edit2Icon: require('../assets/images/edit-24px (4).png'),
+  menuIcon: require('../assets/images/vert-menu.png'),
   nameIcon: require('../assets/images/name.png'),
   backIcon: require('../assets/images/back.png'),
   demoDp: require('../assets/images/demoDp.png'),

@@ -6,7 +6,7 @@ import LoginScreen from '../auth/login/Login';
 import BottomTab from '../routers/bottomTAbNavigator';
 import SignUpScreen from '../../modules/auth/signup/SignUp';
 import {NavigationContainer} from '@react-navigation/native';
-import AddChild from '../addChildDetails/addNewChild/AddChild';
+import AddChild from '../addChildDetails/AddChild';
 import ForgetPassword from '../auth/forgetPassword/ForgetPassword';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();

@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import BasicDetails from './BasicDetails';
-import LangInterest from './LangInterest';
+import BasicDetails from './AddBasicDetails';
+import LangInterest from './AddLangInterest';
 
 const index = () => {
   const [types, setTypes] = useState('');

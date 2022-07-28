@@ -1,24 +1,24 @@
 import {useDispatch, useSelector} from 'react-redux';
-import InteresetCard from './InteresetCard';
-import EndPoint from '../../../utils/EndPoint';
+import AddInteresetCard from './AddInteresetCard';
+import EndPoint from '../../utils/EndPoint';
 import React, {useEffect, useState} from 'react';
-import WebService from '../../../utils/WebService';
-import {InterstedRenderItem} from '../../../modals';
-import {normalize} from '../../../utils/Dimensions';
-import ActionType from '../../../actions/ActionType';
-import ScreenNames from '../../../utils/ScreenNames';
-import {showToast} from '../../../utils/CommonFunction';
-import {Color, Fonts, LocalImages, String} from '../../../utils';
-import CustomHeader2 from '../../../components/customHeader/CustomHeader2';
-import {CustomActionButton, CustomProgressBar} from '../../../components';
+import WebService from '../../utils/WebService';
+import {InterstedRenderItem} from '../../modals';
+import {normalize} from '../../utils/Dimensions';
+import ActionType from '../../actions/ActionType';
+import ScreenNames from '../../utils/ScreenNames';
+import {showToast} from '../../utils/CommonFunction';
+import {Color, Fonts, LocalImages, String} from '../../utils';
+import CustomHeader2 from '../../components/customHeader/CustomHeader2';
+import {CustomActionButton, CustomProgressBar} from '../../components';
 import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
-import ChildAction from '../../../actions/ChildAction';
+import ChildAction from '../../actions/ChildAction';
 
 let selected: Array<any> = [];
 interface Props {
   screenType: Function;
 }
-const Intrested = (props: Props) => {
+const AddIntrest = (props: Props) => {
   const {screenType} = props;
   const childerName = 'Skye';
   const [data, setData] = useState<Array<any>>([]);
@@ -110,7 +110,7 @@ const Intrested = (props: Props) => {
   }) => {
     const {name, imageUrl, _id} = item;
     return (
-      <InteresetCard
+      <AddInteresetCard
         _id={_id}
         name={name}
         index={index}
@@ -147,7 +147,7 @@ const Intrested = (props: Props) => {
   );
 };
 
-export default React.memo(Intrested);
+export default React.memo(AddIntrest);
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -159,15 +159,18 @@ const styles = StyleSheet.create({
   },
   detailsDescriptionContainer: {
     width: '70%',
+    color: Color.black,
     marginHorizontal: normalize(60),
   },
   titleText: {
+    color: Color.black,
     textAlign: 'center',
     fontSize: normalize(14),
     lineHeight: normalize(27),
     fontFamily: Fonts.muliBold,
   },
   descriptionTextStyle: {
+    color: Color.black,
     textAlign: 'center',
     fontSize: normalize(14),
     lineHeight: normalize(27),

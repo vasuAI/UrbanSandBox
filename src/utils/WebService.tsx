@@ -67,7 +67,9 @@ const getApiCall = (
     .get(endPoint)
     .then((response: any) => {
       console.log(
-        '🚀 ~ file: WebService.tsx ~ line 50 ~ .then ~ response',
+        '🚀 response URL',
+        response.request.responseURL,
+        '\n',
         response,
       );
       successCallback(response);
@@ -75,10 +77,35 @@ const getApiCall = (
     .catch((error: any) => {
       console.log('🚀 ~ file: WebService.tsx ~ line 54 ~ error', error);
       handleApiError(error);
-      errorCallback(error);
+      errorCallback(error.response);
+    });
+};
+
+const deleteApiCall = (
+  endPoint: string,
+  params: string,
+  successCallback: Function,
+  errorCallback: Function,
+) => {
+  Common.axiosInstance
+    .delete(endPoint + params)
+    .then((response: any) => {
+      console.log(
+        '🚀 response URL',
+        response.request.responseURL,
+        '\n',
+        response,
+      );
+      successCallback(response);
+    })
+    .catch((error: any) => {
+      console.log('🚀 ~ file: WebService.tsx ~ line 54 ~ error', error);
+      handleApiError(error);
+      errorCallback(error.response);
     });
 };
 export default {
   getApiCall,
   postApiCall,
+  deleteApiCall,
 };

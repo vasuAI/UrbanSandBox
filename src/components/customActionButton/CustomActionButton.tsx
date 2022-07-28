@@ -35,7 +35,7 @@ const CustomActionButton = (props: Props) => {
     onPress,
     title,
     titleStyle,
-    activeOpacity = 0.5,
+    activeOpacity = 0.7,
     customContainerStyle,
   } = props;
 

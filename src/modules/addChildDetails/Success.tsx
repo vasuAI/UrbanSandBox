@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   signupDescription: {
     width: '75%',
     fontWeight: '400',
+    color: Color.black,
     alignSelf: 'center',
     fontSize: normalize(16),
     lineHeight: normalize(27),

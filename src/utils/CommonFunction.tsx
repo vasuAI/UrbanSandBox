@@ -4,6 +4,7 @@ import Constants from '../utils/Constants';
 import Auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import Snackbar from 'react-native-snackbar';
+import Color from './Color';
 
 GoogleSignin.configure({
   webClientId:
@@ -94,6 +95,8 @@ const showToast = (message: string) => {
   Snackbar.show({
     text: message,
     duration: 1000,
+    textColor: Color.twilightBlue,
+    backgroundColor: Color.pureWhite,
   });
 };
 

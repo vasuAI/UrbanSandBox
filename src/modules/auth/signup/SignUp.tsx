@@ -13,7 +13,15 @@ import React, {useCallback, useState} from 'react';
 import {normalize} from '../../../utils/Dimensions';
 import ScreenNames from '../../../utils/ScreenNames';
 import {useNavigation} from '@react-navigation/native';
-import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  Platform,
+  ScrollView,
+} from 'react-native';
 
 const SignUp = () => {
   const navigation: any = useNavigation();
@@ -81,47 +89,51 @@ const SignUp = () => {
       source={LocalImages.background}
       style={styles.rootContainer}>
       <CustomHeader />
-      <View style={styles.headingCon}>
-        <Text style={styles.welcomeText}>{String.welcome}</Text>
-        <Text style={styles.signupDescription}>{String.signupDescription}</Text>
-      </View>
-      <View style={styles.imageContainer}>
-        <Image
-          source={LocalImages.demoDp}
-          style={styles.imageContainer}
-          resizeMode="contain"
+      <ScrollView>
+        <View style={styles.headingCon}>
+          <Text style={styles.welcomeText}>{String.welcome}</Text>
+          <Text style={styles.signupDescription}>
+            {String.signupDescription}
+          </Text>
+        </View>
+        <View style={styles.imageContainer}>
+          <Image
+            source={LocalImages.demoDp}
+            style={styles.imageContainer}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.editIconContainer}>
+          <Image source={LocalImages.editIcon} style={styles.editIconStyle} />
+        </View>
+        <CustomTextInput // input name
+          value={name}
+          onChangeText={onChangeName}
+          placeholder={String.name}
+          keyboardType={'email-address'}
+          leftIcon={LocalImages.nameIcon}
         />
-      </View>
-      <View style={styles.editIconContainer}>
-        <Image source={LocalImages.editIcon} style={styles.editIconStyle} />
-      </View>
-      <CustomTextInput // input name
-        value={name}
-        onChangeText={onChangeName}
-        placeholder={String.name}
-        keyboardType={'email-address'}
-        leftIcon={LocalImages.nameIcon}
-      />
-      <CustomTextInput // input email
-        value={email}
-        onChangeText={onChangeEmail}
-        placeholder={String.email}
-        keyboardType={'email-address'}
-        leftIcon={LocalImages.mailIcon}
-      />
-      <CustomTextInput // input password
-        value={password}
-        secureTextEntry={true}
-        placeholder={String.pass}
-        onChangeText={onChangePassword}
-        leftIcon={LocalImages.passwordIcon}
-      />
+        <CustomTextInput // input email
+          value={email}
+          onChangeText={onChangeEmail}
+          placeholder={String.email}
+          keyboardType={'email-address'}
+          leftIcon={LocalImages.mailIcon}
+        />
+        <CustomTextInput // input password
+          value={password}
+          secureTextEntry={true}
+          placeholder={String.pass}
+          onChangeText={onChangePassword}
+          leftIcon={LocalImages.passwordIcon}
+        />
 
-      <CustomActionButton // button signup
-        title={String.signup}
-        onPress={onPressSignup}
-        customContainerStyle={styles.loginButtonCon}
-      />
+        <CustomActionButton // button signup
+          title={String.signup}
+          onPress={onPressSignup}
+          customContainerStyle={styles.loginButtonCon}
+        />
+      </ScrollView>
     </ImageBackground>
   );
 };
@@ -132,7 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.wheat,
   },
   headingCon: {
-    marginTop: normalize(72),
+    marginTop: normalize(15),
   },
   welcomeText: {
     color: Color.black,
@@ -143,6 +155,7 @@ const styles = StyleSheet.create({
   signupDescription: {
     fontWeight: '400',
     alignSelf: 'center',
+    color: Color.black,
     fontSize: normalize(16),
     lineHeight: normalize(22),
     marginBottom: normalize(20),
@@ -154,7 +167,7 @@ const styles = StyleSheet.create({
     color: Color.twilightBlue,
   },
   loginButtonCon: {
-    flex: 0.25,
+    flex: Platform.OS == 'ios' ? 0.2 : 0.35,
     marginTop: normalize(34),
     backgroundColor: Color.twilightBlue,
   },
@@ -163,15 +176,15 @@ const styles = StyleSheet.create({
     marginLeft: normalize(16),
   },
   imageContainer: {
+    alignSelf: 'center',
     width: normalize(100),
     height: normalize(100),
     borderRadius: normalize(50),
-    alignSelf: 'center',
     marginBottom: normalize(30),
   },
   editIconContainer: {
     color: Color.black,
-    top: normalize(346),
+    top: normalize(200),
     alignItems: 'center',
     position: 'absolute',
     width: normalize(27),

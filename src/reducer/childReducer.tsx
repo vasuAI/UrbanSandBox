@@ -11,6 +11,7 @@ const initialState = {
   langInterested: [],
   childId: '',
   Mpin: '',
+  childListData: [],
 };
 interface actionType {
   type: string;
@@ -42,6 +43,8 @@ const childReducer = (state = initialState, action: actionType) => {
     case ActionType.ADD_CHILD:
       return {...state, ...payload};
     case ActionType.ADD_MPIN:
+      return {...state, ...payload};
+    case ActionType.CHILD_LIST_DATA:
       return {...state, ...payload};
     default:
       return state;

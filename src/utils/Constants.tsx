@@ -10,9 +10,9 @@ const Constants = {
 const colorArray = [
   Color.duckEggBlue,
   Color.paleTeal,
-  Color.robinsEggBlue,
-  Color.paleLavender,
   Color.lightKhaki,
+  Color.paleLavender,
+  Color.robinsEggBlue,
   Color.duckEggBlue,
   Color.beige,
   Color.veryLightPink,

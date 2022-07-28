@@ -89,10 +89,49 @@ const hitAddChildApi = (params: any, success: Function, failure: Function) => {
           '🚀 ~ file: ChildAction.tsx ~ line 88 ~ return ~ error',
           error,
         );
-        failure(error);
+        failure(error.response);
       },
     );
   };
 };
-
-export default {languageApiHit, interestApiHit, hitAddChildApi};
+const deleteChildApi = (
+  params: string,
+  success: Function,
+  failure: Function,
+) => {
+  return (dispatch: any) => {
+    console.log('params', params);
+    WebService.deleteApiCall(
+      EndPoint.DELETE_CHILD_PARENT,
+      params,
+      (response: any) => {
+        console.log(
+          '🚀 ~ file: ChildAction.tsx ~ line 68 ~ return ~ response',
+          response,
+        );
+        if (response) {
+          const {
+            statusCode,
+            data: {message},
+          } = response;
+          showToast(message);
+          if (statusCode == Common.STATUS_CODE.success) {
+            success(message);
+          }
+        }
+      },
+      (error: any) => {
+        const {
+          data: {message},
+        } = error;
+        console.log(
+          '🚀 ~ file: ChildAction.tsx ~ line 88 ~ return ~ error',
+          error,
+        );
+        showToast(message);
+        failure(error.response);
+      },
+    );
+  };
+};
+export default {languageApiHit, interestApiHit, hitAddChildApi, deleteChildApi};

@@ -16,35 +16,44 @@ import {
   WebService,
   ScreenNames,
   LocalImages,
-} from '../../../utils';
-import Success from '../Success';
-import SetMpin from '../SetMpin';
-import LangSpoken from '../LangSpoken';
-import ConfirmMpin from '../ConfirmMpin';
-import BasicDetails from '../BasicDetails';
-import AddChildCard from './AddChildCard';
-import LangInterest from '../LangInterest';
-import Intrested from '../interested/Intrested';
-import {normalize} from '../../../utils/Dimensions';
-import {showToast} from '../../../utils/CommonFunction';
-import React, {useCallback, useEffect, useState} from 'react';
-import {CustomLoader, CustomHeader2} from '../../../components';
+} from '../../utils';
+import Success from './Success';
+import SetMpin from './SetMpin';
+import AddLangSpoken from './AddLangSpoken';
+import ConfirmMpin from './ConfirmMpin';
+import AddBasicDetails from './AddBasicDetails';
+import AddChildCard from '../../components/ChildProfileCard/ChildProfileCard';
+import AddLangInterest from './AddLangInterest';
+import AddIntrested from './AddIntrest';
+import {normalize} from '../../utils/Dimensions';
+import {showToast} from '../../utils/CommonFunction';
+import {ActionType} from '../../actions';
+import {CustomLoader, CustomHeader2} from '../../components';
+import {useDispatch, useSelector} from 'react-redux';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 
 const AddChild = () => {
   const [types, setTypes] = useState('');
-  const [data, setData] = useState([]);
-  console.log('🚀 ~ file: AddChild.tsx ~ line 29 ~ AddChild ~ data', data);
   const [isLoading, setIsLoading] = useState(false);
   const onPressCard = useCallback(() => {
     setTypes(ScreenNames.BASIC_DETAILS);
   }, [types]);
+  const dispatch = useDispatch();
+  const {childListData} = useSelector((state: any) => state.childReducer);
+  console.log(
+    '🚀 ~ file: AddChild.tsx ~ line 43 ~ AddChild ~ childListData',
+    childListData.length,
+  );
 
   useEffect(() => {
     setIsLoading(true);
     WebService.getApiCall(
       EndPoint.CHILD_DASHBOARD_PARENT,
       (response: any) => {
-        setData(response.data.result);
+        dispatch({
+          type: ActionType.CHILD_LIST_DATA,
+          payload: {childListData: response.data.result},
+        });
       },
       (err: any) => {
         console.log(err);
@@ -62,13 +71,13 @@ const AddChild = () => {
   };
   switch (types) {
     case ScreenNames.BASIC_DETAILS:
-      return <BasicDetails screenType={_screenType} />;
+      return <AddBasicDetails screenType={_screenType} />;
     case ScreenNames.LANG_INTEREST:
-      return <LangInterest screenType={_screenType} />;
+      return <AddLangInterest screenType={_screenType} />;
     case ScreenNames.LANG_SPOKEN:
-      return <LangSpoken screenType={_screenType} />;
+      return <AddLangSpoken screenType={_screenType} />;
     case ScreenNames.INTERESTED:
-      return <Intrested screenType={_screenType} />;
+      return <AddIntrested screenType={_screenType} />;
     case ScreenNames.SET_MPIN:
       return <SetMpin screenType={_screenType} />;
     case ScreenNames.CONFIRM_MPIN:
@@ -80,7 +89,7 @@ const AddChild = () => {
   }
 
   const _onPress = () => {
-    data.length < 4 ? onPressCard() : showToast(String.cannotAddChild);
+    childListData.length < 4 ? onPressCard() : showToast(String.cannotAddChild);
   };
   const _renderItem = ({item, index}: any) => {
     const {imageUrl, name, _id} = item;
@@ -88,10 +97,11 @@ const AddChild = () => {
     return (
       <>
         <AddChildCard
-          containerColor={Constants.colorArray[index]}
+          _id={_id}
           name={name}
           imageUrl={imageUrl}
-          _id={_id}
+          childListData={childListData}
+          containerColor={Constants.colorArray[index]}
         />
       </>
     );
@@ -116,17 +126,16 @@ const AddChild = () => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.signup} icon={true} text={String.skip} />
+      <CustomHeader2 title={String.addChild} icon={true} text={String.skip} />
       <View style={styles.headingCon}>
         <Text style={styles.addChildDescriptionText}>
           {String.addChildDescription}
         </Text>
       </View>
       <FlatList
-        data={data}
+        data={childListData}
         numColumns={2}
         horizontal={false}
-        scrollEnabled={false}
         renderItem={_renderItem}
         keyExtractor={_keyExtractor}
         ListFooterComponent={_addNewChild}
@@ -151,6 +160,7 @@ const styles = StyleSheet.create({
   },
   addChildDescriptionText: {
     alignSelf: 'center',
+    color: Color.black,
     width: normalize(312),
     height: normalize(60),
     fontSize: normalize(16),

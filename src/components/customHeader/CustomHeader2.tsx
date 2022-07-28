@@ -2,7 +2,14 @@ import React from 'react';
 import {normalize} from '../../utils/Dimensions';
 import {useNavigation} from '@react-navigation/native';
 import {Color, Fonts, LocalImages, ScreenNames} from '../../utils';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 
 const CustomHeader2 = (props: any) => {
   const navigation: any = useNavigation();
@@ -33,7 +40,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: normalize(45),
+    marginTop: Platform.OS == 'ios' ? normalize(45) : normalize(10),
     marginHorizontal: normalize(15),
   },
   headerChildContainer: {
@@ -41,6 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headingTextStyle: {
+    color: Color.black,
     fontSize: normalize(20),
     fontFamily: Fonts.muliBold,
     marginLeft: normalize(10),

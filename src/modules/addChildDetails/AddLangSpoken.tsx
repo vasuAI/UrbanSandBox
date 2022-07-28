@@ -1,58 +1,52 @@
 import {
-  ActivityIndicator,
-  FlatList,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import {useDispatch, useSelector} from 'react-redux';
-import {
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
+  CustomHeader2,
 } from '../../components';
-import {normalize} from '../../utils/Dimensions';
-import WebService from '../../utils/WebService';
-import EndPoint from '../../utils/EndPoint';
-import ActionType from '../../actions/ActionType';
+import {
+  Color,
+  Fonts,
+  LocalImages,
+  String,
+  ScreenNames,
+  WebService,
+  EndPoint,
+} from '../../utils';
 import {LanguageRenderItem} from '../../modals';
-import ScreenNames from '../../utils/ScreenNames';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import LanguageCardItem from '../../components/LanguageCardList/LanguageCardItem';
+import {normalize} from '../../utils/Dimensions';
+import React, {useEffect, useState} from 'react';
 import {showToast} from '../../utils/CommonFunction';
-import {ChildAction} from '../../actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {ChildAction, ActionType} from '../../actions';
+import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import LanguageCardItem from '../../components/LanguageCardList/LanguageCardItem';
 
-var selected: Array<any> = [];
-
+/**
+ * @des array to store selected language
+ */
+let selected: any = [];
 interface Props {
   screenType: Function;
 }
-const LangInterest = (props: Props) => {
+const AddLangSpoken = (props: Props) => {
   const {screenType} = props;
-  const [data, setData] = useState<Array<any>>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const dispatch: Function = useDispatch();
   const childerName = 'Skye';
+  const [data, setData] = useState<Array<any>>([]);
+  const dispatch: Function = useDispatch();
   const {childId} = useSelector((state: any) => state.childReducer);
-  console.log(
-    '🚀 ~ file: LangInterest.tsx ~ line 39 ~ LangInterest ~ childId',
-    childId,
-  );
 
-  const submitStep2 = () => {
-    let language = selected.map((item: any) => {
+  const submitStep3 = () => {
+    let languageSpoken = selected.map((item: any) => {
       return {
         id: item._id,
         name: item.title,
       };
     });
     let params = {
-      stepNumber: 3,
+      stepNumber: 2,
       childId: childId,
-      languageInterested: [...language],
+      languageSpoken: [...languageSpoken],
     };
 
     dispatch(
@@ -60,7 +54,7 @@ const LangInterest = (props: Props) => {
         params,
         (response: any) => {
           if (response == 'Success') {
-            screenType(ScreenNames.LANG_SPOKEN);
+            screenType(ScreenNames.INTERESTED);
           }
         },
         (error: any) => {
@@ -69,17 +63,16 @@ const LangInterest = (props: Props) => {
       ),
     );
   };
-
   /**
-   *
+   * @desc onPress nextbutton dispatch selected languages
    */
-  const _onPressNextButton = () => {
+  const _onPressActionBtn = () => {
     if (selected.length != 0) {
       dispatch({
-        type: ActionType.LANGUAGE_INTERSTED,
-        payload: {langInterested: [...selected]},
+        type: ActionType.LANGUAGE_SPOKEN,
+        payload: {langSpoken: [...selected]},
       });
-      submitStep2();
+      submitStep3();
     } else {
       showToast(String.showEmptyFieldError);
     }
@@ -89,7 +82,7 @@ const LangInterest = (props: Props) => {
    *
    * @param _id
    */
-  const onPressLanguage = (_id: string) => {
+  const onSelectlanguage = (_id: string) => {
     let index = data.findIndex((current: any) => current?._id === _id);
     if (index != -1) {
       let selectedLanguage: any = [...data];
@@ -99,7 +92,7 @@ const LangInterest = (props: Props) => {
       } else {
         selectedLanguage[index].__v = selectedLanguage[index]?.__v - 1;
         let unSelectedLanguage = selected.findIndex(
-          element => element._id === _id,
+          (element: any) => element._id === _id,
         );
         selected.splice(unSelectedLanguage, 1);
       }
@@ -107,9 +100,7 @@ const LangInterest = (props: Props) => {
     }
   };
 
-  //api hit
   useEffect(() => {
-    setIsLoading(true);
     WebService.getApiCall(
       EndPoint.GET_LANGUAGES_PARENT,
       (response: any) => {
@@ -117,9 +108,7 @@ const LangInterest = (props: Props) => {
       },
       () => {},
     );
-    setIsLoading(false);
   }, []);
-
   /**
    *
    * @param item
@@ -132,7 +121,7 @@ const LangInterest = (props: Props) => {
         _id={_id}
         __v={__v}
         title={title}
-        onPress={onPressLanguage}
+        onPress={onSelectlanguage}
       />
     );
   };
@@ -141,11 +130,15 @@ const LangInterest = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.languageInterested} icon={true} />
-      <CustomProgressBar curntStatus={2} />
+      <CustomHeader2
+        title={String.languageSpoken}
+        icon={true}
+        screenType={ScreenNames.LANG_INTEREST}
+      />
+      <CustomProgressBar curntStatus={3} />
       <View style={styles.detailsDescriptionContainer}>
         <Text style={styles.descriptionTextStyle}>
-          Tell us more about what languages {childerName} is interested in
+          Tell us more about what languages {childerName} speaks
         </Text>
       </View>
       <CustomTextInput // input name
@@ -157,22 +150,22 @@ const LangInterest = (props: Props) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
-      {isLoading && <ActivityIndicator size={'large'} />}
       <FlatList
         data={data}
         renderItem={_renderItem}
         contentContainerStyle={styles.contentContainerStyle}
       />
+
       <CustomActionButton // button next
         title={String.next}
-        onPress={_onPressNextButton}
+        onPress={_onPressActionBtn}
         customContainerStyle={styles.nextButtonCon}
       />
     </ImageBackground>
   );
 };
 
-export default LangInterest;
+export default React.memo(AddLangSpoken);
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -187,16 +180,18 @@ const styles = StyleSheet.create({
     width: '70%',
   },
   titleText: {
-    fontFamily: Fonts.muliBold,
-    fontSize: normalize(14),
+    color: Color.black,
     textAlign: 'center',
+    fontSize: normalize(14),
     lineHeight: normalize(27),
+    fontFamily: Fonts.muliBold,
   },
   descriptionTextStyle: {
-    fontFamily: Fonts.muliRegular,
-    fontSize: normalize(14),
+    color: Color.black,
     textAlign: 'center',
+    fontSize: normalize(14),
     lineHeight: normalize(27),
+    fontFamily: Fonts.muliRegular,
   },
   customLefticonStyle: {
     height: normalize(14),

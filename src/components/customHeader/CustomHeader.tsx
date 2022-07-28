@@ -2,7 +2,7 @@ import React from 'react';
 import {normalize} from '../../utils/Dimensions';
 import {useNavigation} from '@react-navigation/native';
 import {ScreenNames, LocalImages} from '../../utils';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, Platform, StyleSheet, TouchableOpacity} from 'react-native';
 
 const CustomHeader = () => {
   const navigation: any = useNavigation();
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     width: normalize(50),
     height: normalize(50),
     justifyContent: 'center',
-    marginTop: normalize(40),
+    marginTop: normalize(Platform.OS == 'ios' ? 20 : 0),
   },
   backIconSty: {
     width: normalize(16),

@@ -28,7 +28,7 @@ import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 interface Props {
   screenType: Function;
 }
-const BasicDetails = (props: Props) => {
+const AddBasicDetails = (props: Props) => {
   const {screenType} = props;
   let loginUserName = 'fabio';
   const {
@@ -321,7 +321,7 @@ const BasicDetails = (props: Props) => {
   );
 };
 
-export default React.memo(BasicDetails);
+export default React.memo(AddBasicDetails);
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -340,11 +340,13 @@ const styles = StyleSheet.create({
   },
   titleText: {
     textAlign: 'center',
+    color: Color.black,
     fontSize: normalize(14),
     lineHeight: normalize(27),
     fontFamily: Fonts.muliBold,
   },
   descriptionTextStyle: {
+    color: Color.black,
     textAlign: 'center',
     fontSize: normalize(14),
     lineHeight: normalize(27),
