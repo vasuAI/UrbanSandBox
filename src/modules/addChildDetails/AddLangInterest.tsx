@@ -6,24 +6,28 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Color, Fonts, LocalImages, String} from '../../utils';
-import {useDispatch, useSelector} from 'react-redux';
 import {
+  Color,
+  Fonts,
+  LocalImages,
+  String,
+  WebService,
+  ScreenNames,
+  EndPoint,
+} from '../../utils';
+import {
+  CustomHeader2,
   CustomTextInput,
+  LanguageCardList,
   CustomProgressBar,
   CustomActionButton,
 } from '../../components';
+import {LanguageCardItem} from '../../modals';
 import {normalize} from '../../utils/Dimensions';
-import WebService from '../../utils/WebService';
-import EndPoint from '../../utils/EndPoint';
-import ActionType from '../../actions/ActionType';
-import {LanguageRenderItem} from '../../modals';
-import ScreenNames from '../../utils/ScreenNames';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import LanguageCardItem from '../../components/LanguageCardList/LanguageCardItem';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {showToast} from '../../utils/CommonFunction';
-import {ChildAction} from '../../actions';
+import {ChildAction, ActionType} from '../../actions';
 
 var selected: Array<any> = [];
 
@@ -37,10 +41,6 @@ const AddLangInterest = (props: Props) => {
   const dispatch: Function = useDispatch();
   const childerName = 'Skye';
   const {childId} = useSelector((state: any) => state.childReducer);
-  console.log(
-    '🚀 ~ file: LangInterest.tsx ~ line 39 ~ LangInterest ~ childId',
-    childId,
-  );
 
   const submitStep2 = () => {
     let language = selected.map((item: any) => {
@@ -60,7 +60,7 @@ const AddLangInterest = (props: Props) => {
         params,
         (response: any) => {
           if (response == 'Success') {
-            screenType(ScreenNames.LANG_SPOKEN);
+            screenType(ScreenNames.INTERESTED);
           }
         },
         (error: any) => {
@@ -125,10 +125,10 @@ const AddLangInterest = (props: Props) => {
    * @param item
    * @returns
    */
-  const _renderItem = ({item}: {item: LanguageRenderItem}) => {
+  const _renderItem = ({item}: {item: LanguageCardItem}) => {
     const {title, _id, __v} = item;
     return (
-      <LanguageCardItem
+      <LanguageCardList
         _id={_id}
         __v={__v}
         title={title}
@@ -141,7 +141,11 @@ const AddLangInterest = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.languageInterested} icon={true} />
+      <CustomHeader2
+        title={String.languageInterested}
+        icon={true}
+        onPress={() => screenType(ScreenNames.BASIC_DETAILS)}
+      />
       <CustomProgressBar curntStatus={2} />
       <View style={styles.detailsDescriptionContainer}>
         <Text style={styles.descriptionTextStyle}>

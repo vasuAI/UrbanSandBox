@@ -105,18 +105,14 @@ const deleteChildApi = (
       EndPoint.DELETE_CHILD_PARENT,
       params,
       (response: any) => {
-        console.log(
-          '🚀 ~ file: ChildAction.tsx ~ line 68 ~ return ~ response',
-          response,
-        );
         if (response) {
           const {
             statusCode,
             data: {message},
           } = response;
           showToast(message);
+          success(message);
           if (statusCode == Common.STATUS_CODE.success) {
-            success(message);
           }
         }
       },

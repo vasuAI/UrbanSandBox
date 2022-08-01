@@ -3,9 +3,14 @@ import {normalize} from '../../utils/Dimensions';
 import {useNavigation} from '@react-navigation/native';
 import {Text, ImageBackground, StyleSheet} from 'react-native';
 import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
+import {useDispatch} from 'react-redux';
+import {ActionType} from '../../actions';
 
 const Success = () => {
   const navigation: any = useNavigation();
+  const dispatch = useDispatch();
+
+  dispatch({type: ActionType.SUCCESS, payload: {success: true}});
   useEffect(() => {
     setTimeout(() => navigation.replace(ScreenNames.ADD_CHILD), 1000);
   });

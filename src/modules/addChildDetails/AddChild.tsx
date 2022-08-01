@@ -2,7 +2,6 @@ import {
   Text,
   View,
   Image,
-  FlatList,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
@@ -19,32 +18,34 @@ import {
 } from '../../utils';
 import Success from './Success';
 import SetMpin from './SetMpin';
-import AddLangSpoken from './AddLangSpoken';
 import ConfirmMpin from './ConfirmMpin';
-import AddBasicDetails from './AddBasicDetails';
-import AddChildCard from '../../components/ChildProfileCard/ChildProfileCard';
-import AddLangInterest from './AddLangInterest';
 import AddIntrested from './AddIntrest';
+import {ActionType} from '../../actions';
+import AddLangSpoken from './AddLangSpoken';
+import AddBasicDetails from './AddBasicDetails';
+import AddLangInterest from './AddLangInterest';
 import {normalize} from '../../utils/Dimensions';
 import {showToast} from '../../utils/CommonFunction';
-import {ActionType} from '../../actions';
-import {CustomLoader, CustomHeader2} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+import {CustomLoader, CustomHeader2, ChildProfileCard} from '../../components';
 
 const AddChild = () => {
+  const dispatch = useDispatch();
   const [types, setTypes] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const {childListData} = useSelector((state: any) => state.childReducer);
+  const data = childListData.reverse();
+
+  /**
+   *
+   */
   const onPressCard = useCallback(() => {
     setTypes(ScreenNames.BASIC_DETAILS);
   }, [types]);
-  const dispatch = useDispatch();
-  const {childListData} = useSelector((state: any) => state.childReducer);
-  console.log(
-    '🚀 ~ file: AddChild.tsx ~ line 43 ~ AddChild ~ childListData',
-    childListData.length,
-  );
-
+  /**
+   *
+   */
   useEffect(() => {
     setIsLoading(true);
     WebService.getApiCall(
@@ -60,7 +61,7 @@ const AddChild = () => {
       },
     );
     setIsLoading(false);
-  }, []);
+  }, [isLoading]);
 
   /**
    *
@@ -88,58 +89,51 @@ const AddChild = () => {
       break;
   }
 
-  const _onPress = () => {
-    childListData.length < 4 ? onPressCard() : showToast(String.cannotAddChild);
-  };
-  const _renderItem = ({item, index}: any) => {
+  const _onPress = () =>
+    childListData.length < 2 ? onPressCard() : showToast(String.cannotAddChild);
+  const RenderCard = ({item, index}: any) => {
     const {imageUrl, name, _id} = item;
-
     return (
       <>
-        <AddChildCard
+        <ChildProfileCard
           _id={_id}
           name={name}
+          index={index}
           imageUrl={imageUrl}
           childListData={childListData}
-          containerColor={Constants.colorArray[index]}
+          containerColor={Constants.colorArray[index % 4]}
         />
       </>
     );
   };
-  const _addNewChild = () => {
-    return (
-      <>
-        <TouchableOpacity
-          onPress={_onPress}
-          style={styles.rectagularContainer}
-          activeOpacity={0.7}>
-          <Image source={LocalImages.addIcon} style={styles.addIconSty} />
-        </TouchableOpacity>
-      </>
-    );
-  };
-  const _keyExtractor = (item: any) => {
-    return item._id;
-  };
+
   return (
     <ImageBackground
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.addChild} icon={true} text={String.skip} />
+      <CustomHeader2
+        title={String.addChild}
+        icon={true}
+        text={String.skip}
+        onPress={() => console.log('hitBack')}
+      />
       <View style={styles.headingCon}>
         <Text style={styles.addChildDescriptionText}>
           {String.addChildDescription}
         </Text>
       </View>
-      <FlatList
-        data={childListData}
-        numColumns={2}
-        horizontal={false}
-        renderItem={_renderItem}
-        keyExtractor={_keyExtractor}
-        ListFooterComponent={_addNewChild}
-      />
+      <View style={styles.flaListContainerStyle}>
+        {data.map((element: any, i: number) => (
+          <RenderCard item={element} index={i} key={i} />
+        ))}
+        <TouchableOpacity
+          onPress={_onPress}
+          activeOpacity={0.7}
+          style={styles.rectagularContainer}>
+          <Image source={LocalImages.addIcon} style={styles.addIconSty} />
+        </TouchableOpacity>
+      </View>
       {isLoading && <CustomLoader />}
     </ImageBackground>
   );
@@ -184,5 +178,9 @@ const styles = StyleSheet.create({
     height: normalize(36),
     width: normalize(36),
     opacity: 3,
+  },
+  flaListContainerStyle: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   },
 });

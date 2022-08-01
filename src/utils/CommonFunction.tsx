@@ -31,13 +31,13 @@ GoogleSignin.configure({
  * @returns
  */
 
-function validatePassword(password: any) {
-  if (password.length === 0) {
-    return String.enterPassword;
-  } else if (Constants.passwordRegex.test(password) === false) {
-    return String.enterValidPassword;
-  } else return true;
-}
+// function validatePassword(password: any) {
+//   if (password.length === 0) {
+//     return String.enterPassword;
+//   } else if (Constants.passwordRegex.test(password) === false) {
+//     return String.enterValidPassword;
+//   } else return true;
+// }
 
 /**
  *
@@ -45,8 +45,8 @@ function validatePassword(password: any) {
  * @description shows alert popup
  * @returns
  */
-const showAlert = (message: string) => {
-  return Alert.alert(message);
+const showAlert = (title: string, message: string, options?: any) => {
+  return Alert.alert(title, message, [options]);
 };
 
 /**
@@ -96,7 +96,7 @@ const showToast = (message: string) => {
     text: message,
     duration: 1000,
     textColor: Color.twilightBlue,
-    backgroundColor: Color.pureWhite,
+    backgroundColor: '#e0e0e0',
   });
 };
 

@@ -1,5 +1,6 @@
 import {normalize} from '../../utils/Dimensions';
 import {
+  OtpScreen,
   CustomActionButton,
   CustomProgressBar,
   CustomHeader2,
@@ -8,7 +9,6 @@ import {useDispatch} from 'react-redux';
 import React, {useState} from 'react';
 import {ActionType} from '../../actions';
 import {showToast} from '../../utils/CommonFunction';
-import OtpScreen from '../../components/otpScreen/OtpScreen';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
@@ -36,7 +36,11 @@ const SetMpin = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.setMpin} icon={true} />
+      <CustomHeader2
+        title={String.setMpin}
+        icon={true}
+        onPress={() => screenType(ScreenNames.INTERESTED)}
+      />
       <CustomProgressBar curntStatus={5} />
       <View style={styles.detailsDescriptionContainer}>
         <Text style={styles.descriptionTextStyle}>

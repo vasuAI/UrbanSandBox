@@ -1,6 +1,7 @@
 export default {
   /** LOGIN PAGE ACTION TYPE */
   GENDER: 'GENDER',
+  SUCCESS: 'SUCCESS',
   ADD_MPIN: 'ADD_MPIN',
   CHILD_DOB: 'CHILD_DOB',
   ADD_CHILD: 'ADD_CHILD',

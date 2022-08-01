@@ -1,16 +1,19 @@
 import {useDispatch, useSelector} from 'react-redux';
-import AddInteresetCard from './AddInteresetCard';
+import AddInteresetCard from './InteresetCard';
 import EndPoint from '../../utils/EndPoint';
 import React, {useEffect, useState} from 'react';
 import WebService from '../../utils/WebService';
-import {InterstedRenderItem} from '../../modals';
+import {InterstedCardItem} from '../../modals';
 import {normalize} from '../../utils/Dimensions';
 import ActionType from '../../actions/ActionType';
 import ScreenNames from '../../utils/ScreenNames';
 import {showToast} from '../../utils/CommonFunction';
 import {Color, Fonts, LocalImages, String} from '../../utils';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {CustomActionButton, CustomProgressBar} from '../../components';
+import {
+  CustomActionButton,
+  CustomProgressBar,
+  CustomHeader2,
+} from '../../components';
 import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
 import ChildAction from '../../actions/ChildAction';
 
@@ -105,7 +108,7 @@ const AddIntrest = (props: Props) => {
     item,
     index,
   }: {
-    item: InterstedRenderItem;
+    item: InterstedCardItem;
     index: number;
   }) => {
     const {name, imageUrl, _id} = item;
@@ -124,7 +127,11 @@ const AddIntrest = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.interset} icon={true} />
+      <CustomHeader2
+        title={String.interset}
+        icon={true}
+        onPress={() => screenType(ScreenNames.LANG_SPOKEN)}
+      />
       <CustomProgressBar curntStatus={4} />
       <View style={styles.detailsDescriptionContainer}>
         <Text style={styles.descriptionTextStyle}>

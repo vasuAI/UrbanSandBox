@@ -1,50 +1,59 @@
 import {
+  Text,
+  View,
   Alert,
   Image,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {ChildAction} from '../../actions';
 import {normalize} from '../../utils/Dimensions';
 import React, {useCallback, useState} from 'react';
-import {showAlert} from '../../utils/CommonFunction';
+import {ActionType, ChildAction} from '../../actions';
 import Tooltip from 'react-native-walkthrough-tooltip';
-import AddChild from '../../modules/addChildDetails/AddChild';
-import {Color, Fonts, LocalImages, ScreenNames} from '../../utils';
+import {Color, Fonts, LocalImages, String} from '../../utils';
+
 interface Props {
-  onPressCard?: Function;
-  imageUrl: string;
-  name: string;
   _id: string;
+  name: string;
+  index: number;
+  imageUrl: string;
   containerColor: any;
   childListData: any;
+  onPressCard?: Function;
 }
 
 const ChildProfileCard = (props: Props) => {
-  const {imageUrl, name, _id, containerColor} = props;
+  const {imageUrl, name, _id, containerColor, childListData} = props;
 
   const [isVisble, setIsVisble] = useState(false);
   const dispatch: Function = useDispatch();
   const _onPressDelete = useCallback(() => {
     setIsVisble(false);
-    Alert.alert('Alert', 'Are you sure you want to delete child ?', [
+    Alert.alert(String.alert, String.deleteConfirmation, [
       {
-        text: 'Cancel',
+        text: String.cancel,
         onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
+        style: 'destructive',
       },
       {
-        text: 'OK',
+        text: String.ok,
         onPress: () =>
           dispatch(
             ChildAction.deleteChildApi(
               _id,
               (response: any) => {
                 if (response == 'Success') {
-                  // screenType(ScreenNames.ADD_CHILD);
+                  let index = childListData.findIndex(
+                    (item: any) => item?._id === _id,
+                  );
+                  childListData.splice(index, 1);
+                  if (index != -1) {
+                    dispatch({
+                      type: ActionType.CHILD_LIST_DATA,
+                      payload: {childListData: childListData},
+                    });
+                  }
                 }
               },
               (err: any) => console.log(err),
@@ -53,16 +62,18 @@ const ChildProfileCard = (props: Props) => {
           ),
       },
     ]);
-    return AddChild;
   }, [isVisble]);
+  const _onPressEdit = () => {
+    setIsVisble(false);
+  };
   const _contentTooltip = () => {
     return (
       <View>
-        <TouchableOpacity onPress={() => showAlert('edit')}>
-          <Text>{'Edit'}</Text>
+        <TouchableOpacity onPress={_onPressEdit}>
+          <Text style={styles.textStyle}>{String.edit}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={_onPressDelete}>
-          <Text>Delete</Text>
+          <Text style={styles.textStyle}>{String.delete}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -77,7 +88,7 @@ const ChildProfileCard = (props: Props) => {
       <Tooltip
         isVisible={isVisble}
         content={_contentTooltip()}
-        // showChildInTooltip={false}
+        showChildInTooltip={false}
         arrowSize={styles.arrowSize}
         onClose={() => setIsVisble(false)}
         contentStyle={styles.toolTipContainer}>
@@ -85,7 +96,7 @@ const ChildProfileCard = (props: Props) => {
           activeOpacity={0.5}
           style={styles.menuIconStyle}
           onPress={() => setIsVisble(true)}>
-          <Image source={LocalImages.menuIcon} style={{}} />
+          <Image source={LocalImages.menuIcon} style={styles.menuIcon} />
         </TouchableOpacity>
       </Tooltip>
     </View>
@@ -117,20 +128,28 @@ const styles = StyleSheet.create({
     marginTop: normalize(15),
   },
   menuIconStyle: {
-    left: normalize(145),
+    left: normalize(140),
     top: normalize(-160),
   },
+  menuIcon: {
+    width: normalize(20),
+    height: normalize(20),
+  },
   toolTipContainer: {
-    top: normalize(-90),
     left: normalize(30),
-    width: normalize(60),
-    height: normalize(60),
-    position: 'absolute',
-    justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    width: normalize(73),
+    bottom: normalize(30),
+    height: normalize(62),
+    justifyContent: 'center',
   },
   arrowSize: {
     width: 0,
     height: 0,
+  },
+  textStyle: {
+    color: Color.black,
+    fontSize: normalize(14),
   },
 });

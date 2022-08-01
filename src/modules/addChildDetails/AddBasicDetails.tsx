@@ -2,26 +2,29 @@ import {
   Text,
   View,
   Image,
-  ScrollView,
+  Alert,
+  Linking,
   Platform,
   StyleSheet,
+  ScrollView,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import {
+  CustomLoader,
+  CustomHeader2,
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
-  CustomLoader,
-  CustomHeader2,
 } from '../../components';
 import moment from 'moment';
 import {normalize} from '../../utils/Dimensions';
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {showToast} from '../../utils/CommonFunction';
 import {ChildAction, ActionType} from '../../actions';
+import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
-import {showAlert, showToast} from '../../utils/CommonFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
@@ -40,7 +43,7 @@ const AddBasicDetails = (props: Props) => {
   const {name, DOB, profileImg, location, schoolName, gender} = useSelector(
     (state: any) => state.childReducer,
   );
-
+  const navigation: any = useNavigation();
   const [radioButtonStatus, setRadioButtonStatus] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -155,9 +158,22 @@ const AddBasicDetails = (props: Props) => {
           payload: {profileImg: childImage},
         });
       })
-      .catch(error => {
-        console.log(error);
-        showAlert(error);
+      .catch((error: any) => {
+        if (error.code == String.libraryPermissionDenied) {
+          Alert.alert(
+            String.alertTitle,
+            String.alertDesc,
+            [
+              {
+                text: String.cancel,
+                onPress: () => console.warn('Cancel'),
+                style: 'cancel',
+              },
+              {text: String.settings, onPress: () => Linking.openSettings()},
+            ],
+            {cancelable: false},
+          );
+        }
       });
   };
 
@@ -216,7 +232,7 @@ const AddBasicDetails = (props: Props) => {
       imageStyle={styles.imgBackgroundStyle}>
       <CustomHeader2
         icon={true}
-        screenType={ScreenNames.INTERESTED}
+        onPress={() => navigation.replace(ScreenNames.ADD_CHILD)}
         title={String.basicDetails}
       />
       <ScrollView style={styles.childContainer}>
@@ -238,7 +254,7 @@ const AddBasicDetails = (props: Props) => {
         <TouchableOpacity
           style={styles.editIconContainer}
           onPress={_onPressUploadPic}>
-          <Image source={LocalImages.editIcon} style={styles.editIconStyle} />
+          <Image source={LocalImages.edit2Icon} style={styles.editIconStyle} />
         </TouchableOpacity>
 
         <CustomTextInput // input name
@@ -379,8 +395,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.twilightBlue,
   },
   editIconStyle: {
-    width: normalize(13),
-    height: normalize(13),
+    width: normalize(16),
+    height: normalize(16),
   },
   textContainerStyle: {
     borderWidth: 1,

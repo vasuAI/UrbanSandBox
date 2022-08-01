@@ -28,14 +28,14 @@ export interface userDetailsType {
   subscriptionPlatForm: string;
 }
 
-export interface LanguageRenderItem {
+export interface LanguageCardItem {
   title: string;
   _id: string;
   onPress: Function;
   __v: number;
   imageUrl?: string;
 }
-export interface InterstedRenderItem {
+export interface InterstedCardItem {
   name: string;
   imageUrl: string;
   _id: string;

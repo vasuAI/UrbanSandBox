@@ -11,7 +11,7 @@ interface Props {
   onPress: Function;
 }
 
-const AddIntrestCard = (props: Props) => {
+const IntrestCard = (props: Props) => {
   const [isSelected, setIsSelected] = useState(false);
   const {name, imageUrl, _id, index, onPress} = props;
 
@@ -44,7 +44,7 @@ const AddIntrestCard = (props: Props) => {
   );
 };
 
-export default React.memo(AddIntrestCard);
+export default React.memo(IntrestCard);
 
 const styles = StyleSheet.create({
   rootContainer: {

@@ -3,10 +3,13 @@ import {ChildAction} from '../../actions';
 import {normalize} from '../../utils/Dimensions';
 import {showToast} from '../../utils/CommonFunction';
 import {useDispatch, useSelector} from 'react-redux';
-import OtpScreen from '../../components/otpScreen/OtpScreen';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import CustomHeader2 from '../../components/customHeader/CustomHeader2';
-import {CustomActionButton, CustomProgressBar} from '../../components';
+import {
+  CustomActionButton,
+  CustomProgressBar,
+  CustomHeader2,
+  OtpScreen,
+} from '../../components';
 import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
 
 const ConfirmMpin = (props: any) => {
@@ -52,7 +55,11 @@ const ConfirmMpin = (props: any) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2 title={String.confirmMpin} icon={true} />
+      <CustomHeader2
+        title={String.confirmMpin}
+        icon={true}
+        onPress={() => screenType(ScreenNames.SET_MPIN)}
+      />
       <CustomProgressBar curntStatus={6} />
       <View style={styles.detailsDescriptionContainer}>
         <Text style={styles.descriptionTextStyle}>

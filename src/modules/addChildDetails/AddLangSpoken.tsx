@@ -1,26 +1,26 @@
 import {
+  CustomHeader2,
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
-  CustomHeader2,
+  LanguageCardList,
 } from '../../components';
 import {
   Color,
   Fonts,
-  LocalImages,
   String,
-  ScreenNames,
-  WebService,
   EndPoint,
+  WebService,
+  ScreenNames,
+  LocalImages,
 } from '../../utils';
-import {LanguageRenderItem} from '../../modals';
+import {LanguageCardItem} from '../../modals';
 import {normalize} from '../../utils/Dimensions';
 import React, {useEffect, useState} from 'react';
 import {showToast} from '../../utils/CommonFunction';
 import {useDispatch, useSelector} from 'react-redux';
 import {ChildAction, ActionType} from '../../actions';
 import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
-import LanguageCardItem from '../../components/LanguageCardList/LanguageCardItem';
 
 /**
  * @des array to store selected language
@@ -100,6 +100,9 @@ const AddLangSpoken = (props: Props) => {
     }
   };
 
+  /**
+   * @desc getApi language
+   */
   useEffect(() => {
     WebService.getApiCall(
       EndPoint.GET_LANGUAGES_PARENT,
@@ -114,10 +117,10 @@ const AddLangSpoken = (props: Props) => {
    * @param item
    * @returns
    */
-  const _renderItem = ({item}: {item: LanguageRenderItem}) => {
+  const _renderItem = ({item}: {item: LanguageCardItem}) => {
     const {title, _id, __v} = item;
     return (
-      <LanguageCardItem
+      <LanguageCardList
         _id={_id}
         __v={__v}
         title={title}
@@ -133,7 +136,7 @@ const AddLangSpoken = (props: Props) => {
       <CustomHeader2
         title={String.languageSpoken}
         icon={true}
-        screenType={ScreenNames.LANG_INTEREST}
+        onPress={() => screenType(ScreenNames.LANG_INTEREST)}
       />
       <CustomProgressBar curntStatus={3} />
       <View style={styles.detailsDescriptionContainer}>

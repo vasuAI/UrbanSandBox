@@ -11,17 +11,26 @@ import {
   Platform,
 } from 'react-native';
 
-const CustomHeader2 = (props: any) => {
+interface Props {
+  icon?: any;
+  image1?: any;
+  image2?: any;
+  image3?: any;
+  text?: string;
+  title?: string;
+  onPress: Function;
+}
+
+const CustomHeader2 = (props: Props) => {
   const navigation: any = useNavigation();
 
-  const {title, text, image1, image2, image3, icon} = props;
+  const {title, text, image1, image2, image3, icon, onPress} = props;
 
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerChildContainer}>
         {icon && (
-          <TouchableOpacity
-            onPress={() => navigation.replace(ScreenNames.ADD_CHILD)}>
+          <TouchableOpacity onPress={() => onPress()}>
             <Image source={LocalImages.backIcon} style={styles.backIconSty} />
           </TouchableOpacity>
         )}
