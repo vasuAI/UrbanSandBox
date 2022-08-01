@@ -20,7 +20,7 @@ import Success from './Success';
 import SetMpin from './SetMpin';
 import ConfirmMpin from './ConfirmMpin';
 import AddIntrested from './AddIntrest';
-import {ActionType} from '../../actions';
+import {ActionType, ChildAction} from '../../actions';
 import AddLangSpoken from './AddLangSpoken';
 import AddBasicDetails from './AddBasicDetails';
 import AddLangInterest from './AddLangInterest';
@@ -28,7 +28,7 @@ import {normalize} from '../../utils/Dimensions';
 import {showToast} from '../../utils/CommonFunction';
 import {useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useState} from 'react';
-import {CustomLoader, CustomHeader2, ChildProfileCard} from '../../components';
+import {CustomLoader, CustomHeader, ChildProfileCard} from '../../components';
 
 const AddChild = () => {
   const dispatch = useDispatch();
@@ -41,6 +41,7 @@ const AddChild = () => {
    *
    */
   const onPressCard = useCallback(() => {
+    dispatch(ChildAction.emptyChildData());
     setTypes(ScreenNames.BASIC_DETAILS);
   }, [types]);
   /**
@@ -91,6 +92,13 @@ const AddChild = () => {
 
   const _onPress = () =>
     childListData.length < 2 ? onPressCard() : showToast(String.cannotAddChild);
+
+  const _editDetails = (_id: string) => {
+    let editedObject = childListData.find(
+      (current: any) => current?._id === _id,
+    );
+    return editedObject;
+  };
   const RenderCard = ({item, index}: any) => {
     const {imageUrl, name, _id} = item;
     return (
@@ -100,6 +108,8 @@ const AddChild = () => {
           name={name}
           index={index}
           imageUrl={imageUrl}
+          screenType={_screenType}
+          editDetails={_editDetails}
           childListData={childListData}
           containerColor={Constants.colorArray[index % 4]}
         />
@@ -112,7 +122,7 @@ const AddChild = () => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2
+      <CustomHeader
         title={String.addChild}
         icon={true}
         text={String.skip}
@@ -124,8 +134,8 @@ const AddChild = () => {
         </Text>
       </View>
       <View style={styles.flaListContainerStyle}>
-        {data.map((element: any, i: number) => (
-          <RenderCard item={element} index={i} key={i} />
+        {data.map((element: any, index: number) => (
+          <RenderCard item={element} index={index} key={element._id} />
         ))}
         <TouchableOpacity
           onPress={_onPress}

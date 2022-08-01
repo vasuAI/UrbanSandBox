@@ -12,7 +12,6 @@ const languageApiHit = (params: any, success: Function, fail: Function) => {
           const {message, statusCode, result} = response;
           showToast(message);
           if (statusCode == Common.STATUS_CODE.success) {
-            dispatch({});
             success(result);
             return;
           }
@@ -130,4 +129,66 @@ const deleteChildApi = (
     );
   };
 };
-export default {languageApiHit, interestApiHit, hitAddChildApi, deleteChildApi};
+const setEditChild = (childObj: any) => {
+  const {
+    name,
+    dob,
+    address,
+    imageUrl,
+    school,
+    languageSpoken,
+    interests,
+    languageInterested,
+    _id,
+    Mpin,
+    gender,
+  } = childObj;
+
+  return {
+    type: ActionType.SET_UPDATE_DATA,
+    payload: {
+      DOB: dob,
+      Mpin: [],
+      name: name,
+      childId: _id,
+      stepNumber: 0,
+      gender: gender,
+      location: address,
+      schoolName: school,
+      profileImg: imageUrl,
+      interested: interests,
+      langSpoken: languageSpoken,
+      langInterested: languageInterested,
+    },
+  };
+};
+
+const emptyChildData = () => {
+  return {
+    type: ActionType.EMPTY_CHILD_DATA,
+    payload: {
+      name: '',
+      DOB: '',
+      location: '',
+      profileImg: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+      schoolName: '',
+      langSpoken: [],
+      interested: [],
+      langInterested: [],
+      childId: '',
+      Mpin: '',
+      success: '',
+      gender: 1,
+      childListData: [],
+      status: 0,
+    },
+  };
+};
+export default {
+  languageApiHit,
+  interestApiHit,
+  hitAddChildApi,
+  deleteChildApi,
+  setEditChild,
+  emptyChildData,
+};

@@ -11,7 +11,7 @@ import {normalize} from '../../utils/Dimensions';
 import React, {useCallback, useState} from 'react';
 import {ActionType, ChildAction} from '../../actions';
 import Tooltip from 'react-native-walkthrough-tooltip';
-import {Color, Fonts, LocalImages, String} from '../../utils';
+import {Color, Fonts, LocalImages, ScreenNames, String} from '../../utils';
 
 interface Props {
   _id: string;
@@ -21,11 +21,20 @@ interface Props {
   containerColor: any;
   childListData: any;
   onPressCard?: Function;
+  screenType: any;
+  editDetails?: any;
 }
 
 const ChildProfileCard = (props: Props) => {
-  const {imageUrl, name, _id, containerColor, childListData} = props;
-
+  const {
+    imageUrl,
+    name,
+    _id,
+    containerColor,
+    childListData,
+    screenType,
+    editDetails,
+  } = props;
   const [isVisble, setIsVisble] = useState(false);
   const dispatch: Function = useDispatch();
   const _onPressDelete = useCallback(() => {
@@ -64,7 +73,10 @@ const ChildProfileCard = (props: Props) => {
     ]);
   }, [isVisble]);
   const _onPressEdit = () => {
+    let details = editDetails(_id);
+    dispatch(ChildAction.setEditChild(details));
     setIsVisble(false);
+    screenType(ScreenNames.BASIC_DETAILS);
   };
   const _contentTooltip = () => {
     return (
@@ -119,6 +131,7 @@ const styles = StyleSheet.create({
     opacity: 3,
     height: normalize(50),
     width: normalize(50),
+    borderRadius: normalize(10),
   },
   titleSttyle: {
     color: Color.black,

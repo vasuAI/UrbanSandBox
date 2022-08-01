@@ -13,5 +13,6 @@ export default {
   paleLavender: '#f4ebff',
   veryLightPink: '#fedcdc',
   robinsEggBlue: '#abe2f6',
+  veryLightBlue: '#e6ecf5',
   twilightBlue: 'rgb(12,69,153)',
 };

@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   checkIcontyle: {
     width: normalize(19.6),
     height: normalize(19.6),
+    backgroundColor: Color.veryLightBlue,
   },
   textStyle: {
     fontFamily: Fonts.muliRegular,

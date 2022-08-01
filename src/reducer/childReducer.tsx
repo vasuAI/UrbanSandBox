@@ -12,6 +12,7 @@ const initialState = {
   childId: '',
   Mpin: '',
   success: '',
+  gender: 1,
   childListData: [],
   status: 0,
 };
@@ -21,10 +22,6 @@ interface actionType {
 }
 const childReducer = (state = initialState, action: actionType) => {
   const {type, payload} = action;
-  console.log(
-    '🚀 ~ file: childReducer.tsx ~ line 20 ~ childReducer ~ payload',
-    payload,
-  );
   switch (type) {
     case ActionType.CHILD_NAME:
       return {...state, ...payload};
@@ -49,6 +46,10 @@ const childReducer = (state = initialState, action: actionType) => {
     case ActionType.CHILD_LIST_DATA:
       return {...state, ...payload};
     case ActionType.SUCCESS:
+      return {...state, ...payload};
+    case ActionType.SET_UPDATE_DATA:
+      return {...state, ...payload};
+    case ActionType.EMPTY_CHILD_DATA:
       return {...state, ...payload};
     default:
       return state;

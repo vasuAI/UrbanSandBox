@@ -1,6 +1,6 @@
 import String from './String';
 import {Alert} from 'react-native';
-import Constants from '../utils/Constants';
+import {Constants} from '../utils/';
 import Auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import Snackbar from 'react-native-snackbar';
@@ -16,13 +16,13 @@ GoogleSignin.configure({
  * @description validate email
  * @returns
  */
-// function validateEmail(email: any) {
-//   if (email.length === 0) {
-//     return String.enterEmailAddress;
-//   } else if (Constants.emailRegex.test(email) === false) {
-//     return String.enterValidEmailAddress;
-//   } else return true;
-// }
+function validateEmail(email: any) {
+  if (email.length === 0) {
+    return String.enterEmailAddress;
+  } else if (Constants.emailRegex.test(email) === false) {
+    return String.enterValidEmailAddress;
+  } else return true;
+}
 
 /**
  *
@@ -31,13 +31,13 @@ GoogleSignin.configure({
  * @returns
  */
 
-// function validatePassword(password: any) {
-//   if (password.length === 0) {
-//     return String.enterPassword;
-//   } else if (Constants.passwordRegex.test(password) === false) {
-//     return String.enterValidPassword;
-//   } else return true;
-// }
+function validatePassword(password: any) {
+  if (password.length === 0) {
+    return String.enterPassword;
+  } else if (Constants.passwordRegex.test(password) === false) {
+    return String.enterValidPassword;
+  } else return true;
+}
 
 /**
  *
@@ -116,4 +116,11 @@ const authErrorHandling = (errorMsg: any) => {
       break;
   }
 };
-export {showToast, showAlert, onGooglePress, logInWithEmailAndPassword};
+export {
+  showToast,
+  showAlert,
+  onGooglePress,
+  validatePassword,
+  validateEmail,
+  logInWithEmailAndPassword,
+};

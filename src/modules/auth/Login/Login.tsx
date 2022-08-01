@@ -23,14 +23,14 @@ import {
 } from '../../../components';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import ScreenNames from '../../../utils/ScreenNames';
-
+import {validateEmail, validatePassword} from '../../../utils/CommonFunction';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation: any = useNavigation();
   const dispatch: Function = useDispatch();
-  // const statusEmail = validateEmail(email);
-  // const statusPassword = validatePassword(password);
+  const statusEmail = validateEmail(email);
+  const statusPassword = validatePassword(password);
 
   /**
    * @description called on login button press
@@ -119,7 +119,7 @@ const Login = () => {
     <ImageBackground
       source={localImage.background}
       style={styles.rootContainer}>
-      <CustomHeader />
+      <CustomHeader icon={true} onPress={() => console.log('back')} />
       <ScrollView>
         <View style={styles.headingCon}>
           <Text style={styles.welcomeBackText}>{String.welcomeBack}</Text>
@@ -132,9 +132,9 @@ const Login = () => {
           keyboardType={'email-address'}
           leftIcon={localImage.mailIcon}
         />
-        {/* {email.length > 0 ? (
+        {email.length > 0 ? (
           <Text style={styles.errTextSty}>{statusEmail}</Text>
-        ) : null} */}
+        ) : null}
         <CustomTextInput // input password
           value={password}
           secureTextEntry={true}
@@ -142,9 +142,9 @@ const Login = () => {
           onChangeText={onChangePassword}
           leftIcon={localImage.passwordIcon}
         />
-        {/* {password.length > 0 ? (
+        {password.length > 0 ? (
           <Text style={styles.errTextSty}>{statusPassword}</Text>
-        ) : null} */}
+        ) : null}
         <TouchableOpacity onPress={onPressForgetPasss}>
           <Text style={styles.forgetPassText}>{String.forgetPass}</Text>
         </TouchableOpacity>

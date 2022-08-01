@@ -7,7 +7,7 @@ import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {
   CustomActionButton,
   CustomProgressBar,
-  CustomHeader2,
+  CustomHeader,
   OtpScreen,
 } from '../../components';
 import {Color, Fonts, LocalImages, String, ScreenNames} from '../../utils';
@@ -55,7 +55,7 @@ const ConfirmMpin = (props: any) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2
+      <CustomHeader
         title={String.confirmMpin}
         icon={true}
         onPress={() => screenType(ScreenNames.SET_MPIN)}

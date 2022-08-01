@@ -3,9 +3,9 @@ import Fonts from '../../../utils/Fonts';
 import String from '../../../utils/String';
 import {LocalImages} from '../../../utils';
 import {
-  CustomActionButton,
   CustomHeader,
   CustomTextInput,
+  CustomActionButton,
 } from '../../../components';
 import {useDispatch} from 'react-redux';
 import {UserAction} from '../../../actions';
@@ -17,10 +17,10 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
-  ImageBackground,
   Platform,
   ScrollView,
+  StyleSheet,
+  ImageBackground,
 } from 'react-native';
 
 const SignUp = () => {
@@ -88,7 +88,7 @@ const SignUp = () => {
     <ImageBackground
       source={LocalImages.background}
       style={styles.rootContainer}>
-      <CustomHeader />
+      <CustomHeader icon={true} onPress={() => navigation.goBack()} />
       <ScrollView>
         <View style={styles.headingCon}>
           <Text style={styles.welcomeText}>{String.welcome}</Text>

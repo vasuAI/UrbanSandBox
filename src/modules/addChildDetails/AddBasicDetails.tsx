@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {
   CustomLoader,
-  CustomHeader2,
+  CustomHeader,
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
@@ -40,13 +40,14 @@ const AddBasicDetails = (props: Props) => {
     },
   } = useSelector((state: any) => state.authReducer);
   const dispatch: Function = useDispatch();
-  const {name, DOB, profileImg, location, schoolName, gender} = useSelector(
-    (state: any) => state.childReducer,
-  );
+  const {name, DOB, profileImg, location, schoolName, gender, childId} =
+    useSelector((state: any) => state.childReducer);
   const navigation: any = useNavigation();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [radioButtonStatus, setRadioButtonStatus] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
   /**
    * @description name input handle
    */
@@ -195,30 +196,34 @@ const AddBasicDetails = (props: Props) => {
    * @description
    */
   const submitStep1 = () => {
-    // isLoading(true);
-    let params = {
-      dob: DOB,
-      name: name,
-      gender: gender,
-      school: schoolName,
+    setIsLoading(true);
+    let params: any = {
       lat: 0,
       long: 0,
-      imageUrl: profileImg,
+      dob: DOB,
+      name: name,
       stepNumber: 1,
+      gender: gender,
       address: location,
+      school: schoolName,
+      imageUrl: profileImg,
     };
+
+    if (childId !== '') {
+      params['childId'] = _id;
+    }
 
     dispatch(
       ChildAction.hitAddChildApi(
         params,
         (response: any) => {
-          // isLoading(false);
+          setIsLoading(false);
           if (response == 'Success') {
             screenType(ScreenNames.LANG_INTEREST);
           }
         },
         (error: any) => {
-          // isLoading(false);
+          setIsLoading(false);
           console.log(error);
         },
       ),
@@ -230,7 +235,7 @@ const AddBasicDetails = (props: Props) => {
       source={LocalImages.background}
       style={styles.parentContainer}
       imageStyle={styles.imgBackgroundStyle}>
-      <CustomHeader2
+      <CustomHeader
         icon={true}
         onPress={() => navigation.replace(ScreenNames.ADD_CHILD)}
         title={String.basicDetails}

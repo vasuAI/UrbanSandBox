@@ -1,5 +1,5 @@
 import {
-  CustomHeader2,
+  CustomHeader,
   CustomTextInput,
   CustomProgressBar,
   CustomActionButton,
@@ -35,8 +35,10 @@ const AddLangSpoken = (props: Props) => {
   const [data, setData] = useState<Array<any>>([]);
   const dispatch: Function = useDispatch();
   const {childId} = useSelector((state: any) => state.childReducer);
+  const [isLoading, setIsLoading] = useState(true);
 
   const submitStep3 = () => {
+    setIsLoading(true);
     let languageSpoken = selected.map((item: any) => {
       return {
         id: item._id,
@@ -53,11 +55,13 @@ const AddLangSpoken = (props: Props) => {
       ChildAction.hitAddChildApi(
         params,
         (response: any) => {
+          setIsLoading(false);
           if (response == 'Success') {
             screenType(ScreenNames.INTERESTED);
           }
         },
         (error: any) => {
+          setIsLoading(false);
           console.log(error);
         },
       ),
@@ -133,7 +137,7 @@ const AddLangSpoken = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2
+      <CustomHeader
         title={String.languageSpoken}
         icon={true}
         onPress={() => screenType(ScreenNames.LANG_INTEREST)}

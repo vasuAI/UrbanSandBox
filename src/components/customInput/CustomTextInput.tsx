@@ -18,7 +18,6 @@ import localImages from '../../utils/LocalImages';
  */
 
 interface Props {
-  ref?: any;
   value?: string;
   maxLength?: number;
   leftIcon?: any;
@@ -36,7 +35,6 @@ interface Props {
 const CustomInput = (props: Props) => {
   const [eyeVisble, setEyeVisble] = useState(true);
   const {
-    ref,
     leftIcon,
     maxLength,
     placeholder,
@@ -73,7 +71,6 @@ const CustomInput = (props: Props) => {
         />
       )}
       <TextInput
-        ref={ref}
         value={props.value}
         autoCapitalize="none"
         style={[styles.container, CustomTextInputStyle]}

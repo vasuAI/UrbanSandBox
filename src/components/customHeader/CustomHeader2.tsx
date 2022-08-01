@@ -1,14 +1,13 @@
 import React from 'react';
 import {normalize} from '../../utils/Dimensions';
-import {useNavigation} from '@react-navigation/native';
 import {Color, Fonts, LocalImages, ScreenNames} from '../../utils';
 import {
   View,
   Text,
   Image,
+  Platform,
   StyleSheet,
   TouchableOpacity,
-  Platform,
 } from 'react-native';
 
 interface Props {
@@ -22,8 +21,6 @@ interface Props {
 }
 
 const CustomHeader2 = (props: Props) => {
-  const navigation: any = useNavigation();
-
   const {title, text, image1, image2, image3, icon, onPress} = props;
 
   return (

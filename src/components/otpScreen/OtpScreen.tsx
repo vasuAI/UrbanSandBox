@@ -29,8 +29,9 @@ const OtpScreen = (props: Props) => {
     pinRef?: any,
   ) => {
     setPin(value);
-    if (pinNumber != ' ' && pinNumber.length <= 0) {
+    if (pinNumber.length == 0) {
       pinRef.current.focus();
+    } else {
     }
   };
   const _onPressBackKey = (
@@ -115,12 +116,12 @@ const styles = StyleSheet.create({
     fontSize: normalize(30),
     borderColor: Color.wheat,
     borderRadius: normalize(10),
-    backgroundColor: Color.pureWhite,
     marginHorizontal: normalize(5),
     fontFamily: Fonts.muliSemiBold,
+    backgroundColor: Color.pureWhite,
   },
   customInputTextStyleStyle: {
-    marginStart: normalize(28),
     fontSize: normalize(24),
+    marginStart: normalize(28),
   },
 });

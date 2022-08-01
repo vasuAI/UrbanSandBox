@@ -12,7 +12,7 @@ import {Color, Fonts, LocalImages, String} from '../../utils';
 import {
   CustomActionButton,
   CustomProgressBar,
-  CustomHeader2,
+  CustomHeader,
 } from '../../components';
 import {Text, View, FlatList, StyleSheet, ImageBackground} from 'react-native';
 import ChildAction from '../../actions/ChildAction';
@@ -26,11 +26,12 @@ const AddIntrest = (props: Props) => {
   const childerName = 'Skye';
   const [data, setData] = useState<Array<any>>([]);
   const dispatch: Function = useDispatch();
-
+  const [isLoading, setIsLoading] = useState(true);
   const {childId} = useSelector((state: any) => state.childReducer);
 
   const submitStep4 = () => {
     let interesrSelected = selected.map((item: any) => {
+      setIsLoading(true);
       return {
         id: item._id,
         name: item.name,
@@ -46,11 +47,13 @@ const AddIntrest = (props: Props) => {
       ChildAction.hitAddChildApi(
         params,
         (response: any) => {
+          setIsLoading(false);
           if (response == 'Success') {
             screenType(ScreenNames.SET_MPIN);
           }
         },
         (error: any) => {
+          setIsLoading(false);
           console.log(error);
         },
       ),
@@ -127,7 +130,7 @@ const AddIntrest = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2
+      <CustomHeader
         title={String.interset}
         icon={true}
         onPress={() => screenType(ScreenNames.LANG_SPOKEN)}

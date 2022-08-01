@@ -1,11 +1,4 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {FlatList, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {
   Color,
   Fonts,
@@ -16,11 +9,12 @@ import {
   EndPoint,
 } from '../../utils';
 import {
-  CustomHeader2,
+  CustomHeader,
   CustomTextInput,
   LanguageCardList,
   CustomProgressBar,
   CustomActionButton,
+  CustomLoader,
 } from '../../components';
 import {LanguageCardItem} from '../../modals';
 import {normalize} from '../../utils/Dimensions';
@@ -43,6 +37,7 @@ const AddLangInterest = (props: Props) => {
   const {childId} = useSelector((state: any) => state.childReducer);
 
   const submitStep2 = () => {
+    setIsLoading(true);
     let language = selected.map((item: any) => {
       return {
         id: item._id,
@@ -59,8 +54,9 @@ const AddLangInterest = (props: Props) => {
       ChildAction.hitAddChildApi(
         params,
         (response: any) => {
+          setIsLoading(false);
           if (response == 'Success') {
-            screenType(ScreenNames.INTERESTED);
+            screenType(ScreenNames.LANG_SPOKEN);
           }
         },
         (error: any) => {
@@ -141,7 +137,7 @@ const AddLangInterest = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2
+      <CustomHeader
         title={String.languageInterested}
         icon={true}
         onPress={() => screenType(ScreenNames.BASIC_DETAILS)}
@@ -161,7 +157,7 @@ const AddLangInterest = (props: Props) => {
         customLefticonStyle={styles.customLefticonStyle}
         customContainerStyle={styles.customContainerStyle}
       />
-      {isLoading && <ActivityIndicator size={'large'} />}
+      {isLoading && <CustomLoader />}
       <FlatList
         data={data}
         renderItem={_renderItem}

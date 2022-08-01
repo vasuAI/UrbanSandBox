@@ -3,7 +3,7 @@ import {
   OtpScreen,
   CustomActionButton,
   CustomProgressBar,
-  CustomHeader2,
+  CustomHeader,
 } from '../../components';
 import {useDispatch} from 'react-redux';
 import React, {useState} from 'react';
@@ -18,6 +18,7 @@ interface Props {
 const SetMpin = (props: Props) => {
   const {screenType} = props;
   const [mPin, setMpin] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch: Function = useDispatch();
   const _onPressActionBtn = () => {
@@ -36,7 +37,7 @@ const SetMpin = (props: Props) => {
       source={LocalImages.background}
       imageStyle={styles.imgBackgroundStyle}
       style={styles.parentContainer}>
-      <CustomHeader2
+      <CustomHeader
         title={String.setMpin}
         icon={true}
         onPress={() => screenType(ScreenNames.INTERESTED)}
